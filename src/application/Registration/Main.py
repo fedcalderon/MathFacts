@@ -20,7 +20,7 @@ class MyApplication(tk.Tk):
         # background_label.place(x=0, y=0, relwidth=2, relheight=2)
 
         self.resizable(width=True, height=True)
-        self.Main_Label = ttk.Label(self, text="Pizza Ordering Application", font=("TkDefaultFont", 27), wraplength=600)
+        self.Main_Label = ttk.Label(self, text="Signup for MathFacts", font=("TkDefaultFont", 27), wraplength=600)
         self.Main_Label.grid(row=0, column=0, sticky=tk.W)
 
         self.c = ChildInformation.ChildInformation(self)
