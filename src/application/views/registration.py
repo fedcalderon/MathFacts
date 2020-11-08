@@ -161,10 +161,28 @@ class MyApplication(tk.Tk):
             "password":self.l.Password.get(),
         }
 
-        with open(f'{self.c.FirstName.get()}_{self.c.LastName.get()}_information.csv', 'w') as csv_file:
-            writer = csv.writer(csv_file)
-            for key, value in all_information.items():
-                writer.writerow([key, str(value)])
+        for key in all_information:
+            if key == "guardian_2_first_name" or key == "guardian_2_last_name":
+                pass
+
+            else:
+                if (all_information.get(key) == ""):
+                    self.field = ttk.Label(self, text="Not all required fields have been answered"
+                                           , font=("TkDefaultFont", 10), wraplength=600)
+                    self.field.grid(row=1400, column=0, sticky=tk.W)
+                    break
+
+            if key == "password":
+                self.field = ttk.Label(self, text="          "
+                                                  "                   "
+                                                  "                   "
+                                                  "                   "
+                                                  "                   ", font=("TkDefaultFont", 10), wraplength=600)
+                self.field.grid(row=1400, column=0, sticky=tk.W)
+                with open(f'{self.c.FirstName.get()}_{self.c.LastName.get()}_information.csv', 'w') as csv_file:
+                    writer = csv.writer(csv_file)
+                    for key, value in all_information.items():
+                        writer.writerow([key, str(value)])
 
         print(all_information)
         ################################################################################################################
