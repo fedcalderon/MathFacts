@@ -22,7 +22,7 @@ class Guardian1Info(tk.LabelFrame):
 
 class Guardian2Info(tk.LabelFrame):
     def __init__(self, parent):
-        super().__init__(parent, text="Guardian 2:", pady=20)
+        super().__init__(parent, text="Guardian 2(Not Required):", pady=20)
         #self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
