@@ -1,7 +1,6 @@
 from tkinter import *
 import os
 
-
 # Designing window for login
 
 def login():
@@ -47,7 +46,6 @@ def register_user():
     password_entry.delete(0, END)
 
     Label(register_screen, text="Registration Success", fg="green", font=("calibri", 11)).pack()
-
 
 # Implementing event on login button
 
@@ -134,3 +132,4 @@ def main_account_screen():
 
 
 main_account_screen()
+
