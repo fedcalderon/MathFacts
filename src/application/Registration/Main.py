@@ -2,14 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 import ChildInformation
 import GuardianInfo
-import ContactInformation
 import LoginInformation
 
 
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.title("Pizza Delivery")
+        self.title("MathFacts")
         self.geometry("800x650")
         #self.configure(bg="gold")
 
@@ -57,13 +56,10 @@ class MyApplication(tk.Tk):
 
             "username":self.l.Username.get(),
             "password":self.l.Password.get(),
-            "passwod": self.l.PizzaSize.get(),
         }
 
         print(all_information)
         ################################################################################################################
-
-
 
 
 if __name__ == '__main__':
