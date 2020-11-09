@@ -10,13 +10,18 @@ class Math_Screen(tk.Frame):
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
         self.Question_label = tk.StringVar()
-        self.Question_label.set("Question #")
+        self.Question_label.set("Question # of 100")
+        self.Time_label = tk.StringVar()
+        self.Time_label.set("Time Left: #")
 
+        # User entry, Submit button and Labels for layout
 
         UserInsert_entry = ttk.Entry(self, textvariable=self.ans_insert)
         submit_button = ttk.Button(self, text="Submit", command=self.submit_ans())
         Question_Label = ttk.Label(self, textvariable=self.Question_label,
-                                font=("TkDefaultFont", 34), wraplength=600)
+                                font=("TkDefaultFont", 10), wraplength=600)
+        Time_label = ttk.Label(self, textvariable=self.Time_label,
+                                font=("TkDefaultFont", 10), wraplength=600)
 
         #Number buttons
         number_button0 = ttk.Button(self, text="0", command=self.insert_num_zero())
@@ -33,23 +38,24 @@ class Math_Screen(tk.Frame):
 
         # Grid Layout
 
-        UserInsert_entry.grid(row=5, column=3, sticky=(tk.E))
-        submit_button.grid(row=5, column=5, sticky=tk.E)
+        UserInsert_entry.grid(row=5, column=2, sticky=(tk.E))
+        submit_button.grid(row=5, column=4, sticky=tk.E)
         Question_Label.grid(row=0, column=0, sticky=tk.E)
+        Time_label.grid(row=0, column=12, sticky=tk.E)
         self.columnconfigure(1, weight=1)
 
         # number button grid
-        number_button0.grid(row=11, column=3, sticky=(tk.E))
-        number_button1.grid(row=10, column=3, sticky=(tk.E))
-        number_button2.grid(row=10, column=4, sticky=(tk.E))
-        number_button3.grid(row=10, column=5, sticky=(tk.W))
-        number_button4.grid(row=9, column=3, sticky=(tk.E))
-        number_button5.grid(row=9, column=4, sticky=(tk.E))
-        number_button6.grid(row=9, column=5, sticky=(tk.W))
-        number_button7.grid(row=8, column=3, sticky=(tk.E))
-        number_button8.grid(row=8, column=4, sticky=(tk.E))
-        number_button9.grid(row=8, column=5, sticky=(tk.W))
-        decimal_button0.grid(row=11, column=5, sticky=(tk.W))
+        number_button0.grid(row=11, column=2, sticky=(tk.E))
+        number_button1.grid(row=10, column=2, sticky=(tk.E))
+        number_button2.grid(row=10, column=3, sticky=(tk.E))
+        number_button3.grid(row=10, column=4, sticky=(tk.W))
+        number_button4.grid(row=9, column=2, sticky=(tk.E))
+        number_button5.grid(row=9, column=3, sticky=(tk.E))
+        number_button6.grid(row=9, column=4, sticky=(tk.W))
+        number_button7.grid(row=8, column=2, sticky=(tk.E))
+        number_button8.grid(row=8, column=3, sticky=(tk.E))
+        number_button9.grid(row=8, column=4, sticky=(tk.W))
+        decimal_button0.grid(row=11, column=4, sticky=(tk.W))
 
     def submit_ans(self):
         if self.ans_insert.get():
