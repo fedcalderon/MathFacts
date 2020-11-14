@@ -1,4 +1,3 @@
-# Micah
 from tkinter import *
 import os
 
@@ -10,6 +9,10 @@ def main_account_screen():
     main_screen.geometry("1000x800")
     main_screen.title("MathFacts")
     main_screen.configure(background='yellow')
+    main_screen.iconbitmap(r'icon.ico')
+    photo = PhotoImage(file='icon.ico')
+    labelphoto = Label(main_screen, image = photo)
+    labelphoto.pack()
     Label(text="Welcome to MathFacts!", bg="blue", width="300", height="2", font=("Calibri", 25)).pack()
     Label(text="").pack()
 
