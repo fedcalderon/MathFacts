@@ -17,7 +17,7 @@ class DescriptionFrame(tk.Frame):
                       "well as helpful tips on the reports screen.\n" \
                       "To get started, click 'Create an Account'."
 
-        desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 11))
+        desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 12))
         desc_label.pack()
 
 
