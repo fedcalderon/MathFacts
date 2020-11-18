@@ -171,15 +171,27 @@ class MyApplication(tk.Tk):
                     break
 
             if key == "password":
+                user_count = 0
                 self.field = ttk.Label(self, text="          "
                                                   "                   "
                                                   "                   "
                                                   "                   "
                                                   "                   ", font=("TkDefaultFont", 10), wraplength=600)
                 self.field.grid(row=1400, column=0, sticky=tk.W)
-                with open(f'{self.c.FirstName.get()}_{self.c.LastName.get()}_information.csv', 'w') as csv_file:
-                    writer = csv.writer(csv_file)
-                    for key, value in all_information.items():
-                        writer.writerow([key, str(value)])
 
-        print(all_information)
+                users_csv_file = f'{self.c.FirstName.get()}_{self.c.LastName.get()}_information.csv'
+                if user_count == 0:
+                    with open(users_csv_file, 'w') as csv_file:
+                        writer = csv.writer(csv_file)
+                        for key, value in all_information.items():
+                            writer.writerow([key, str(value)])
+                            user_count += 1
+                            print(user_count)
+                else:
+                    with open(users_csv_file, 'a') as csv_file:
+                        writer = csv.writer(csv_file)
+                        for key in all_information.items():
+                            writer.writerow[key.index()]
+                            user_count += 1
+
+            print(all_information)
