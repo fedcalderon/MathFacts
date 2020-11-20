@@ -30,7 +30,16 @@ It is meant to be shown on the welcome screen."""
 # Andrew
 
 import tkinter as tk
+from tkinter import *
 from tkinter import ttk
+
+
+class IconFrame(tk.Frame):
+    """Contains and displays the description of the Math Facts Practice application."""
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+        self.image = tk.PhotoImage(file="icon.ico")
+        self.image_label = tk.Label(self, image=self.image)
 
 
 class DescriptionFrame(tk.Frame):
@@ -48,16 +57,20 @@ class DescriptionFrame(tk.Frame):
         desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 11))
         desc_label.pack()
 
+
 class WelcomeView(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("MathFacts")
-        self.geometry("800x650")
+        self.geometry("1000x650")
 
         self.resizable(width=True, height=True)
-        self.Main_Label = ttk.Label(self, text="MathFacts", font=("TkDefaultFont", 27), wraplength=600)
-        self.Main_Label.grid(row=0, column=0, sticky=tk.W)
 
+        # FRAMES
+        self.icon_frame = IconFrame(self)
+        self.icon_frame.grid()
+        self.icon_frame.image_label.grid()
+        
         self.description = DescriptionFrame(self)
         self.description.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
