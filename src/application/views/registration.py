@@ -115,7 +115,6 @@ class MyApplication(tk.Tk):
         self.geometry("800x650")
         #self.configure(bg="gold")
 
-
         # background_image = tk.PhotoImage('Pizza.png')
         # background_label = tk.Label(self, image=background_image)
         # background_label.image = background_image

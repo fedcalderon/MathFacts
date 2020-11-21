@@ -34,6 +34,16 @@ from tkinter import *
 from tkinter import ttk
 
 
+class TermsOfUseWindow(tk.Frame):
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+
+        # Used this from andrews code to display window
+        description = "No copying this program or using it illegally. It is strictly for the use of Math Facts purposes only. \n"
+        desc_label = ttk.Label(self, text=description, wraplength=200, font=("TkDefaultFont", 14))
+        desc_label.pack()
+
+
 class IconFrame(tk.Frame):
     """Contains and displays the description of the Math Facts Practice application."""
     def __init__(self, parent, **kwargs):
@@ -58,6 +68,23 @@ class DescriptionFrame(tk.Frame):
         desc_label.pack()
 
 
+class LinksFrame(tk.Frame):
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+        # Frame with button links(right now only terms of use)
+        self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
+        self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
+
+    def terms_of_use_open(self):
+        # Terms of use window
+        root = tk.Tk()
+        root.title('Terms Of Use')
+        root.resizable(width=False, height=False)
+        root.geometry('340x120')
+        TermsOfUseWindow(root).pack(expand=True, fill='both')
+        root.mainloop()
+
+
 class WelcomeView(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -70,8 +97,11 @@ class WelcomeView(tk.Tk):
         self.icon_frame = IconFrame(self)
         self.icon_frame.grid()
         self.icon_frame.image_label.grid()
-        
+
         self.description = DescriptionFrame(self)
         self.description.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+
+        self.links = LinksFrame(self)
+        self.links.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
         self.columnconfigure(0, weight=1)
