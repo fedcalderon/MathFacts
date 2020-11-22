@@ -1,4 +1,3 @@
-# Andrew
 
 from tkinter import *
 import os

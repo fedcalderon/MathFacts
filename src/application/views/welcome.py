@@ -1,3 +1,6 @@
+#*******************
+#Nov 7, 2020
+#*******************
 # This is the welcome screen for all developers to collaborate
 # Need to decide on a common screen dimension for the program
 # Investigate if you have a master frame or screen, that changes content for each page
@@ -25,6 +28,7 @@
 #           Test the connection between the login and registration pages, testing all the code.
 # Team lead: Asher
 
+#Asher
 """This file contains DescriptionFrame which show the description of the program.
 It is meant to be shown on the welcome screen."""
 # Andrew
