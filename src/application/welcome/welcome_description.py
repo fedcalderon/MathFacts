@@ -19,14 +19,6 @@ class DescriptionFrame(tk.Frame):
 
         desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 11))
         desc_label.pack()
-                      "multiplication, division, and more, based on the user's age and grade level. 100 problems are " \
-                      "shown one at a time, and the user may enter a response using either a keyboard or mouse. After" \
-                      " completing a test, the program shows all the problems and displays which ones the user " \
-                      "answered correctly or incorrectly. You will have the ability to print the results or save them" \
-                      " for future reference. You may view all completed tests as well as helpful tips on the reports" \
-                      " screen.\n" \
-                      "To get started, click 'Create an Account'."
-
         desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 12))
         desc_label.pack()
 
