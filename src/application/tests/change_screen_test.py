@@ -1,7 +1,3 @@
-# User registration
-# Asher
-# ask for name, last name, age, grade, parents names, username, password
-
 import tkinter as tk
 from tkinter import ttk
 import csv
@@ -107,90 +103,50 @@ class ChildInformation(tk.LabelFrame):
         age_label.grid(row=200, column=100, sticky=tk.W)
         age_button.grid(row=300, column=100, sticky=(tk.W))
 
-
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("MathFacts")
         self.geometry("800x650")
-        #self.configure(bg="gold")
-
-        # background_image = tk.PhotoImage('Pizza.png')
-        # background_label = tk.Label(self, image=background_image)
-        # background_label.image = background_image
-        # background_label.place(x=0, y=0, relwidth=2, relheight=2)
-
         self.resizable(width=True, height=True)
-        self.Main_Label = ttk.Label(self, text="Signup for MathFacts", font=("TkDefaultFont", 27), wraplength=600)
-        self.Main_Label.grid(row=0, column=0, sticky=tk.W)
-
-        self.c = ChildInformation(self)
-        self.c.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-        self.g1 = Guardian1Info(self)
-        self.g1.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-        self.g2 = Guardian2Info(self)
-        self.g2.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-        self.l = LoginInformation(self)
-        self.l.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-        self.Save = ttk.Button(self, text="Save", command=self.save)
-        self.Save.grid(row=1200, column=0, sticky=tk.W)
+        self.view_1()
 
         self.columnconfigure(0, weight=1)
 
-    def save(self):
-        all_information = {
-            "child_first_name": self.c.FirstName.get(),
-            "child_last_name": self.c.LastName.get(),
-            "child_grade": self.c.Grade.get(),
-            "child_age": self.c.Age.get(),
+    def view_1(self):
+        # View 1
+        self.Main_Label = ttk.Label(self, text="Signup for MathFacts", font=("TkDefaultFont", 27), wraplength=600)
+        self.Main_Label.grid(row=0, column=0, sticky=tk.W)
+        self.c = ChildInformation(self)
+        self.c.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+        self.g1 = Guardian1Info(self)
+        self.g1.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+        self.view_1_items = [self.Main_Label, self.c, self.g1]
 
-            "guardian_1_first_name": self.g1.FirstName.get(),
-            "guardian_1_last_name": self.g1.LastName.get(),
+        # View 2
+        self.g2 = Guardian2Info(self)
+        self.l = LoginInformation(self)
+        self.view_2_items = [self.g2, self.l]
 
-            "guardian_2_first_name": self.g2.FirstName.get(),
-            "guardian_2_last_name": self.g2.LastName.get(),
+        self.change_screen_button_1 = ttk.Button(self, text="Change view",
+                                                 command=lambda : self.change_screen(self.view_1_items, self.view_2_items))
+        self.change_screen_button_1.grid(row=1200, column=100, sticky=tk.E)
+        self.view_1_items.append(self.change_screen_button_1)
 
-            "username": self.l.Username.get(),
-            "password": self.l.Password.get(),
-        }
+        # Broken. Needs fixing.
 
-        for key in all_information:
-            if key == "guardian_2_first_name" or key == "guardian_2_last_name":
-                pass
+        # self.change_screen_button_2 = ttk.Button(self, text="Back button",
+        #                                          command=lambda: self.change_screen(self.view_2_items,
+        #                                                                             self.view_1_items))
+        # self.view_2_items.append(self.change_screen_button_2)
+        #self.change_screen_button_2.grid(row=1200, column=100, sticky=tk.E)
 
-            else:
-                if (all_information.get(key) == ""):
-                    self.field = ttk.Label(self, text="Not all required fields have been answered"
-                                           , font=("TkDefaultFont", 10), wraplength=600)
-                    self.field.grid(row=1400, column=0, sticky=tk.W)
-                    break
+    def change_screen(self, current_screen, new_screen):
+        for item in current_screen:
+            item.destroy()
+        for item in new_screen:
+            item.grid(sticky=(tk.E+tk.W+tk.N+tk.S))
 
-            if key == "password":
-                user_count = 0
-                self.field = ttk.Label(self, text="          "
-                                                  "                   "
-                                                  "                   "
-                                                  "                   "
-                                                  "                   ", font=("TkDefaultFont", 10), wraplength=600)
-                self.field.grid(row=1400, column=0, sticky=tk.W)
-
-                users_csv_file = f'{self.c.FirstName.get()}_{self.c.LastName.get()}_information.csv'
-                if user_count == 0:
-                    with open(users_csv_file, 'w') as csv_file:
-                        writer = csv.writer(csv_file)
-                        for key, value in all_information.items():
-                            writer.writerow([key, str(value)])
-                            user_count += 1
-                            print(user_count)
-                else:
-                    with open(users_csv_file, 'a') as csv_file:
-                        writer = csv.writer(csv_file)
-                        for key in all_information.items():
-                            writer.writerow[key.index()]
-                            user_count += 1
-
-            print(all_information)
+if __name__ == '__main__':
+    app = MyApplication()
+    app.mainloop()
