@@ -5,7 +5,7 @@
 import tkinter as tk
 from tkinter import ttk
 import csv
-
+import json
 
 class LoginInformation(tk.LabelFrame):
     def __init__(self, parent):
@@ -142,20 +142,36 @@ class MyApplication(tk.Tk):
         self.columnconfigure(0, weight=1)
 
     def save(self):
-        all_information = {
-            "child_first_name": self.c.FirstName.get(),
-            "child_last_name": self.c.LastName.get(),
-            "child_grade": self.c.Grade.get(),
-            "child_age": self.c.Age.get(),
+        # all_information = {
+        #     "child_first_name": self.c.FirstName.get(),
+        #     "child_last_name": self.c.LastName.get(),
+        #     "child_grade": self.c.Grade.get(),
+        #     "child_age": self.c.Age.get(),
+        #
+        #     "guardian_1_first_name": self.g1.FirstName.get(),
+        #     "guardian_1_last_name": self.g1.LastName.get(),
+        #
+        #     "guardian_2_first_name": self.g2.FirstName.get(),
+        #     "guardian_2_last_name": self.g2.LastName.get(),
+        #
+        #     "username": self.l.Username.get(),
+        #     "password": self.l.Password.get(),
+        # }
 
-            "guardian_1_first_name": self.g1.FirstName.get(),
-            "guardian_1_last_name": self.g1.LastName.get(),
+        all_information = {
+            "child_first_name": "yee",
+            "child_last_name": "yee2",
+            "child_grade": "yee3",
+            "child_age": "yee4",
+
+            "guardian_1_first_name": "yee5",
+            "guardian_1_last_name": "yee6",
 
             "guardian_2_first_name": self.g2.FirstName.get(),
             "guardian_2_last_name": self.g2.LastName.get(),
 
-            "username": self.l.Username.get(),
-            "password": self.l.Password.get(),
+            "username": "yee7",
+            "password": "yee8",
         }
 
         for key in all_information:
@@ -178,19 +194,40 @@ class MyApplication(tk.Tk):
                                                   "                   ", font=("TkDefaultFont", 10), wraplength=600)
                 self.field.grid(row=1400, column=0, sticky=tk.W)
 
-                users_csv_file = f'{self.c.FirstName.get()}_{self.c.LastName.get()}_information.csv'
+                # users_csv_file = f'{self.c.FirstName.get()}_{self.c.LastName.get()}_information.csv'
+                # if user_count == 0:
+                #     with open(users_csv_file, 'w') as csv_file:
+                #         writer = csv.writer(csv_file)
+                #         for key, value in all_information.items():
+                #             writer.writerow([key, str(value)])
+                #             user_count += 1
+                #             print(user_count)
+                # else:
+                #     with open(users_csv_file, 'a') as csv_file:
+                #         writer = csv.writer(csv_file)
+                #         for key in all_information.items():
+                #             writer.writerow[key.index()]
+                #             user_count += 1
+                user_count += 1
+                print(user_count)
                 if user_count == 0:
-                    with open(users_csv_file, 'w') as csv_file:
-                        writer = csv.writer(csv_file)
-                        for key, value in all_information.items():
-                            writer.writerow([key, str(value)])
-                            user_count += 1
-                            print(user_count)
+                    with open('users_json.json', 'w') as jsonfile:
+                        json.dump({f"user {user_count}": all_information}, jsonfile)
+
                 else:
-                    with open(users_csv_file, 'a') as csv_file:
-                        writer = csv.writer(csv_file)
-                        for key in all_information.items():
-                            writer.writerow[key.index()]
-                            user_count += 1
+                    new_all_information = {"yee": 2}
+                    with open('users_json.json') as jsonfile:
+                        users_data = json.load(jsonfile)
+
+                    users_data.update(new_all_information)
+
+                    with open('users_json.json', 'w') as jsonfile:
+                        json.dump(users_data, jsonfile)
+                        json.dump({f"user {user_count}": new_all_information}, jsonfile)
 
             print(all_information)
+
+
+if __name__ == "__main__":
+    app = MyApplication()
+    app.mainloop()
