@@ -5,6 +5,7 @@
 import tkinter as tk
 from tkinter import ttk
 import json
+import os
 
 
 class LoginInformation(tk.LabelFrame):
@@ -133,6 +134,9 @@ class MyApplication(tk.Tk):
         self.user_count = 0
         self.users_list = []
 
+        with open('users.json', 'w') as jsonfile:
+            json.dump({f"user {self.user_count}": {}}, jsonfile)
+
     def save(self):
         self.user_count = self.user_count
         all_information = {
@@ -172,10 +176,12 @@ class MyApplication(tk.Tk):
                                                   "                   ", font=("TkDefaultFont", 10), wraplength=600)
                 self.field.grid(row=1400, column=0, sticky=tk.W)
 
-                with open(r'C:\Users\aburrell\PycharmProjects\MathFacts\src\application\users_json.json', 'w') as jsonfile:
-                    json.dump({f"user {self.user_count}": all_information}, jsonfile)
+                # with open(r'C:\Users\aburrell\PycharmProjects\MathFacts\src\application\users.json', 'w') as jsonfile:
+                #     json.dump({f"user {self.user_count}": all_information}, jsonfile)
 
-                with open(r'C:\Users\aburrell\PycharmProjects\MathFacts\src\application\users_json.json') as jsonfile:
+
+
+                with open('users.json') as jsonfile:
                     users_data = json.load(jsonfile)
 
                 self.user_count = self.user_count + 1
@@ -186,7 +192,7 @@ class MyApplication(tk.Tk):
                     for key in user:
                         all_users.update({key : user[key]})
 
-                with open(r'C:\Users\aburrell\PycharmProjects\MathFacts\src\application\users_json.json', 'w') as jsonfile:
+                with open('users.json', 'w') as jsonfile:
                     json.dump(all_users, jsonfile)
 
 
