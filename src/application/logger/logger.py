@@ -38,8 +38,8 @@ LOG_FILE_SIZE = SIZE
 
 def get_datetime_string():
     """
-    This function computes the current date and time and puts it in a string format
-    :return: a string formatted to show month-day-year_Hour_Minute_Second
+    This function computes the current date and time and puts it in users_list string format
+    :return: users_list string formatted to show month-day-year_Hour_Minute_Second
     """
     now = datetime.now()
     date = now.strftime(FORMATTED_DATE)
@@ -49,8 +49,8 @@ def announce_run(mode):
     """
     This function writes an announcement to the log.
     :param mode: label to denote what to write on the log,
-                 "start" writes the start of a new program run
-                 "end" writes the end of a new program run
+                 "start" writes the start of users_list new program run
+                 "end" writes the end of users_list new program run
     :return: None
     """
     if mode == START:
@@ -68,7 +68,7 @@ def load_properties(filepath, sep='=', comment_char='#'):
     :param filepath: the path of the properties file
     :param sep: property separator
     :param comment_char: comment character
-    :return: a python dictionary containing all the program properties
+    :return: users_list python dictionary containing all the program properties
     """
     props = {}
     with open(filepath, "rt") as f:
@@ -104,7 +104,7 @@ LOG_FILE_SIZE = int(properties_map['logging.file.size'])
 # Set logging configuration
 log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(funcName)s(%(lineno)d) %(message)s')
 logFile = WORK_DIR + "/math_facts.log"
-my_handler = RotatingFileHandler(logFile, mode='a', maxBytes=LOG_FILE_SIZE * MB,
+my_handler = RotatingFileHandler(logFile, mode='users_list', maxBytes=LOG_FILE_SIZE * MB,
                                  backupCount=2, encoding=None, delay=0)
 my_handler.setFormatter(log_formatter)
 my_handler.setLevel(logging.INFO)
