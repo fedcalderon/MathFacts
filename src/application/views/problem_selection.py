@@ -16,7 +16,7 @@ class OptionFrame(tk.Frame):
         super().__init__(parent, padx=20, pady=20, width=500, *args, **kwargs)
         self.name = name
 
-        # Create a LabelFrame inside the Frame
+        # Create users_list LabelFrame inside the Frame
         self.label_frame = tk.LabelFrame(self, text=name, font=("TkDefaultFont", 16), padx=5, pady=5)
         self.label_frame.pack(expand=True, fill='both')  # Source: https://stackoverflow.com/questions/28419763/expand-text-widget-to-fill-the-entire-parent-frame-in-tkinter
 
@@ -40,7 +40,7 @@ class SelectionView(tk.Frame):
     def __init__(self, parent, grade, username='Username', *args, **kwargs):
         super().__init__(parent, padx=20, pady=15, *args, *kwargs)
 
-        # Create a toolbar with menus
+        # Create users_list toolbar with menus
         # Source: http://zetcode.com/tkinter/menustoolbars/
         toolbar = tk.Menu(self)
         self.master.config(menu=toolbar)
