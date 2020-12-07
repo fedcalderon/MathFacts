@@ -16,7 +16,7 @@ class OptionFrame(tk.Frame):
         super().__init__(parent, padx=20, pady=20, width=500, *args, **kwargs)
         self.name = name
 
-        # Create a LabelFrame inside the Frame
+        # Create users_list LabelFrame inside the Frame
         self.label_frame = tk.LabelFrame(self, text=name, font=("TkDefaultFont", 16), padx=5, pady=5)
         self.label_frame.pack(expand=True, fill='both')  # Source: https://stackoverflow.com/questions/28419763/expand-text-widget-to-fill-the-entire-parent-frame-in-tkinter
 
@@ -37,10 +37,10 @@ class OptionFrame(tk.Frame):
 
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
-    def __init__(self, parent, difficulty, username='Username', *args, **kwargs):
+    def __init__(self, parent, grade, username='Username', *args, **kwargs):
         super().__init__(parent, padx=20, pady=15, *args, *kwargs)
 
-        # Create a toolbar with menus
+        # Create users_list toolbar with menus
         # Source: http://zetcode.com/tkinter/menustoolbars/
         toolbar = tk.Menu(self)
         self.master.config(menu=toolbar)
@@ -58,23 +58,33 @@ class SelectionView(tk.Frame):
         # Make a list to hold all the options
         options = []
 
-        # Use level of difficulty to determine which tests to show
-        # TODO: Work with Milton to determine what the level of difficulty should be
-        # This is just something I put together to show how different levels of difficulty could be handled
-        if difficulty == 0:
+        # Use the grade to determine which tests to show
+        if grade == 1:
             options.append(OptionFrame(self, 'Addition', 'Single digit addition.'))
-        elif difficulty == 1:
-            options.append(OptionFrame(self, 'Addition', '0 to 50 addition.'))
-            options.append(OptionFrame(self, 'Subtraction', '0 to 20 positive subtraction.'))
-        elif difficulty == 2:
-            options.append(OptionFrame(self, 'Addition', 'Two digit addition.'))
-            options.append(OptionFrame(self, 'Subtraction', 'Two digit subtraction.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction'))
+        elif grade == 2:
+            options.append(OptionFrame(self, 'Addition', 'Double digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.'))
+        elif grade == 3:
+            options.append(OptionFrame(self, 'Addition', 'Double digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.'))
             options.append(OptionFrame(self, 'Multiplication', 'Single digit multiplication.'))
-        elif difficulty == 3:
-            options.append(OptionFrame(self, 'Addition', 'Two digit addition.'))
-            options.append(OptionFrame(self, 'Subtraction', 'Two digit subtraction.'))
+        elif grade == 4:
+            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
             options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.'))
             options.append(OptionFrame(self, 'Division', 'Whole number division'))
+        elif grade == 5:
+            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
+            options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.'))
+            options.append(OptionFrame(self, 'Division', 'Double digit division'))
+        elif grade >= 6:
+            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
+            options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.'))
+            options.append(OptionFrame(self, 'Division', 'Double digit division'))
+            options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
         # Place the options in the grid automatically
         max_columns = 2
@@ -96,5 +106,5 @@ if __name__ == '__main__':
     root = tk.Tk()
     root.title('Math Facts Practice')
     root.resizable(width=False, height=False)
-    SelectionView(root, difficulty=3).pack(expand=True, fill='both')
+    SelectionView(root, grade=7).pack(expand=True, fill='both')
     root.mainloop()
