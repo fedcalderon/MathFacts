@@ -136,6 +136,7 @@ class MyApplication(tk.Tk):
         self.user_count = 0
         self.users_list = []
 
+        # 
         #self.users_data_file = r'views_data\users.json'
         self.users_data_file = f'{Path().absolute().parent}\student_data.json'
 
