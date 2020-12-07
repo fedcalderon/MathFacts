@@ -2,62 +2,46 @@
 
 import tkinter as tk
 import tkinter as ttk
-import  os
-from src.application.views import login
-from src.application.views import registration
+#from src.application.views.registration import
+from src.application.views.login import login
+import os
+import time
+from src.application.welcome.terms_of_use import TermsOfUseWindow
 
-class Page_Links(tk.Frame):
-    def __init__(self, parent, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
+class LinksFrame(tk.Frame):
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+        # Frame with button links(right now only terms of use)
+        self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
 
-        self.Time_label = tk.StringVar()
-        self.Time_label.set("Time Left: #")
+        login_button = ttk.Button(self, text="Login", command=self.Login_start)
+        #register_button = ttk.Button(self, text="Register", command=self.Register_start)
+        self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
+        login_button.grid(row=99, column=100, sticky=(tk.E + tk.W + tk.S + tk.N))
+        #register_button.grid(row=100, column=100, sticky=(tk.E + tk.W + tk.S + tk.N))
 
-        Time_label = ttk.Label(self, textvariable=self.Time_label,
-                               font=("TkDefaultFont", 10), wraplength=600)
+    def terms_of_use_open(self):
+        # Terms of use window
+        root = tk.Tk()
+        root.title('Terms Of Use')
+        root.resizable(width=False, height=False)
+        root.geometry('340x120')
+        TermsOfUseWindow(root).pack(expand=True, fill='both')
+        root.mainloop()
 
-        #Link buttons
+    def Login_start(self):
+        login()
+        exit()
 
-        login_button = ttk.Button(self, text="Login", command= self.Login())
-        register_button = ttk.Button(self, text="Register", command= self.Register())
-
-        #Grid
-        login_button.grid(row=3, column=2, sticky=(tk.E+tk.W))
-        register_button.grid(row=4, column=2, sticky=(tk.E+tk.W))
-        Time_label.grid(row=0, column=12, sticky=tk.E)
-
-    def Login(self):
-        if self.Login().get:
-            os.system(login.py)
-        else:
-            exit()
-
-    def Register(self):
-        if self.register().get:
-            os.system(registration.py)
-        else:
-            exit()
-
-#if __name__ == '__main__':
-#    root = tk.Tk()
-#    root.title('Math Facts Practice')
-#    root.resizable(width=False, height=False)
-#    root.geometry('500x300')
-#   Page_Links(root).pack(expand=True, fill='both')
-#    root.mainloop()
+   # def Register_start(self):
+    #    registration()
+    #    exit()
 
 
-    class test_screen_Settings(tk.Tk):
-        """Screen settings"""
-
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.geometry("600x500")
-            self.resizable(width=False, height=False)
-            Page_Links(self).grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-            self.columnconfigure(0, weight=1)
-
-
-    if __name__ == '__main__':
-        app = test_screen_Settings()
-        app.mainloop()
+if __name__ == '__main__':
+    root = tk.Tk()
+    root.title('Math Facts Practice')
+    root.resizable(width=False, height=False)
+    root.geometry('500x300')
+    LinksFrame(root).pack(expand=True, fill='both')
+    root.mainloop()
