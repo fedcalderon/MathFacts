@@ -7,6 +7,7 @@ from tkinter import ttk
 import json
 import src.application
 import os
+from pathlib import Path
 
 
 class LoginInformation(tk.LabelFrame):
@@ -135,6 +136,8 @@ class MyApplication(tk.Tk):
         self.user_count = 0
         self.users_list = []
 
+        #self.users_data_file = r'views_data\users.json'
+        self.users_data_file = f'{Path().absolute().parent}\student_data.json'
 
     def save(self):
         self.user_count = self.user_count
@@ -178,10 +181,10 @@ class MyApplication(tk.Tk):
                 # with open(r'users.json', 'w') as jsonfile:
                 #     json.dump({f"user {self.user_count}": all_information}, jsonfile)
 
-                with open(r'views_data\users.json', 'w') as jsonfile:
+                with open(self.users_data_file, 'w') as jsonfile:
                     json.dump({f"user {self.user_count}": all_information}, jsonfile)
 
-                with open(r'views_data\users.json') as jsonfile:
+                with open(self.users_data_file) as jsonfile:
                     users_data = json.load(jsonfile)
 
                 self.user_count = self.user_count + 1
@@ -192,8 +195,9 @@ class MyApplication(tk.Tk):
                     for key in user:
                         all_users.update({key : user[key]})
 
-                with open(r'views_data\users.json', 'w') as jsonfile:
+                with open(self.users_data_file, 'w') as jsonfile:
                     json.dump(all_users, jsonfile)
+    #def write_to_users_file(self):
 
 
 if __name__ == "__main__":
