@@ -4,13 +4,16 @@
 
 import tkinter as tk
 from tkinter import ttk
-import csv
+import json
+import src.application
+import os
+from pathlib import Path
 
 
 class LoginInformation(tk.LabelFrame):
     def __init__(self, parent):
-        super().__init__(parent, text="Login Information", pady=20)
-        #self.configure(bg="gold")
+        super().__init__(parent, text="login Information", pady=20)
+        # self.configure(bg="gold")
 
         self.Username = tk.StringVar()
         username_label = ttk.Label(self, text="Enter Username")
@@ -24,22 +27,11 @@ class LoginInformation(tk.LabelFrame):
         password_label.grid(row=0, column=100, sticky=(tk.W))
         password_button.grid(row=100, column=100, sticky=(tk.W))
 
-        self.PizzaSize = tk.StringVar()
-        grade_label = ttk.Label(self, text="Pizza Size")
-        grade_button = ttk.Combobox(self, width=27, textvariable=self.PizzaSize)
-
-        grade_values = ["Preschool", "Kindergarten"]
-        for x in range(1, 19): grade_values.append(str(x))
-        grade_button['values'] = tuple(grade_values)
-
-        grade_label.grid(row=600, column=200, sticky=tk.W)
-        grade_button.grid(row=800, column=200, sticky=(tk.W + tk.E))
-
 
 class Guardian1Info(tk.LabelFrame):
     def __init__(self, parent):
         super().__init__(parent, text="Guardian 1:", pady=20)
-        #self.configure(bg="gold")
+        # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
         first_name_label = ttk.Label(self, text="First Name")
@@ -57,7 +49,7 @@ class Guardian1Info(tk.LabelFrame):
 class Guardian2Info(tk.LabelFrame):
     def __init__(self, parent):
         super().__init__(parent, text="Guardian 2:", pady=20)
-        #self.configure(bg="gold")
+        # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
         first_name_label = ttk.Label(self, text="First Name")
@@ -75,7 +67,7 @@ class Guardian2Info(tk.LabelFrame):
 class ChildInformation(tk.LabelFrame):
     def __init__(self, parent):
         super().__init__(parent, text="Child Information", pady=15)
-        #self.configure(bg="gold")
+        # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
         first_name_label = ttk.Label(self, text="First Name")
@@ -113,7 +105,7 @@ class MyApplication(tk.Tk):
         super().__init__(*args, **kwargs)
         self.title("MathFacts")
         self.geometry("800x650")
-        #self.configure(bg="gold")
+        # self.configure(bg="gold")
 
         # background_image = tk.PhotoImage('Pizza.png')
         # background_label = tk.Label(self, image=background_image)
@@ -141,7 +133,15 @@ class MyApplication(tk.Tk):
 
         self.columnconfigure(0, weight=1)
 
+        self.user_count = 0
+        self.users_list = []
+
+        #
+        #self.users_data_file = r'views_data\users.json'
+        self.users_data_file = f'{Path().absolute().parent}\student_data.json'
+
     def save(self):
+        self.user_count = self.user_count
         all_information = {
             "child_first_name": self.c.FirstName.get(),
             "child_last_name": self.c.LastName.get(),
@@ -170,7 +170,8 @@ class MyApplication(tk.Tk):
                     break
 
             if key == "password":
-                user_count = 0
+
+                print(self.user_count)
                 self.field = ttk.Label(self, text="          "
                                                   "                   "
                                                   "                   "
@@ -178,19 +179,28 @@ class MyApplication(tk.Tk):
                                                   "                   ", font=("TkDefaultFont", 10), wraplength=600)
                 self.field.grid(row=1400, column=0, sticky=tk.W)
 
-                users_csv_file = f'{self.c.FirstName.get()}_{self.c.LastName.get()}_information.csv'
-                if user_count == 0:
-                    with open(users_csv_file, 'w') as csv_file:
-                        writer = csv.writer(csv_file)
-                        for key, value in all_information.items():
-                            writer.writerow([key, str(value)])
-                            user_count += 1
-                            print(user_count)
-                else:
-                    with open(users_csv_file, 'a') as csv_file:
-                        writer = csv.writer(csv_file)
-                        for key in all_information.items():
-                            writer.writerow[key.index()]
-                            user_count += 1
+                # with open(r'users.json', 'w') as jsonfile:
+                #     json.dump({f"user {self.user_count}": all_information}, jsonfile)
 
-            print(all_information)
+                with open(self.users_data_file, 'w') as jsonfile:
+                    json.dump({f"user {self.user_count}": all_information}, jsonfile)
+
+                with open(self.users_data_file) as jsonfile:
+                    users_data = json.load(jsonfile)
+
+                self.user_count = self.user_count + 1
+                self.users_list.append(users_data)
+
+                all_users = {}
+                for user in self.users_list:
+                    for key in user:
+                        all_users.update({key : user[key]})
+
+                with open(self.users_data_file, 'w') as jsonfile:
+                    json.dump(all_users, jsonfile)
+    #def write_to_users_file(self):
+
+
+if __name__ == "__main__":
+    app = MyApplication()
+    app.mainloop()

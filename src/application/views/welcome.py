@@ -2,26 +2,26 @@
 #Nov 7, 2020
 #*******************
 # This is the welcome screen for all developers to collaborate
-# Need to decide on a common screen dimension for the program
-# Investigate if you have a master frame or screen, that changes content for each page
-# Program should have the ability to resize at will (stop at a minimum size), and full screen
+# Need to decide on users_list common screen dimension for the program
+# Investigate if you have users_list master frame or screen, that changes content for each page
+# Program should have the ability to resize at will (stop at users_list minimum size), and full screen
 
-# 1: Micah: Design, a nice picture, colors, a logo
+# 1: Micah: Design, users_list nice picture, colors, users_list logo
 # 2: Xade: Place the login and registration links, nice animation
 # 3: Andrew: Description of the program, graphics
-# 4: Milton: Link to terms of use (needs a new page)
+# 4: Milton: Link to terms of use (needs users_list new page)
 # 5: Asher: Test the connection between the login and registration pages, testing all the code
 # Team lead: Asher
 
 #*******************
 #Nov 16, 2020
 #*******************
-# 1: Micah: Design, a nice picture, colors, a logo
+# 1: Micah: Design, users_list nice picture, colors, users_list logo
 # 2: Xade: Place the login and registration links, nice animation. Collaborate with Asher in integrating all the code
 #          into welcome.py.
 # 3: Andrew: Description of the program, graphics. Collaborate with Asher in integrating all the code
 #            into welcome.py.
-# 4: Milton: Link to terms of use (needs a new page). Make it a pop up screen with generic terms
+# 4: Milton: Link to terms of use (needs users_list new page). Make it users_list pop up screen with generic terms
 #            of use (google it). Give it an OK button to exit. Collaborate with Asher in integrating all the code
 #            into welcome.py.
 # 5: Asher: In charge of integrating everyone else's code into welcome.py.
@@ -36,14 +36,16 @@ It is meant to be shown on the welcome screen."""
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-
+from src.application.views import login
+from src.application.views import registration
 
 class TermsOfUseWindow(tk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
 
         # Used this from andrews code to display window
-        description = "No copying this program or using it illegally. It is strictly for the use of Math Facts purposes only. \n"
+        description = "No copying this program or using it illegally. It is strictly for the use of Math Facts " \
+                      "purposes only. \n"
         desc_label = ttk.Label(self, text=description, wraplength=200, font=("TkDefaultFont", 14))
         desc_label.pack()
 
@@ -63,10 +65,13 @@ class DescriptionFrame(tk.Frame):
 
         description = "Welcome to Math Facts Practice! This app helps you or your child practice math facts using " \
                       "randomly generated problems. Math Facts includes exercises for addition, subtraction, " \
-                      "multiplication, division, and more. After completing a test, you will have the ability to " \
-                      "print the results or save them for future reference. You may view all completed tests as " \
-                      "well as helpful tips on the reports screen.\n" \
-                      "To get started, click 'Create an Account'."
+                      "multiplication, division, and more, based on the user's age and grade level. 100 problems are " \
+                      "shown one at a time, and the user may enter a response using either a keyboard or mouse. After" \
+                      " completing a test, the program shows all the problems and displays which ones the user " \
+                      "answered correctly or incorrectly. You will have the ability to print the results or save them" \
+                      " for future reference. You may view all completed tests as well as helpful tips on the reports" \
+                      " screen.\n" \
+                      "To get started, click 'Register'."
 
         desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 11))
         desc_label.pack()
@@ -75,18 +80,33 @@ class DescriptionFrame(tk.Frame):
 class LinksFrame(tk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
-        # Frame with button links(right now only terms of use)
+        # Frame with button links
         self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
         self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
+
+        self.registration_button = ttk.Button(self, text="Registration", command=self.Registration_start)
+        self.registration_button.grid(row=100, column=100, sticky=(tk.E))
+
+        self.login_button = ttk.Button(self, text="Login", command=self.Login_start)
+        self.login_button.grid(row=100, column=200, sticky=(tk.E))
 
     def terms_of_use_open(self):
         # Terms of use window
         root = tk.Tk()
         root.title('Terms Of Use')
         root.resizable(width=False, height=False)
-        root.geometry('340x120')
+        root.geometry('340x121')
         TermsOfUseWindow(root).pack(expand=True, fill='both')
         root.mainloop()
+
+    # METHOD IS BROKEN. DO NOT TOUCH.
+    def Login_start(self):
+        login.main_account_screen()
+
+    # Open registration.py
+    def Registration_start(self):
+        app = registration.MyApplication()
+        app.mainloop()
 
 
 class WelcomeView(tk.Tk):

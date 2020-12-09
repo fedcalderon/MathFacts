@@ -13,10 +13,10 @@ class OptionFrame(tk.Frame):
         :param name: the name of the option
         :param detail: optional additional detail about the option"""
         # Set the text of the LabelFrame to this option's name
-        super().__init__(parent, padx=10, pady=5, width=500, *args, **kwargs)
+        super().__init__(parent, padx=20, pady=20, width=500, *args, **kwargs)
         self.name = name
 
-        # Create a LabelFrame inside the Frame
+        # Create users_list LabelFrame inside the Frame
         self.label_frame = tk.LabelFrame(self, text=name, font=("TkDefaultFont", 16), padx=5, pady=5)
         self.label_frame.pack(expand=True, fill='both')  # Source: https://stackoverflow.com/questions/28419763/expand-text-widget-to-fill-the-entire-parent-frame-in-tkinter
 
@@ -37,17 +37,17 @@ class OptionFrame(tk.Frame):
 
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, grade, username='Username', *args, **kwargs):
         super().__init__(parent, padx=20, pady=15, *args, *kwargs)
 
-        # Create a toolbar with menus
+        # Create users_list toolbar with menus
         # Source: http://zetcode.com/tkinter/menustoolbars/
         toolbar = tk.Menu(self)
         self.master.config(menu=toolbar)
 
         user_menu = tk.Menu(toolbar)
         user_menu.add_command(label='Log Out')
-        toolbar.add_cascade(label='Username', menu=user_menu)
+        toolbar.add_cascade(label=username, menu=user_menu)
 
         settings_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Settings', menu=settings_menu)
@@ -55,14 +55,36 @@ class SelectionView(tk.Frame):
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)
 
-        # Create some OptionFrames as examples
-        # In the future, these will be generated as needed
-        addition_frame = OptionFrame(self, 'Addition', 'Two digit addition.')
-        subtraction_frame = OptionFrame(self, 'Subtraction', 'Two digit subtraction.')
-        multiplication_frame = OptionFrame(self, 'Multiplication', 'Single digit multiplication.')
-
         # Make a list to hold all the options
-        options = [addition_frame, subtraction_frame, multiplication_frame]
+        options = []
+
+        # Use the grade to determine which tests to show
+        if grade == 1:
+            options.append(OptionFrame(self, 'Addition', 'Single digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction'))
+        elif grade == 2:
+            options.append(OptionFrame(self, 'Addition', 'Double digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.'))
+        elif grade == 3:
+            options.append(OptionFrame(self, 'Addition', 'Double digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.'))
+            options.append(OptionFrame(self, 'Multiplication', 'Single digit multiplication.'))
+        elif grade == 4:
+            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
+            options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.'))
+            options.append(OptionFrame(self, 'Division', 'Whole number division'))
+        elif grade == 5:
+            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
+            options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.'))
+            options.append(OptionFrame(self, 'Division', 'Double digit division'))
+        elif grade >= 6:
+            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
+            options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.'))
+            options.append(OptionFrame(self, 'Division', 'Double digit division'))
+            options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
         # Place the options in the grid automatically
         max_columns = 2
@@ -84,5 +106,5 @@ if __name__ == '__main__':
     root = tk.Tk()
     root.title('Math Facts Practice')
     root.resizable(width=False, height=False)
-    SelectionView(root).pack(expand=True, fill='both')
+    SelectionView(root, grade=7).pack(expand=True, fill='both')
     root.mainloop()
