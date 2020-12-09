@@ -36,14 +36,16 @@ It is meant to be shown on the welcome screen."""
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-
+from src.application.views import login
+from src.application.views import registration
 
 class TermsOfUseWindow(tk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
 
         # Used this from andrews code to display window
-        description = "No copying this program or using it illegally. It is strictly for the use of Math Facts purposes only. \n"
+        description = "No copying this program or using it illegally. It is strictly for the use of Math Facts " \
+                      "purposes only. \n"
         desc_label = ttk.Label(self, text=description, wraplength=200, font=("TkDefaultFont", 14))
         desc_label.pack()
 
@@ -78,18 +80,33 @@ class DescriptionFrame(tk.Frame):
 class LinksFrame(tk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
-        # Frame with button links(right now only terms of use)
+        # Frame with button links
         self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
         self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
+
+        self.registration_button = ttk.Button(self, text="Registration", command=self.Registration_start)
+        self.registration_button.grid(row=100, column=100, sticky=(tk.E))
+
+        self.login_button = ttk.Button(self, text="Login", command=self.Login_start)
+        self.login_button.grid(row=100, column=200, sticky=(tk.E))
 
     def terms_of_use_open(self):
         # Terms of use window
         root = tk.Tk()
         root.title('Terms Of Use')
         root.resizable(width=False, height=False)
-        root.geometry('340x120')
+        root.geometry('340x121')
         TermsOfUseWindow(root).pack(expand=True, fill='both')
         root.mainloop()
+
+    # METHOD IS BROKEN. DO NOT TOUCH.
+    def Login_start(self):
+        login.main_account_screen()
+
+    # Open registration.py
+    def Registration_start(self):
+        app = registration.MyApplication()
+        app.mainloop()
 
 
 class WelcomeView(tk.Tk):
