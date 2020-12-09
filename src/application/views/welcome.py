@@ -95,7 +95,7 @@ class LinksFrame(tk.Frame):
         root = tk.Tk()
         root.title('Terms Of Use')
         root.resizable(width=False, height=False)
-        root.geometry('340x120')
+        root.geometry('340x121')
         TermsOfUseWindow(root).pack(expand=True, fill='both')
         root.mainloop()
 
