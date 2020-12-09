@@ -120,7 +120,6 @@ def delete_user_not_found_screen():
 
 def main_account_screen():
     global main_screen
-
     main_screen = Tk()
     main_screen.geometry("300x250")
     main_screen.title("Account Login")
@@ -130,3 +129,7 @@ def main_account_screen():
     Label(text="").pack()
 
     main_screen.mainloop()
+
+
+if __name__ == "__main__":
+    main_account_screen()
