@@ -14,7 +14,7 @@ class LinksFrame(tk.Frame):
         # Frame with button links(right now only terms of use)
         self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
 
-        login_button = ttk.Button(self, text="Login", command=self.Login_start)
+        login_button = ttk.Button(self, text="login", command=self.Login_start)
         #register_button = ttk.Button(self, text="Register", command=self.Register_start)
         self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
         login_button.grid(row=99, column=100, sticky=(tk.E + tk.W + tk.S + tk.N))
