@@ -80,11 +80,15 @@ class DescriptionFrame(tk.Frame):
 class LinksFrame(tk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
-        # Frame with button links(right now only terms of use)
+        # Frame with button links
         self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
         self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
+
         self.registration_button = ttk.Button(self, text="Registration", command=self.Registration_start)
         self.registration_button.grid(row=100, column=100, sticky=(tk.E))
+
+        self.login_button = ttk.Button(self, text="Login", command=self.Login_start)
+        self.login_button.grid(row=100, column=200, sticky=(tk.E))
 
     def terms_of_use_open(self):
         # Terms of use window
@@ -97,15 +101,7 @@ class LinksFrame(tk.Frame):
 
     # METHOD IS BROKEN. DO NOT TOUCH.
     def Login_start(self):
-        # Open login window
-        root = tk.Tk()
-        root.title('Login Screen')
-        root.geometry('300x250')
-        login_screen = login.MainAccountScreen(root)
-        login_screen.pack()
-        # login_screen.login_label.pack()
-        # login_screen.registration_button.pack()
-        root.mainloop()
+        login.main_account_screen()
 
     # Open registration.py
     def Registration_start(self):

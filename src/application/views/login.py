@@ -1,14 +1,11 @@
 from tkinter import *
 import os
-import tkinter as tk
-
 
 # Designing window for login
 
 def login():
     global login_screen
-    login_screen = Toplevel(root)
-
+    login_screen = Toplevel(main_screen)
     login_screen.title("Login")
     login_screen.geometry("300x250")
     Label(login_screen, text="Please enter details below to login").pack()
@@ -31,7 +28,8 @@ def login():
     password_login_entry = Entry(login_screen, textvariable=password_verify, show='*')
     password_login_entry.pack()
     Label(login_screen, text="").pack()
-    Button(login_screen, text="login", width=10, height=1, command=login_verify).pack()
+    Button(login_screen, text="Login", width=10, height=1, command=login_verify).pack()
+
 
 # Implementing event on register button
 
@@ -78,7 +76,7 @@ def login_sucess():
     login_success_screen = Toplevel(login_screen)
     login_success_screen.title("Success")
     login_success_screen.geometry("150x100")
-    Label(login_success_screen, text="login Success").pack()
+    Label(login_success_screen, text="Login Success").pack()
     Button(login_success_screen, text="OK", command=delete_login_success).pack()
 
 
@@ -120,23 +118,14 @@ def delete_user_not_found_screen():
 
 # Designing Main(first) window
 
-# def main_account_screen():
-#     global main_screen
-#     main_screen = Tk()
-#     main_screen.geometry("300x250")
-#     main_screen.title("Account login")
-#     Label(text="Select Your Choice", bg="blue", width="300", height="2", font=("Calibri", 13)).pack()
-#     Label(text="").pack()
-#     Button(text="login", height="2", width="30", command=login).pack()
-#     Label(text="").pack()
-#     main_screen.mainloop()
+def main_account_screen():
+    global main_screen
+    main_screen = Tk()
+    main_screen.geometry("300x250")
+    main_screen.title("Account Login")
+    Label(text="Select Your Choice", bg="blue", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(text="").pack()
+    Button(text="Login", height="2", width="30", command=login).pack()
+    Label(text="").pack()
 
-class MainAccountScreen(tk.Frame):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.login_label = Label(text="Select Your Choice", bg="blue", width="300", height="2", font=("Calibri", 13))
-        #self.login_label.pack()
-        #Label(text="").pack()
-        self.login_button = Button(text="Login", height="2", width="30", command=login)
-        #self.registration_button.pack()
-
+    main_screen.mainloop()
