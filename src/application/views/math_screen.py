@@ -21,7 +21,7 @@ class Math_Screen(tk.Frame):
 
         self.UserInsert_entry = ttk.Entry(self, textvariable=self.ans_insert)
         self.submit_button = ttk.Button(self, text="Submit", command=self.submit_ans)
-        self.clear_button = ttk.Button(self, text="Clear", command=self.clear_ans)
+        self.clear_button = ttk.Button(self, text="Clear", command= lambda : self.UserInsert_entry.delete(0, 'end'))
         Question_Label = ttk.Label(self, textvariable=self.Question_label,
                                 font=("TkDefaultFont", 10), wraplength=600)
 
@@ -29,17 +29,17 @@ class Math_Screen(tk.Frame):
                                 font=("TkDefaultFont", 10), wraplength=600)
 
         #Number buttons
-        number_button0 = ttk.Button(self, text="0", command=self.insert_num_zero)
-        number_button1 = ttk.Button(self, text="1", command=self.insert_num_one)
-        number_button2 = ttk.Button(self, text="2", command=self.insert_num_two)
-        number_button3 = ttk.Button(self, text="3", command=self.insert_num_three)
-        number_button4 = ttk.Button(self, text="4", command=self.insert_num_four)
-        number_button5 = ttk.Button(self, text="5", command=self.insert_num_five)
-        number_button6 = ttk.Button(self, text="6", command=self.insert_num_six)
-        number_button7 = ttk.Button(self, text="7", command=self.insert_num_seven)
-        number_button8 = ttk.Button(self, text="8", command=self.insert_num_eight)
-        number_button9 = ttk.Button(self, text="9", command=self.insert_num_nine)
-        decimal_button0 = ttk.Button(self, text=".", command=self.insert_decimal)
+        number_button0 = ttk.Button(self, text="0", command=lambda : self.UserInsert_entry.insert('end', "0"))
+        number_button1 = ttk.Button(self, text="1", command=lambda : self.UserInsert_entry.insert('end', "1"))
+        number_button2 = ttk.Button(self, text="2", command=lambda : self.UserInsert_entry.insert('end', "2"))
+        number_button3 = ttk.Button(self, text="3", command=lambda : self.UserInsert_entry.insert('end', "3"))
+        number_button4 = ttk.Button(self, text="4", command=lambda : self.UserInsert_entry.insert('end', "4"))
+        number_button5 = ttk.Button(self, text="5", command=lambda : self.UserInsert_entry.insert('end', "5"))
+        number_button6 = ttk.Button(self, text="6", command=lambda : self.UserInsert_entry.insert('end', "6"))
+        number_button7 = ttk.Button(self, text="7", command=lambda : self.UserInsert_entry.insert('end', "7"))
+        number_button8 = ttk.Button(self, text="8", command=lambda : self.UserInsert_entry.insert('end', "8"))
+        number_button9 = ttk.Button(self, text="9", command=lambda : self.UserInsert_entry.insert('end', "9"))
+        decimal_button = ttk.Button(self, text=".", command=lambda : self.UserInsert_entry.insert('end', "."))
 
         # Grid Layout
         self.UserInsert_entry.grid(row=5, column=2, sticky=(tk.E))
@@ -60,17 +60,14 @@ class Math_Screen(tk.Frame):
         number_button7.grid(row=8, column=2, sticky=(tk.E))
         number_button8.grid(row=8, column=3, sticky=(tk.E))
         number_button9.grid(row=8, column=4, sticky=(tk.W))
-        decimal_button0.grid(row=11, column=4, sticky=(tk.W))
-
-
-    # def update_answer_box(self):
-    #     characters_entered = []
+        decimal_button.grid(row=11, column=4, sticky=(tk.W))
 
     def update_time(self, start_time):
         self.time_left = start_time
-        for x in range(start_time, 0, -1):
+        for x in range(start_time, -1, -1):
+            self.time_left = x
             time.sleep(1)
-            self.Time_label.set(f"Time Left: {x}")
+            self.Time_label.set(f"Time Left: {self.time_left}")
             print(self.time_left)
 
     def submit_ans(self):
@@ -81,53 +78,6 @@ class Math_Screen(tk.Frame):
                 print(self.ans_insert.get())
         else:
             print("Your answer is blank.")
-
-    def clear_ans(self):
-        self.UserInsert_entry.delete(0, 'end')
-
-    def insert_num_zero(self):
-        #if self.insert_num.get():
-        self.UserInsert_entry.insert('end', "0")
-
-    def insert_num_one(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "1")
-
-    def insert_num_two(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "2")
-
-    def insert_num_three(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "3")
-
-    def insert_num_four(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "4")
-
-    def insert_num_five(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "5")
-
-    def insert_num_six(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "6")
-
-    def insert_num_seven(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "7")
-
-    def insert_num_eight(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "8")
-
-    def insert_num_nine(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', "9")
-
-    def insert_decimal(self):
-        #if self.ans_insert.get():
-        self.UserInsert_entry.insert('end', '.')
 
 
 class Math_Screen_Settings(tk.Tk):
@@ -147,8 +97,15 @@ class Math_Screen_Settings(tk.Tk):
 
         self.t1.start()
         self.t2.start()
+        self.protocol("WM_DELETE_WINDOW", self.close_down_app)
 
         self.columnconfigure(0, weight=1)
+
+    def close_down_app(self):
+        if self.math_screen.time_left > 0:
+            print("The timer must stop before the app is closed. ")
+        else:
+            app.destroy()
 
 
 if __name__ == '__main__':
