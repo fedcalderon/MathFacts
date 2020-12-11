@@ -1,6 +1,7 @@
 from tkinter import *
 import os
 import tkinter as tk
+from src.application.views import registration
 
 # # Designing window for login
 #
@@ -137,6 +138,7 @@ import tkinter as tk
 
 # Designing window for login
 
+
 def login():
     global login_screen
     login_screen = Tk()
@@ -165,6 +167,7 @@ def login():
     Label(login_screen, text="").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
     Button(login_screen, text="login", width=10, height=1, command=login_verify).grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
+
 # Implementing event on login button
 def login_verify():
     username1 = username_verify.get()
@@ -177,48 +180,39 @@ def login_verify():
         file1 = open(username1, "r")
         verify = file1.read().splitlines()
         if password1 in verify:
-            login_sucess()
+            result_of_verification("Successfully logged in.")
 
         else:
-            password_not_recognised()
+            result_of_verification("Password not recognized.")
 
     else:
-        user_not_found()
+        result_of_verification("User not found.")
 
 
-# Designing popup for login success
+def open_registration(screen_to_destroy):
+    screen_to_destroy.destroy()
+    registration.MyApplication().mainloop()
 
-def login_sucess():
-    global login_success_screen
+
+# Popup for login success/failure
+def result_of_verification(result_message):
     login_success_screen = Toplevel(login_screen)
-    login_success_screen.title("Success")
-    login_success_screen.geometry("100x100")
-    Label(login_success_screen, text="login Success").grid()
-    Button(login_success_screen, text="OK", height="1", width="15", command=login_success_screen.destroy) \
-        .grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+    login_success_screen.title("Login Result")
+    login_success_screen.geometry("140x140")
+    Label(login_success_screen, text=result_message).grid()
 
-# Designing popup for login invalid password
+    ok_button = Button(login_success_screen, text="OK", height="1", width="15", command=login_success_screen.destroy)
+    ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-def password_not_recognised():
-    password_not_recog_screen = Tk()
-    password_not_recog_screen.title("Success")
-    password_not_recog_screen.geometry("100x100")
-    Label(password_not_recog_screen, text="Invalid Password").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-    Button(password_not_recog_screen, text="OK", height="1", width="15", command=password_not_recog_screen.destroy) \
-        .grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+    if result_message == "User not found.":
+        Label(login_success_screen, text="Do you want to register?").grid()
+        Label(login_success_screen, text="").grid()
+        Button(login_success_screen, text="Register", height="1", width="15",
+                           command=lambda: open_registration(login_success_screen))\
+                           .grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
 
-# Designing popup for user not found
-
-def user_not_found():
-    user_not_found_screen = Toplevel(login_screen)
-    user_not_found_screen.title("Success")
-    user_not_found_screen.geometry("110x100")
-    Label(user_not_found_screen, text="User Not Found").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-    Button(user_not_found_screen, text="OK", height="1", width="15", command=user_not_found_screen.destroy)\
-        .grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-
+# The Main frame
 class MainAccountScreen(tk.Frame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
