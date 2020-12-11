@@ -29,17 +29,17 @@ class Math_Screen(tk.Frame):
                                 font=("TkDefaultFont", 10), wraplength=600)
 
         #Number buttons
-        number_button0 = ttk.Button(self, text="0", command=lambda : self.UserInsert_entry.insert('end', "0"))
-        number_button1 = ttk.Button(self, text="1", command=lambda : self.UserInsert_entry.insert('end', "1"))
-        number_button2 = ttk.Button(self, text="2", command=lambda : self.UserInsert_entry.insert('end', "2"))
-        number_button3 = ttk.Button(self, text="3", command=lambda : self.UserInsert_entry.insert('end', "3"))
-        number_button4 = ttk.Button(self, text="4", command=lambda : self.UserInsert_entry.insert('end', "4"))
-        number_button5 = ttk.Button(self, text="5", command=lambda : self.UserInsert_entry.insert('end', "5"))
-        number_button6 = ttk.Button(self, text="6", command=lambda : self.UserInsert_entry.insert('end', "6"))
-        number_button7 = ttk.Button(self, text="7", command=lambda : self.UserInsert_entry.insert('end', "7"))
-        number_button8 = ttk.Button(self, text="8", command=lambda : self.UserInsert_entry.insert('end', "8"))
-        number_button9 = ttk.Button(self, text="9", command=lambda : self.UserInsert_entry.insert('end', "9"))
-        decimal_button = ttk.Button(self, text=".", command=lambda : self.UserInsert_entry.insert('end', "."))
+        number_button0 = ttk.Button(self, text="0", command=lambda: self.UserInsert_entry.insert('end', "0"))
+        number_button1 = ttk.Button(self, text="1", command=lambda: self.UserInsert_entry.insert('end', "1"))
+        number_button2 = ttk.Button(self, text="2", command=lambda: self.UserInsert_entry.insert('end', "2"))
+        number_button3 = ttk.Button(self, text="3", command=lambda: self.UserInsert_entry.insert('end', "3"))
+        number_button4 = ttk.Button(self, text="4", command=lambda: self.UserInsert_entry.insert('end', "4"))
+        number_button5 = ttk.Button(self, text="5", command=lambda: self.UserInsert_entry.insert('end', "5"))
+        number_button6 = ttk.Button(self, text="6", command=lambda: self.UserInsert_entry.insert('end', "6"))
+        number_button7 = ttk.Button(self, text="7", command=lambda: self.UserInsert_entry.insert('end', "7"))
+        number_button8 = ttk.Button(self, text="8", command=lambda: self.UserInsert_entry.insert('end', "8"))
+        number_button9 = ttk.Button(self, text="9", command=lambda: self.UserInsert_entry.insert('end', "9"))
+        decimal_button = ttk.Button(self, text=".", command=lambda: self.UserInsert_entry.insert('end', "."))
 
         # Grid Layout
         self.UserInsert_entry.grid(row=5, column=2, sticky=(tk.E))
