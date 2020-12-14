@@ -6,7 +6,7 @@ import tkinter as tk
 # Designing window for login
 def login():
     global login_screen
-    login_screen = Toplevel(Tk())
+    login_screen = Tk()
 
     login_screen.title("Login")
     login_screen.geometry("300x250")
@@ -32,25 +32,7 @@ def login():
     Label(login_screen, text="").grid()
     Button(login_screen, text="login", width=10, height=1, command=login_verify).grid()
 
-# Implementing event on register button
-
-
-def register_user():
-    username_info = username.get()
-    password_info = password.get()
-
-    file = open(username_info, "w")
-    file.write(username_info + "\n")
-    file.write(password_info)
-    file.close()
-
-    username_entry.delete(0, END)
-    password_entry.delete(0, END)
-
-    Label(register_screen, text="Registration Success", fg="green", font=("calibri", 11)).grid()
-
 # Implementing event on login button
-
 def login_verify():
     username1 = username_verify.get()
     password1 = password_verify.get()
@@ -86,7 +68,7 @@ def login_sucess():
 
 def password_not_recognised():
     global password_not_recog_screen
-    password_not_recog_screen = Toplevel(login_screen)
+    password_not_recog_screen = Tk()
     password_not_recog_screen.title("Success")
     password_not_recog_screen.geometry("150x100")
     Label(password_not_recog_screen, text="Invalid Password ").grid()
@@ -116,23 +98,25 @@ def user_not_found():
 #     Label(text="").pack()
 #     main_screen.mainloop()
 
+
 class MainAccountScreen(tk.Frame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.login_label = Label(text="Select Your Choice", bg="blue", width="300", height="2", font=("Calibri", 13))
+        self.login_label = Label(self, text="Select Your Choice", bg="blue", font=("Calibri", 30))
+        self.login_label.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+        self.login_button = Button(self, text="Login", height="2", width="30", command=login)
+        self.login_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-        self.login_button = Button(text="Login", height="2", width="30", command=login)
-
-        Label(text="Select Your Choice", bg="blue", width="300", height="2", font=("Calibri", 13)).grid()
-        Label(text="").grid()
-        Button(text="Login", height="2", width="30", command=login).grid()
-        Label(text="").grid()
+        # Label(text="Select Your Choice", bg="blue", width="300", height="2", font=("Calibri", 13)).grid()
+        # Label(text="").grid()
+        # Button(text="Login", height="2", width="30", command=login).grid()
+        # Label(text="").grid()
 
 
 class LoginSelectionWindow(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.geometry("300x250")
+        self.geometry("305x250")
         self.title("Account Login")
         MainAccountScreen(self).grid()
 
