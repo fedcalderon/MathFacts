@@ -4,6 +4,28 @@ from tkinter import ttk
 import re
 import threading
 import time
+import random
+
+
+class Questions:
+    def addition_question(self):
+        #return [self.first_number, self.second_number]
+        self.first_number = random.randint(0, 10)
+        self.second_number = random.randint(0, 10)
+        self.answer = self.first_number + self.second_number
+        return f"What is {self.first_number} + {self.second_number}?"
+
+    def subtraction_question(self):
+        self.first_number = random.randint(0, 10)
+        self.second_number = random.randint(self.first_number, 10)
+        self.answer = self.first_number - self.second_number
+        return f"What is {self.first_number} - {self.second_number}?"
+
+    def multiply_numbers(self):
+        self.first_number = random.randint(0, 10)
+        self.second_number = random.randint(self.first_number, 10)
+        self.answer = self.first_number * self.second_number
+        return f"What is {self.first_number} x {self.second_number}?"
 
 
 class Math_Screen(tk.Frame):
@@ -18,7 +40,6 @@ class Math_Screen(tk.Frame):
         self.time_left = 0
 
         # User entry, Submit button and Labels for layout
-
         self.UserInsert_entry = ttk.Entry(self, textvariable=self.ans_insert)
         self.submit_button = ttk.Button(self, text="Submit", command=self.submit_ans)
         self.clear_button = ttk.Button(self, text="Clear", command= lambda : self.UserInsert_entry.delete(0, 'end'))
@@ -27,6 +48,9 @@ class Math_Screen(tk.Frame):
 
         Time_label = ttk.Label(self, textvariable=self.Time_label,
                                 font=("TkDefaultFont", 10), wraplength=600)
+
+        # Display Questions
+        self.handle_questions()
 
         #Number buttons
         number_button0 = ttk.Button(self, text="0", command=lambda: self.UserInsert_entry.insert('end', "0"))
@@ -62,6 +86,15 @@ class Math_Screen(tk.Frame):
         number_button9.grid(row=8, column=4, sticky=(tk.W))
         decimal_button.grid(row=11, column=4, sticky=(tk.W))
 
+    def handle_questions(self):
+        self.Addition_Question = Questions()
+        self.Display_Question = tk.StringVar()
+        self.Display_Question.set(self.Addition_Question.addition_question())
+        addition_question = ttk.Label(self, textvariable=self.Display_Question,
+                                      font=("TkDefaultFont", 10), wraplength=600)
+
+        addition_question.grid(row=1, column=0, sticky=tk.W)
+
     def update_time(self, start_time):
         self.time_left = start_time
         for x in range(start_time, -1, -1):
@@ -75,9 +108,18 @@ class Math_Screen(tk.Frame):
             if re.search('[a-zA-Z]', self.ans_insert.get()):
                 print("Your answer is incomprehensible.")
             else:
-                print(self.ans_insert.get())
+                # For
+                if int(self.ans_insert.get()) == (self.Addition_Question.first_number + self.Addition_Question.second_number):
+                    self.reset_fields()
+                    self.ans_insert.set('')
+                else:
+                    print("Your answer is wrong.")
         else:
             print("Your answer is blank.")
+
+    def reset_fields(self):
+        self.Display_Question.set(self.Addition_Question.addition_question())
+        self.ans_insert.set('')
 
 
 class Math_Screen_Settings(tk.Tk):
