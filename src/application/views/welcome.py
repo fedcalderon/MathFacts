@@ -99,11 +99,9 @@ class LinksFrame(tk.Frame):
         TermsOfUseWindow(root).pack(expand=True, fill='both')
         root.mainloop()
 
-    # METHOD IS BROKEN. DO NOT TOUCH.
     def Login_start(self):
-        #login.main_account_screen()
-        selection_window = login.LoginSelectionWindow()
-        selection_window.mainloop()
+        # Call login function
+        login.login()
 
     # Open registration.py
     def Registration_start(self):

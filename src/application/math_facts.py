@@ -7,7 +7,5 @@ from src.application.welcome import welcome_page_links
 from src.application.views.welcome import WelcomeView
 import tkinter as tk
 
-
-if __name__ == '__main__':
-    app = WelcomeView()
-    app.mainloop()
+app = WelcomeView()
+app.mainloop()
