@@ -104,9 +104,13 @@ class Math_Screen(tk.Frame):
             print(self.time_left)
 
     def submit_ans(self):
+        self.answer_verification = tk.StringVar()
         if len(self.ans_insert.get()) > 0:
             if re.search('[a-zA-Z]', self.ans_insert.get()):
                 print("Your answer is incomprehensible.")
+                self.answer_verification.set("\nYour answer is incomprehensible")
+                ttk.Label(self, textvariable=self.answer_verification,
+                          font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
             else:
                 # For
                 if int(self.ans_insert.get()) == (self.Addition_Question.first_number + self.Addition_Question.second_number):
@@ -114,8 +118,14 @@ class Math_Screen(tk.Frame):
                     self.ans_insert.set('')
                 else:
                     print("Your answer is wrong.")
+                    self.answer_verification.set("\nYour answer is wrong")
+                    ttk.Label(self, textvariable=self.answer_verification,
+                              font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
         else:
             print("Your answer is blank.")
+            self.answer_verification.set("\nYour answer is blank")
+            ttk.Label(self, textvariable=self.answer_verification,
+                      font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
 
     def reset_fields(self):
         self.Display_Question.set(self.Addition_Question.addition_question())
@@ -140,12 +150,12 @@ class Math_Screen_Settings(tk.Tk):
         self.t1.start()
         self.t2.start()
         self.protocol("WM_DELETE_WINDOW", self.close_down_app)
-
         self.columnconfigure(0, weight=1)
 
     def close_down_app(self):
         if self.math_screen.time_left > 0:
             print("The timer must stop before the app is closed. ")
+
         else:
             app.destroy()
 
