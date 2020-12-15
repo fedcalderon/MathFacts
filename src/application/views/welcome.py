@@ -80,6 +80,7 @@ class DescriptionFrame(tk.Frame):
 class LinksFrame(tk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
+
         # Frame with button links
         self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
         self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
@@ -90,14 +91,17 @@ class LinksFrame(tk.Frame):
         self.login_button = ttk.Button(self, text="Login", command=self.Login_start)
         self.login_button.grid(row=100, column=200, sticky=(tk.E))
 
+        # Popup Windows
+        self.root = tk.Tk()
+        self.registration_app = registration.MyApplication()
+
     def terms_of_use_open(self):
         # Terms of use window
-        root = tk.Tk()
-        root.title('Terms Of Use')
-        root.resizable(width=False, height=False)
-        root.geometry('340x121')
-        TermsOfUseWindow(root).pack(expand=True, fill='both')
-        root.mainloop()
+        self.root.title('Terms Of Use')
+        self.root.resizable(width=False, height=False)
+        self.root.geometry('340x121')
+        TermsOfUseWindow(self.root).pack(expand=True, fill='both')
+        self.root.mainloop()
 
     # METHOD IS BROKEN. DO NOT TOUCH.
     def Login_start(self):
@@ -107,8 +111,7 @@ class LinksFrame(tk.Frame):
 
     # Open registration.py
     def Registration_start(self):
-        app = registration.MyApplication()
-        app.mainloop()
+        self.registration_app.mainloop()
 
 
 class WelcomeView(tk.Tk):
@@ -131,3 +134,5 @@ class WelcomeView(tk.Tk):
         self.links.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
         self.columnconfigure(0, weight=1)
+
+    #def close_everything(self):

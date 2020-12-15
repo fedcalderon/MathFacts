@@ -172,6 +172,7 @@ def login():
 def login_verify():
     username1 = username_verify.get()
     password1 = password_verify.get()
+
     username_login_entry.delete(0, END)
     password_login_entry.delete(0, END)
 

@@ -3,11 +3,12 @@
 
 import tkinter as tk
 from tkinter import ttk
+from src.application.views import math_screen
 
 
 class OptionFrame(tk.Frame):
     """A frame that contains one option for the user."""
-    def __init__(self, parent, name, detail='', *args, **kwargs):
+    def __init__(self, parent, name, detail, ID, *args, **kwargs):
         """Initializes an OptionFrame widget.
         :param parent: the parent widget
         :param name: the name of the option
@@ -15,10 +16,12 @@ class OptionFrame(tk.Frame):
         # Set the text of the LabelFrame to this option's name
         super().__init__(parent, padx=20, pady=20, width=500, *args, **kwargs)
         self.name = name
+        self.ID = ID
 
         # Create users_list LabelFrame inside the Frame
         self.label_frame = tk.LabelFrame(self, text=name, font=("TkDefaultFont", 16), padx=5, pady=5)
         self.label_frame.pack(expand=True, fill='both')  # Source: https://stackoverflow.com/questions/28419763/expand-text-widget-to-fill-the-entire-parent-frame-in-tkinter
+        self.start_is_clicked = False
 
         # Create and position the widgets in the LabelFrame
         detail_label = ttk.Label(self.label_frame, text=detail, padding=(0, 0, 50, 10))
@@ -33,7 +36,9 @@ class OptionFrame(tk.Frame):
         """Handle the start button pressed event."""
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
-
+        app = math_screen.Math_Screen_Settings('1-ADD')
+        self.start_is_clicked  = True
+        app.mainloop()
 
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
@@ -56,41 +61,41 @@ class SelectionView(tk.Frame):
         toolbar.add_cascade(label='Reports', menu=reports_menu)
 
         # Make a list to hold all the options
-        options = []
+        self.options = []
 
         # Use the grade to determine which tests to show
         if grade == 1:
-            options.append(OptionFrame(self, 'Addition', 'Single digit addition.'))
-            options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction'))
-        elif grade == 2:
-            options.append(OptionFrame(self, 'Addition', 'Double digit addition.'))
-            options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.'))
-        elif grade == 3:
-            options.append(OptionFrame(self, 'Addition', 'Double digit addition.'))
-            options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.'))
-            options.append(OptionFrame(self, 'Multiplication', 'Single digit multiplication.'))
-        elif grade == 4:
-            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
-            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
-            options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.'))
-            options.append(OptionFrame(self, 'Division', 'Whole number division'))
-        elif grade == 5:
-            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
-            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
-            options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.'))
-            options.append(OptionFrame(self, 'Division', 'Double digit division'))
-        elif grade >= 6:
-            options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
-            options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
-            options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.'))
-            options.append(OptionFrame(self, 'Division', 'Double digit division'))
-            options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
+            self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD'))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB'))
+        # elif grade == 2:
+        #     options.append(OptionFrame(self, 'Addition', 'Double digit addition.'))
+        #     options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.'))
+        # elif grade == 3:
+        #     options.append(OptionFrame(self, 'Addition', 'Double digit addition.'))
+        #     options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.'))
+        #     options.append(OptionFrame(self, 'Multiplication', 'Single digit multiplication.'))
+        # elif grade == 4:
+        #     options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+        #     options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
+        #     options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.'))
+        #     options.append(OptionFrame(self, 'Division', 'Whole number division'))
+        # elif grade == 5:
+        #     options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+        #     options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
+        #     options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.'))
+        #     options.append(OptionFrame(self, 'Division', 'Double digit division'))
+        # elif grade >= 6:
+        #     options.append(OptionFrame(self, 'Addition', 'Triple digit addition.'))
+        #     options.append(OptionFrame(self, 'Subtraction', 'Triple digit subtraction.'))
+        #     options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.'))
+        #     options.append(OptionFrame(self, 'Division', 'Double digit division'))
+        #     options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
         # Place the options in the grid automatically
         max_columns = 2
         row = 0
         column = 0
-        for option in options:
+        for option in self.options:
             # Add the option to the grid
             option.grid(row=row, column=column, sticky=(tk.E + tk.W))
 
@@ -106,5 +111,9 @@ if __name__ == '__main__':
     root = tk.Tk()
     root.title('Math Facts Practice')
     root.resizable(width=False, height=False)
-    SelectionView(root, grade=7).pack(expand=True, fill='both')
+    sv = SelectionView(root, grade=1)
+    sv.pack(expand=True, fill='both')
     root.mainloop()
+        # ID = '1-ADD'
+        # app = math_screen.Math_Screen_Settings(ID)
+        # app.mainloop()

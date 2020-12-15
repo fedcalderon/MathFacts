@@ -16,16 +16,16 @@ class LoginInformation(tk.LabelFrame):
         # self.configure(bg="gold")
 
         self.Username = tk.StringVar()
-        username_label = ttk.Label(self, text="Enter Username")
-        username_button = ttk.Entry(self, textvariable=self.Username)
-        username_label.grid(row=0, column=0, sticky=(tk.W))
-        username_button.grid(row=100, column=0, sticky=(tk.W))
+        self.username_label = ttk.Label(self, text="Enter Username")
+        self.username_button = ttk.Entry(self, textvariable=self.Username)
+        self.username_label.grid(row=0, column=0, sticky=(tk.W))
+        self.username_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.Password = tk.StringVar()
-        password_label = ttk.Label(self, text="Enter Password")
-        password_button = ttk.Entry(self, textvariable=self.Password)
-        password_label.grid(row=0, column=100, sticky=(tk.W))
-        password_button.grid(row=100, column=100, sticky=(tk.W))
+        self.password_label = ttk.Label(self, text="Enter Password")
+        self.password_button = ttk.Entry(self, textvariable=self.Password)
+        self.password_label.grid(row=0, column=100, sticky=(tk.W))
+        self.password_button.grid(row=100, column=100, sticky=(tk.W))
 
 
 class Guardian1Info(tk.LabelFrame):
@@ -34,16 +34,16 @@ class Guardian1Info(tk.LabelFrame):
         # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
-        first_name_label = ttk.Label(self, text="First Name")
-        first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        first_name_label.grid(row=0, column=0, sticky=(tk.W))
-        first_name_button.grid(row=100, column=0, sticky=(tk.W))
+        self.first_name_label = ttk.Label(self, text="First Name")
+        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
+        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.LastName = tk.StringVar()
-        last_name_label = ttk.Label(self, text="Last Name")
-        last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        last_name_label.grid(row=0, column=100, sticky=(tk.W))
-        last_name_button.grid(row=100, column=100, sticky=(tk.W))
+        self.last_name_label = ttk.Label(self, text="Last Name")
+        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
+        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
 
 
 class Guardian2Info(tk.LabelFrame):
@@ -52,16 +52,16 @@ class Guardian2Info(tk.LabelFrame):
         # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
-        first_name_label = ttk.Label(self, text="First Name")
-        first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        first_name_label.grid(row=0, column=0, sticky=(tk.W))
-        first_name_button.grid(row=100, column=0, sticky=(tk.W))
+        self.first_name_label = ttk.Label(self, text="First Name")
+        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
+        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.LastName = tk.StringVar()
-        last_name_label = ttk.Label(self, text="Last Name")
-        last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        last_name_label.grid(row=0, column=100, sticky=(tk.W))
-        last_name_button.grid(row=100, column=100, sticky=(tk.W))
+        self.last_name_label = ttk.Label(self, text="Last Name")
+        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
+        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
 
 
 class ChildInformation(tk.LabelFrame):
@@ -70,34 +70,34 @@ class ChildInformation(tk.LabelFrame):
         # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
-        first_name_label = ttk.Label(self, text="First Name")
-        first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        first_name_label.grid(row=0, column=0, sticky=(tk.W))
-        first_name_button.grid(row=100, column=0, sticky=(tk.W))
+        self.first_name_label = ttk.Label(self, text="First Name")
+        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
+        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.LastName = tk.StringVar()
-        last_name_label = ttk.Label(self, text="Last Name")
-        last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        last_name_label.grid(row=0, column=100, sticky=(tk.W))
-        last_name_button.grid(row=100, column=100, sticky=(tk.W))
+        self.last_name_label = ttk.Label(self, text="Last Name")
+        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
+        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
 
         self.Grade = tk.StringVar()
-        grade_label = ttk.Label(self, text="Grade of Child")
-        grade_button = ttk.Combobox(self, width=27, textvariable=self.Grade)
-        grade_values = ["Preschool", "Kindergarten"]
-        for x in range(1, 19): grade_values.append(str(x))
-        grade_button['values'] = tuple(grade_values)
-        grade_label.grid(row=200, column=00, sticky=tk.W)
-        grade_button.grid(row=300, column=00, sticky=(tk.W))
+        self.grade_label = ttk.Label(self, text="Grade of Child")
+        self.grade_button = ttk.Combobox(self, width=27, textvariable=self.Grade)
+        self.grade_values = ["Preschool", "Kindergarten"]
+        for x in range(1, 19): self.grade_values.append(str(x))
+        self.grade_button['values'] = tuple(self.grade_values)
+        self.grade_label.grid(row=200, column=00, sticky=tk.W)
+        self.grade_button.grid(row=300, column=00, sticky=(tk.W))
 
         self.Age = tk.StringVar()
-        age_label = ttk.Label(self, text="Age of Child")
-        age_button = ttk.Combobox(self, width=27, textvariable=self.Age)
-        age_values = ["Under 5"]
-        for x in range(5, 19): age_values.append(str(x))
-        age_button['values'] = tuple(age_values)
-        age_label.grid(row=200, column=100, sticky=tk.W)
-        age_button.grid(row=300, column=100, sticky=(tk.W))
+        self.age_label = ttk.Label(self, text="Age of Child")
+        self.age_button = ttk.Combobox(self, width=27, textvariable=self.Age)
+        self.age_values = ["Under 5"]
+        for x in range(5, 19): self.age_values.append(str(x))
+        self.age_button['values'] = tuple(self.age_values)
+        self.age_label.grid(row=200, column=100, sticky=tk.W)
+        self.age_button.grid(row=300, column=100, sticky=(tk.W))
 
 
 class MyApplication(tk.Tk):
@@ -142,7 +142,7 @@ class MyApplication(tk.Tk):
 
     def save(self):
         self.user_count = self.user_count
-        all_information = {
+        self.all_information = {
             "child_first_name": self.c.FirstName.get(),
             "child_last_name": self.c.LastName.get(),
             "child_grade": self.c.Grade.get(),
@@ -158,12 +158,12 @@ class MyApplication(tk.Tk):
             "password": self.l.Password.get(),
         }
 
-        for key in all_information:
+        for key in self.all_information:
             if key == "guardian_2_first_name" or key == "guardian_2_last_name":
                 pass
 
             else:
-                if (all_information.get(key) == ""):
+                if (self.all_information.get(key) == ""):
                     self.field = ttk.Label(self, text="Not all required fields have been answered"
                                            , font=("TkDefaultFont", 10), wraplength=600)
                     self.field.grid(row=1400, column=0, sticky=tk.W)
@@ -183,7 +183,7 @@ class MyApplication(tk.Tk):
                 #     json.dump({f"user {self.user_count}": all_information}, jsonfile)
 
                 with open(self.users_data_file, 'w') as jsonfile:
-                    json.dump({f"user {self.user_count}": all_information}, jsonfile)
+                    json.dump({f"user {self.user_count}": self.all_information}, jsonfile)
 
                 with open(self.users_data_file) as jsonfile:
                     users_data = json.load(jsonfile)
@@ -191,15 +191,16 @@ class MyApplication(tk.Tk):
                 self.user_count = self.user_count + 1
                 self.users_list.append(users_data)
 
-                all_users = {}
+                self.all_users = {}
                 for user in self.users_list:
                     for key in user:
-                        all_users.update({key : user[key]})
+                        self.all_users.update({key : user[key]})
 
                 with open(self.users_data_file, 'w') as jsonfile:
-                    json.dump(all_users, jsonfile)
+                    json.dump(self.all_users, jsonfile)
 
                 app.destroy()
+
 
 if __name__ == "__main__":
     app = MyApplication()
