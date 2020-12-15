@@ -198,8 +198,8 @@ class MyApplication(tk.Tk):
 
                 with open(self.users_data_file, 'w') as jsonfile:
                     json.dump(all_users, jsonfile)
-    #def write_to_users_file(self):
 
+                app.destroy()
 
 if __name__ == "__main__":
     app = MyApplication()

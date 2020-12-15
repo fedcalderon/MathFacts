@@ -228,6 +228,7 @@ class LoginSelectionWindow(tk.Tk):
         self.geometry("275x250")
         self.title("Account Login")
         MainAccountScreen(self).grid()
+        #login()
 
 
 if __name__ == '__main__':

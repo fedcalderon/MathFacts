@@ -101,9 +101,9 @@ class LinksFrame(tk.Frame):
 
     # METHOD IS BROKEN. DO NOT TOUCH.
     def Login_start(self):
-        #login.main_account_screen()
-        selection_window = login.LoginSelectionWindow()
-        selection_window.mainloop()
+        login.login()
+        #selection_window = login.LoginSelectionWindow()
+        #selection_window.mainloop()
 
     # Open registration.py
     def Registration_start(self):
