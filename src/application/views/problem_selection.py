@@ -38,7 +38,7 @@ class OptionFrame(tk.Frame):
         print(f"Starting {self.name} activity...")
         self.app = math_screen.Math_Screen_Settings('1-ADD')
         self.start_is_clicked  = True
-        self.app.update()
+        # self.app.update()
         self.app.mainloop()
 
 class SelectionView(tk.Frame):

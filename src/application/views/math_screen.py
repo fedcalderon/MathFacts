@@ -104,10 +104,11 @@ class Math_Screen(tk.Frame):
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
         self.Question_Count = 0
+        self.Total_Questions = 10
         self.all_questions_list = []
 
         self.Question_label = tk.StringVar()
-        self.Question_label.set("Question # of 100")
+        self.Question_label.set(f"Question # of {self.Total_Questions}")
         self.Time_label = tk.StringVar()
         self.time_left = 0
 
@@ -124,6 +125,7 @@ class Math_Screen(tk.Frame):
         self.Question_Label = ttk.Label(self, textvariable=self.Question_label,
                                 font=("TkDefaultFont", 10), wraplength=600)
         self.Question_is_correct = False
+        self.incorrect_questions = 0
 
         Time_label = ttk.Label(self, textvariable=self.Time_label,
                                 font=("TkDefaultFont", 10), wraplength=600)
@@ -200,17 +202,19 @@ class Math_Screen(tk.Frame):
                             if self.all_questions_list[x][0] == self.all_questions_list[x - 1][0]:
                                 self.all_questions_list[x].append("INCORRECT")
                                 self.all_questions_list.remove(self.all_questions_list[x - 1])
+                                self.incorrect_questions += 1
 
                         if len(self.all_questions_list) > 2:
                             if self.all_questions_list[x][0] == self.all_questions_list[x - 1][0]:
                                 self.all_questions_list[x - 1].append("INCORRECT")
                                 self.all_questions_list.remove(self.all_questions_list[x])
+                                self.incorrect_questions += 1
 
 
                 # If the student's answer is correct...
                 if int(self.ans_insert.get()) == (self.Question.answer):
                     self.Question_Count = self.Question_Count + 1
-                    self.Question_label.set(f"Question #{self.Question_Count} of 100")
+                    self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
                     self.reset_fields()
 
                 else:
@@ -253,6 +257,7 @@ class Math_Screen_Settings(tk.Tk):
         #
         # self.t1.start()
         # self.t2.start()
+
         self.protocol("WM_DELETE_WINDOW", self.close_down_app)
         self.columnconfigure(0, weight=1)
 
@@ -265,6 +270,7 @@ class Math_Screen_Settings(tk.Tk):
 
 
 if __name__ == '__main__':
-    ID = '1-ADD'
-    app = Math_Screen_Settings(ID)
-    app.mainloop()
+    test_ID = '1-ADD'
+    app = Math_Screen_Settings(test_ID)
+    while len(app.math_screen.all_questions_list) < 3:
+        app.mainloop()
