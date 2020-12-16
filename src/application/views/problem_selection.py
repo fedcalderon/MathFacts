@@ -36,9 +36,10 @@ class OptionFrame(tk.Frame):
         """Handle the start button pressed event."""
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
-        app = math_screen.Math_Screen_Settings('1-ADD')
+        self.app = math_screen.Math_Screen_Settings('1-ADD')
         self.start_is_clicked  = True
-        app.mainloop()
+        self.app.update()
+        self.app.mainloop()
 
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""

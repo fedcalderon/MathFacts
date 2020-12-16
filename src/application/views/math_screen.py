@@ -11,107 +11,78 @@ import math
 class Questions:
     def __init__(self, ID):
         self.ID = ID
+        self.all_questions_taken = []
+        #self.all_questions_taken.append([f"What is {self.first_number} + {self.second_number}?",  f"{self.answer}"])
+        print(self.all_questions_taken)
 
     def toggle_topics(self):
         # Addition
         if self.ID == '1-ADD':
-            return self.one_digit_addition()
+            self.first_number = random.randint(0, 10)
+            self.second_number = random.randint(0, 10)
+            self.answer = self.first_number + self.second_number
+            return f"What is {self.first_number} + {self.second_number}?"
 
         elif self.ID == '2-ADD':
-            return self.two_digit_addition()
+            self.first_number = random.randint(10, 99)
+            self.second_number = random.randint(0, 99)
+            self.answer = self.first_number + self.second_number
+            return f"What is {self.first_number} + {self.second_number}?"
 
         elif self.ID == '3-ADD':
-            return self.multi_digit_addition()
+            self.first_number = random.randint(12, 9999)
+            self.second_number = random.randint(10, self.first_number)
+            self.answer = self.first_number + self.second_number
+            return f"What is {self.first_number} + {self.second_number}?"
 
         # Subtraction
         elif self.ID == '1-SUB':
-            return self.one_digit_subtraction()
+            self.first_number = random.randint(0, 10)
+            self.second_number = random.randint(0, self.first_number)
+            self.answer = self.first_number - self.second_number
+            return f"What is {self.first_number} - {self.second_number}?"
 
         elif self.ID == '2-SUB':
-            return self.one_digit_subtraction()
+            self.first_number = random.randint(10, 99)
+            self.second_number = random.randint(0, self.first_number - 1)
+            self.answer = self.first_number - self.second_number
+            return f"What is {self.first_number} - {self.second_number}?"
 
         elif self.ID == '3_SUB':
-            return self.multi_digit_subtraction()
+            self.first_number = random.randint(12, 9999)
+            self.second_number = random.randint(0, self.first_number)
+            self.answer = self.first_number - self.second_number
+            return f"What is {self.first_number} - {self.second_number}?"
 
         # Multiplication
         elif self.ID == '1-MUL':
-            return self.one_digit_multiplication()
+            self.first_number = random.randint(0, 10)
+            self.second_number = random.randint(0, 10)
+            self.answer = self.first_number * self.second_number
+            return f"What is {self.first_number} x {self.second_number}?"
 
         elif self.ID == '2-MUL':
-            return self.two_digit_multiplication()
+            self.first_number = random.randint(10, 99)
+            self.second_number = random.randint(1, 99)
+            self.answer = self.first_number * self.second_number
+            return f"What is {self.first_number} x {self.second_number}?"
 
         # Division
         elif self.ID == '1-DIV':
-            return self.one_digit_division()
+            self.first_number = random.randint(1, 100)
+            self.divisors = [x for x in range(1, 10) if self.first_number % x == 0]
+            self.second_number = self.divisors[random.randint(0, len(self.divisors) - 1)]
+            self.answer = self.first_number / self.second_number
+            return f"What is {self.first_number} / {self.second_number}?"
 
         elif self.ID == '2-DIV':
-            return self.two_digit_division()
+            self.first_number = random.randint(1, 9999)
+            self.divisors = [x for x in range(10, 99) if self.first_number % x == 0]
+            self.second_number = self.divisors[random.randint(1, len(self.divisors) - 1)]
+            self.answer = self.first_number / self.second_number
+            return f"What is {self.first_number} / {self.second_number}?"
 
-    def one_digit_addition(self):
-        #return [self.first_number, self.second_number]
-        self.first_number = random.randint(0, 10)
-        self.second_number = random.randint(0, 10)
-        self.answer = self.first_number + self.second_number
-        return f"What is {self.first_number} + {self.second_number}?"
 
-    def two_digit_addition(self):
-        self.first_number = random.randint(10, 99)
-        self.second_number = random.randint(0, 99)
-
-        self.answer = self.first_number + self.second_number
-        return f"What is {self.first_number} + {self.second_number}?"
-
-    def multi_digit_addition(self):
-        self.first_number = random.randint(12, 9999)
-        self.second_number = random.randint(10, self.first_number)
-
-        self.answer = self.first_number + self.second_number
-        return f"What is {self.first_number} + {self.second_number}?"
-
-    def one_digit_subtraction(self):
-        self.first_number = random.randint(0, 10)
-        self.second_number = random.randint(0, self.first_number)
-        self.answer = self.first_number - self.second_number
-        return f"What is {self.first_number} - {self.second_number}?"
-
-    def two_digit_subtraction(self):
-        self.first_number = random.randint(10, 99)
-        self.second_number = random.randint(0, self.first_number - 1)
-        self.answer = self.first_number - self.second_number
-        return f"What is {self.first_number} - {self.second_number}?"
-
-    def multi_digit_subtraction(self):
-        self.first_number = random.randint(12, 9999)
-        self.second_number = random.randint(0, self.first_number)
-
-        self.answer = self.first_number - self.second_number
-        return f"What is {self.first_number} - {self.second_number}?"
-
-    def one_digit_multiplication(self):
-        self.first_number = random.randint(0, 10)
-        self.second_number = random.randint(0, 10)
-        self.answer = self.first_number * self.second_number
-        return f"What is {self.first_number} x {self.second_number}?"
-
-    def two_digit_multiplication(self):
-        self.first_number = random.randint(10, 99)
-        self.second_number = random.randint(1, 99)
-        self.answer = self.first_number * self.second_number
-        return f"What is {self.first_number} x {self.second_number}?"
-
-    def one_digit_division(self):
-        self.first_number = random.randint(1, 100)
-        self.divisors = [x for x in range(1, 10) if self.first_number % x == 0]
-        self.second_number = self.divisors[random.randint(0, len(self.divisors) - 1)]
-        self.answer = self.first_number / self.second_number
-        return f"What is {self.first_number} / {self.second_number}?"
-
-    def two_digit_division(self):
-        self.first_number = random.randint(1, 9999)
-        self.divisors = [x for x in range(10, 99) if self.first_number % x == 0]
-        self.second_number = self.divisors[random.randint(1, len(self.divisors) - 1)]
-        self.answer = self.first_number / self.second_number
-        return f"What is {self.first_number} / {self.second_number}?"
 
 
 class Math_Screen(tk.Frame):
@@ -121,12 +92,17 @@ class Math_Screen(tk.Frame):
         self.answer_verification = tk.StringVar()
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
+        self.Question_Count = 0
+        self.all_questions_list = []
+
         self.Question_label = tk.StringVar()
         self.Question_label.set("Question # of 100")
         self.Time_label = tk.StringVar()
         self.time_left = 0
+
         self.ID = ID
         self.Question = Questions(self.ID)
+        #self.
 
         # User entry, Submit button and Labels for layout
         self.UserInsert_entry = ttk.Entry(self, textvariable=self.ans_insert)
@@ -143,23 +119,23 @@ class Math_Screen(tk.Frame):
 
         self.Display_Question = tk.StringVar()
         self.Display_Question.set(self.Question.toggle_topics())
-        addition_question = ttk.Label(self, textvariable=self.Display_Question,
+        self.addition_question = ttk.Label(self, textvariable=self.Display_Question,
                                       font=("TkDefaultFont", 10), wraplength=600)
 
-        addition_question.grid(row=1, column=0, sticky=tk.W)
+        self.addition_question.grid(row=1, column=0, sticky=tk.W)
 
         #Number buttons
-        number_button0 = ttk.Button(self, text="0", command=lambda: self.UserInsert_entry.insert('end', "0"))
-        number_button1 = ttk.Button(self, text="1", command=lambda: self.UserInsert_entry.insert('end', "1"))
-        number_button2 = ttk.Button(self, text="2", command=lambda: self.UserInsert_entry.insert('end', "2"))
-        number_button3 = ttk.Button(self, text="3", command=lambda: self.UserInsert_entry.insert('end', "3"))
-        number_button4 = ttk.Button(self, text="4", command=lambda: self.UserInsert_entry.insert('end', "4"))
-        number_button5 = ttk.Button(self, text="5", command=lambda: self.UserInsert_entry.insert('end', "5"))
-        number_button6 = ttk.Button(self, text="6", command=lambda: self.UserInsert_entry.insert('end', "6"))
-        number_button7 = ttk.Button(self, text="7", command=lambda: self.UserInsert_entry.insert('end', "7"))
-        number_button8 = ttk.Button(self, text="8", command=lambda: self.UserInsert_entry.insert('end', "8"))
-        number_button9 = ttk.Button(self, text="9", command=lambda: self.UserInsert_entry.insert('end', "9"))
-        decimal_button = ttk.Button(self, text=".", command=lambda: self.UserInsert_entry.insert('end', "."))
+        self.number_button0 = ttk.Button(self, text="0", command=lambda: self.UserInsert_entry.insert('end', "0"))
+        self.number_button1 = ttk.Button(self, text="1", command=lambda: self.UserInsert_entry.insert('end', "1"))
+        self.number_button2 = ttk.Button(self, text="2", command=lambda: self.UserInsert_entry.insert('end', "2"))
+        self.number_button3 = ttk.Button(self, text="3", command=lambda: self.UserInsert_entry.insert('end', "3"))
+        self.number_button4 = ttk.Button(self, text="4", command=lambda: self.UserInsert_entry.insert('end', "4"))
+        self.number_button5 = ttk.Button(self, text="5", command=lambda: self.UserInsert_entry.insert('end', "5"))
+        self.number_button6 = ttk.Button(self, text="6", command=lambda: self.UserInsert_entry.insert('end', "6"))
+        self.number_button7 = ttk.Button(self, text="7", command=lambda: self.UserInsert_entry.insert('end', "7"))
+        self.number_button8 = ttk.Button(self, text="8", command=lambda: self.UserInsert_entry.insert('end', "8"))
+        self.number_button9 = ttk.Button(self, text="9", command=lambda: self.UserInsert_entry.insert('end', "9"))
+        self.decimal_button = ttk.Button(self, text=".", command=lambda: self.UserInsert_entry.insert('end', "."))
 
         # Grid Layout
         self.UserInsert_entry.grid(row=5, column=2, sticky=(tk.E))
@@ -170,17 +146,17 @@ class Math_Screen(tk.Frame):
         self.columnconfigure(1, weight=1)
 
         # number button grid
-        number_button0.grid(row=11, column=2, sticky=(tk.E))
-        number_button1.grid(row=10, column=2, sticky=(tk.E))
-        number_button2.grid(row=10, column=3, sticky=(tk.E))
-        number_button3.grid(row=10, column=4, sticky=(tk.W))
-        number_button4.grid(row=9, column=2, sticky=(tk.E))
-        number_button5.grid(row=9, column=3, sticky=(tk.E))
-        number_button6.grid(row=9, column=4, sticky=(tk.W))
-        number_button7.grid(row=8, column=2, sticky=(tk.E))
-        number_button8.grid(row=8, column=3, sticky=(tk.E))
-        number_button9.grid(row=8, column=4, sticky=(tk.W))
-        decimal_button.grid(row=11, column=4, sticky=(tk.W))
+        self.number_button0.grid(row=11, column=2, sticky=(tk.E))
+        self.number_button1.grid(row=10, column=2, sticky=(tk.E))
+        self.number_button2.grid(row=10, column=3, sticky=(tk.E))
+        self.number_button3.grid(row=10, column=4, sticky=(tk.W))
+        self.number_button4.grid(row=9, column=2, sticky=(tk.E))
+        self.number_button5.grid(row=9, column=3, sticky=(tk.E))
+        self.number_button6.grid(row=9, column=4, sticky=(tk.W))
+        self.number_button7.grid(row=8, column=2, sticky=(tk.E))
+        self.number_button8.grid(row=8, column=3, sticky=(tk.E))
+        self.number_button9.grid(row=8, column=4, sticky=(tk.W))
+        self.decimal_button.grid(row=11, column=4, sticky=(tk.W))
 
     def update_time(self, start_time):
         self.time_left = start_time
@@ -198,8 +174,15 @@ class Math_Screen(tk.Frame):
                 ttk.Label(self, textvariable=self.answer_verification,
                           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
             else:
-                # For
+                # If the student's answer is correct...
                 if int(self.ans_insert.get()) == (self.Question.answer):
+                    self.Question_Count = self.Question_Count + 1
+
+                    self.all_questions_list.append([f"What is {self.Question.first_number} + "
+                                                    f"{self.Question.second_number}?",  f"{self.Question.answer}"])
+                    print(self.all_questions_list)
+
+                    self.Question_label.set(f"Question #{self.Question_Count} of 100")
                     self.reset_fields()
                 else:
                     print("Your answer is wrong.")
@@ -215,6 +198,7 @@ class Math_Screen(tk.Frame):
     def reset_fields(self):
         self.Display_Question.set(self.Question.toggle_topics())
         self.answer_verification.set('')
+        self.ans_insert.set('')
 
 
 class Math_Screen_Settings(tk.Tk):
@@ -235,7 +219,7 @@ class Math_Screen_Settings(tk.Tk):
         #
         # self.t1.start()
         # self.t2.start()
-        self.protocol("WM_DELETE_WINDOW", self.close_down_app)
+        #self.protocol("WM_DELETE_WINDOW", self.close_down_app)
         self.columnconfigure(0, weight=1)
 
     def close_down_app(self):
@@ -247,6 +231,6 @@ class Math_Screen_Settings(tk.Tk):
 
 
 if __name__ == '__main__':
-    ID = '2-DIV'
+    ID = '1-ADD'
     app = Math_Screen_Settings(ID)
     app.mainloop()
