@@ -19,7 +19,7 @@ class LinksFrame(Frame):
 
         # desc_label = Label(self, text=description, wraplength=400, font=("TkDefaultFont", 11))
         for x in range(0, len(ms_window.math_screen.all_questions_list)):
-            if(len(ms_window.math_screen.all_questions_list[x]) >= 3):
+            if(len(ms_window.math_screen.all_questions_list[x]) >= ms_window.math_screen.Total_Questions):
                 Label(self, text=f"Question {x + 1}: {ms_window.math_screen.all_questions_list[x][0]} --- "
                                  f"Student Answer: {ms_window.math_screen.all_questions_list[x][1]}. "
                                  f"{ms_window.math_screen.all_questions_list[x][2]}.",
