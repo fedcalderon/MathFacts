@@ -7,6 +7,19 @@ import time
 import random
 import math
 
+#
+# DIFFERENT TYPES OF PROBLEMS AND IDS:
+# 1-ADD: Single digit addition
+# 2-ADD: Double digit addition
+# 3-ADD: Addition up to 5 digits
+# 1-SUB: Single digit subtraction
+# 2-SUB: Double digit subtraction
+# 3-SUB: Subtraction up to 5 digits
+# 1-MUL: Single digit multiplication
+# 2-MUL: Double digit multiplication
+# 1-DIV: Division with a single digit divisor.
+# 2-DIV: Division with a double digit divisor.
+
 
 class Questions:
     def __init__(self, ID):
@@ -83,8 +96,6 @@ class Questions:
             return f"What is {self.first_number} / {self.second_number}?"
 
 
-
-
 class Math_Screen(tk.Frame):
     def __init__(self, parent, ID, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -102,7 +113,9 @@ class Math_Screen(tk.Frame):
 
         self.ID = ID
         self.Question = Questions(self.ID)
-        #self.
+        self.is_Question_Correct = False
+
+        self.student_answer = 0
 
         # User entry, Submit button and Labels for layout
         self.UserInsert_entry = ttk.Entry(self, textvariable=self.ans_insert)
@@ -110,6 +123,7 @@ class Math_Screen(tk.Frame):
         self.clear_button = ttk.Button(self, text="Clear", command= lambda : self.UserInsert_entry.delete(0, 'end'))
         self.Question_Label = ttk.Label(self, textvariable=self.Question_label,
                                 font=("TkDefaultFont", 10), wraplength=600)
+        self.Question_is_correct = False
 
         Time_label = ttk.Label(self, textvariable=self.Time_label,
                                 font=("TkDefaultFont", 10), wraplength=600)
@@ -167,6 +181,7 @@ class Math_Screen(tk.Frame):
             print(self.time_left)
 
     def submit_ans(self):
+
         if len(self.ans_insert.get()) > 0:
             if re.search('[a-zA-Z]', self.ans_insert.get()):
                 print("Your answer is incomprehensible.")
@@ -174,21 +189,40 @@ class Math_Screen(tk.Frame):
                 ttk.Label(self, textvariable=self.answer_verification,
                           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
             else:
+
+                self.all_questions_list.append([f"What is {self.Question.first_number} + "
+                                        f"{self.Question.second_number}?", f"{self.ans_insert.get()}"])
+                self.student_answer = self.ans_insert.get()
+                for x in range(0, len(self.all_questions_list)):
+                    if len(self.all_questions_list) >= 2:
+
+                        if len(self.all_questions_list) == 2:
+                            if self.all_questions_list[x][0] == self.all_questions_list[x - 1][0]:
+                                self.all_questions_list[x].append("INCORRECT")
+                                self.all_questions_list.remove(self.all_questions_list[x - 1])
+
+                        if len(self.all_questions_list) > 2:
+                            if self.all_questions_list[x][0] == self.all_questions_list[x - 1][0]:
+                                self.all_questions_list[x - 1].append("INCORRECT")
+                                self.all_questions_list.remove(self.all_questions_list[x])
+
+
                 # If the student's answer is correct...
                 if int(self.ans_insert.get()) == (self.Question.answer):
                     self.Question_Count = self.Question_Count + 1
-
-                    self.all_questions_list.append([f"What is {self.Question.first_number} + "
-                                                    f"{self.Question.second_number}?",  f"{self.Question.answer}"])
-                    print(self.all_questions_list)
-
                     self.Question_label.set(f"Question #{self.Question_Count} of 100")
                     self.reset_fields()
+
                 else:
-                    print("Your answer is wrong.")
-                    self.answer_verification.set("\nYour answer is wrong")
+                    print(f"Your answer is wrong.")
+                    print(self.all_questions_list)
+                    self.answer_verification.set(f"\nYour answer is wrong.")
                     ttk.Label(self, textvariable=self.answer_verification,
                               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+
+                # question_list updating should go here
+                print(self.all_questions_list)
+
         else:
             print("Your answer is blank.")
             self.answer_verification.set("\nYour answer is blank")
@@ -219,7 +253,7 @@ class Math_Screen_Settings(tk.Tk):
         #
         # self.t1.start()
         # self.t2.start()
-        #self.protocol("WM_DELETE_WINDOW", self.close_down_app)
+        self.protocol("WM_DELETE_WINDOW", self.close_down_app)
         self.columnconfigure(0, weight=1)
 
     def close_down_app(self):
