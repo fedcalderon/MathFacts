@@ -131,6 +131,8 @@ class MyApplication(tk.Tk):
         self.Save = ttk.Button(self, text="Save", command=self.save)
         self.Save.grid(row=1200, column=0, sticky=tk.W)
 
+        self.is_saved = False
+
         self.columnconfigure(0, weight=1)
 
         self.user_count = 0
@@ -199,7 +201,8 @@ class MyApplication(tk.Tk):
                 with open(self.users_data_file, 'w') as jsonfile:
                     json.dump(self.all_users, jsonfile)
 
-                app.destroy()
+                self.destroy()
+                self.is_saved = True
 
 
 if __name__ == "__main__":

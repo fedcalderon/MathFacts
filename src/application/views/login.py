@@ -167,7 +167,6 @@ def login():
     Label(login_screen, text="").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
     Button(login_screen, text="login", width=10, height=1, command=login_verify).grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-
 # Implementing event on login button
 def login_verify():
     username1 = username_verify.get()
@@ -189,10 +188,10 @@ def login_verify():
     else:
         result_of_verification("User not found.")
 
-
 def open_registration(screen_to_destroy):
     screen_to_destroy.destroy()
     registration.MyApplication().mainloop()
+    close_login_window = True
 
 
 # Popup for login success/failure

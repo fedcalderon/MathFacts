@@ -87,13 +87,14 @@ class LinksFrame(tk.Frame):
 
         self.registration_button = ttk.Button(self, text="Registration", command=self.Registration_start)
         self.registration_button.grid(row=100, column=100, sticky=(tk.E))
+        self.registration_pressed = False
 
         self.login_button = ttk.Button(self, text="Login", command=self.Login_start)
         self.login_button.grid(row=100, column=200, sticky=(tk.E))
+        self.login_pressed = False
 
         # Popup Windows
         self.root = tk.Tk()
-        self.registration_app = registration.MyApplication()
 
     def terms_of_use_open(self):
         # Terms of use window
@@ -105,14 +106,13 @@ class LinksFrame(tk.Frame):
 
     # METHOD IS BROKEN. DO NOT TOUCH.
     def Login_start(self):
+        self.login_pressed = True
         login.login()
-        #selection_window = login.LoginSelectionWindow()
-        #selection_window.mainloop()
 
     # Open registration.py
     def Registration_start(self):
-        self.registration_app.mainloop()
-
+        self.registration_pressed = True
+        app.destroy()
 
 class WelcomeView(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -136,3 +136,14 @@ class WelcomeView(tk.Tk):
         self.columnconfigure(0, weight=1)
 
     #def close_everything(self):
+
+if __name__ == '__main__':
+    app = WelcomeView()
+    app.mainloop()
+
+    if app.links.registration_pressed:
+        registration_app = registration.MyApplication()
+        registration_app.mainloop()
+
+
+
