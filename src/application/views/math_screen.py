@@ -6,6 +6,7 @@ import threading
 import time
 import random
 import math
+from src.application.views import results
 
 #
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -286,5 +287,7 @@ class Math_Screen_Settings(tk.Tk):
 if __name__ == '__main__':
     test_ID = '1-ADD'
     app = Math_Screen_Settings(test_ID)
-    while len(app.math_screen.all_questions_list) < 3:
-        app.mainloop()
+    # while len(app.math_screen.all_questions_list) < 3:
+    app.mainloop()
+    #results.ResultsScreen(app).mainloop()
+
