@@ -38,6 +38,9 @@ from tkinter import *
 from tkinter import ttk
 from src.application.views import login
 from src.application.views import registration
+import json
+from pathlib import Path
+
 
 class TermsOfUseWindow(tk.Frame):
     def __init__(self, parent, **kwargs):
@@ -107,12 +110,18 @@ class LinksFrame(tk.Frame):
     # METHOD IS BROKEN. DO NOT TOUCH.
     def Login_start(self):
         self.login_pressed = True
-        login.login()
+        #login.login()
+        app.destroy()
+        login_window = login.LoginScreen()
+        login_window.mainloop()
 
     # Open registration.py
     def Registration_start(self):
         self.registration_pressed = True
         app.destroy()
+        reg_screen = registration.MyApplication()
+        reg_screen.mainloop()
+
 
 class WelcomeView(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -135,15 +144,11 @@ class WelcomeView(tk.Tk):
 
         self.columnconfigure(0, weight=1)
 
-    #def close_everything(self):
 
 if __name__ == '__main__':
     app = WelcomeView()
     app.mainloop()
 
-    if app.links.registration_pressed:
-        registration_app = registration.MyApplication()
-        registration_app.mainloop()
-
-
-
+    # if app.links.registration_pressed:
+    #     registration_app = registration.MyApplication()
+    #     registration_app.mainloop()

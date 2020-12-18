@@ -132,7 +132,7 @@ class RootWindow(tk.Tk):
         super().__init__(*args, **kwargs)
         self.title('Math Facts Practice')
         self.resizable(width=False, height=False)
-        self.sv = SelectionView(self, grade=1)
+        self.sv = SelectionView(self, grade=2)
         self.sv.pack(expand=True, fill='both')
 
         self.columnconfigure(0, weight=1)
