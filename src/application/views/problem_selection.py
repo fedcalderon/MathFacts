@@ -113,6 +113,7 @@ class SelectionView(tk.Frame):
 
         # Place the options in the grid automatically
         max_columns = 2
+        
         row = 0
         column = 0
         for option in self.options:
