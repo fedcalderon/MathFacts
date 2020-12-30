@@ -194,6 +194,7 @@ class MyApplication(tk.Tk):
                 self.user_count = self.user_count + 1
                 self.users_list.append(users_data)
 
+#
                 self.all_users = {}
                 for user in self.users_list:
                     for key in user:
