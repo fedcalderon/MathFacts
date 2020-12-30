@@ -226,8 +226,8 @@ class LoginSelectionWindow(tk.Tk):
 if __name__ == '__main__':
     # ###############################################
     # # Uncomment this to run the reworked version
-    # login_window = LoginScreen()
-    # login_window.mainloop()
+    login_window = LoginScreen()
+    login_window.mainloop()
     # ###############################################
 
     x = 5

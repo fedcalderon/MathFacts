@@ -140,7 +140,8 @@ class MyApplication(tk.Tk):
 
         #
         #self.users_data_file = r'views_data\users.json'
-        self.users_data_file = f'{Path().absolute().parent}\student_data.json'
+        # self.users_data_file = f'{Path().absolute().parent}\student_data.json'
+        self.users_data_file = f'{os.path.normpath(os.path.join(os.path.dirname( __file__ ), os.pardir))}\student_data.json'
 
     def save(self):
         self.user_count = self.user_count
