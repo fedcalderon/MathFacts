@@ -22,7 +22,7 @@ from src.application.views import results
 class OptionFrame(tk.Frame):
     """A frame that contains one option for the user."""
 
-    def __init__(self, parent, name, detail, ID, *args, **kwargs):
+    def __init__(self, parent, name, detail, ID, screen_to_destroy, *args, **kwargs):
         """Initializes an OptionFrame widget.
         :param parent: the parent widget
         :param name: the name of the option
@@ -31,6 +31,7 @@ class OptionFrame(tk.Frame):
         super().__init__(parent, padx=20, pady=20, width=500, *args, **kwargs)
         self.name = name
         self.ID = ID
+        self.screen_to_destroy = screen_to_destroy
 
         # Create users_list LabelFrame inside the Frame
         self.label_frame = tk.LabelFrame(self, text=name, font=("TkDefaultFont", 16), padx=5, pady=5)
@@ -55,13 +56,13 @@ class OptionFrame(tk.Frame):
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
         self.start_is_clicked = True
-        root.destroy()
+        self.screen_to_destroy.destroy()
 
 
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
 
-    def __init__(self, parent, grade, username='Username', *args, **kwargs):
+    def __init__(self, parent, screen_to_destroy, grade, username='Username', *args, **kwargs):
         super().__init__(parent, padx=20, pady=15, *args, *kwargs)
 
         # Create users_list toolbar with menus
@@ -84,30 +85,30 @@ class SelectionView(tk.Frame):
 
         # Use the grade to determine which tests to show
         if grade == 1:
-            self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD'))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB'))
+            self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy))
         elif grade == 2:
-            self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD'))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB'))
+            self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
         elif grade == 3:
-            self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD'))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB'))
-            self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL'))
+            self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
         elif grade == 4:
-            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD'))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB'))
-            self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL'))
-            self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV'))
+            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV', screen_to_destroy))
         elif grade == 5:
-            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD'))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB'))
-            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL'))
-            self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV'))
+            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
         elif grade >= 6:
-            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD'))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB'))
-            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL'))
-            self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV'))
+            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
+            self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
             # TODO: Create a linear equations problem set for math_screen.py
             # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
@@ -129,18 +130,18 @@ class SelectionView(tk.Frame):
 
 
 class RootWindow(tk.Tk):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, grade, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Math Facts Practice')
         self.resizable(width=False, height=False)
-        self.sv = SelectionView(self, grade=1)
+        self.sv = SelectionView(self, self, grade=grade)
         self.sv.pack(expand=True, fill='both')
 
         self.columnconfigure(0, weight=1)
 
 
-if __name__ == '__main__':
-    root = RootWindow()
+def run_problem_selection(grade):
+    root = RootWindow(grade)
     root.mainloop()
 
     for option in root.sv.options:
@@ -150,3 +151,6 @@ if __name__ == '__main__':
 
             Results = results.ResultsScreen(app)
             Results.mainloop()
+
+if __name__ == '__main__':
+    run_problem_selection(1)

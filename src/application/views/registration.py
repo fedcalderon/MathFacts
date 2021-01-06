@@ -84,8 +84,8 @@ class ChildInformation(tk.LabelFrame):
         self.Grade = tk.StringVar()
         self.grade_label = ttk.Label(self, text="Grade of Child")
         self.grade_button = ttk.Combobox(self, width=27, textvariable=self.Grade)
-        self.grade_values = ["Preschool", "Kindergarten"]
-        for x in range(1, 19): self.grade_values.append(str(x))
+        self.grade_values = []
+        for x in range(1, 8): self.grade_values.append(str(x))
         self.grade_button['values'] = tuple(self.grade_values)
         self.grade_label.grid(row=200, column=00, sticky=tk.W)
         self.grade_button.grid(row=300, column=00, sticky=(tk.W))

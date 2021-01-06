@@ -5,6 +5,7 @@ from src.application.views import registration
 import src.application
 import json
 from pathlib import Path
+from src.application.views import problem_selection
 
 
 # Designing window for login
@@ -37,6 +38,7 @@ class LoginScreen(Tk):
             sticky=(tk.E + tk.W + tk.N + tk.S))
 
         self.result_message = ""
+        self.student = {}
 
     def login_verify(self):
         # TODO: FOR LOGIN VERIFY
@@ -62,6 +64,7 @@ class LoginScreen(Tk):
                 print(f"Password: {self.password1}")
                 if self.username1 == users_data[key]['username']:
                     if self.password1 == users_data[key]['password']:
+                        self.student = users_data[key]
                         self.result_message = "Successfully logged in."
 
                     else:
@@ -92,7 +95,7 @@ class LoginScreen(Tk):
             Label(self.login_success_screen, text="Do you want to register?").grid()
             Label(self.login_success_screen, text="").grid()
             Button(self.login_success_screen, text="Register", height="1", width="15",
-                   command=lambda: open_registration(self.login_success_screen)).grid(
+                   command=lambda: self.open_registration(self.login_success_screen)).grid(
                 sticky=(tk.E + tk.W + tk.N + tk.S))
 
         if result_message == "Successfully logged in.":
@@ -108,132 +111,11 @@ class LoginScreen(Tk):
     def kill_everything(self):
         self.login_success_screen.destroy()
         self.destroy()
+        problem_selection.run_problem_selection(self.student['child_grade'])
 
-
-##########################################################################################################
-
-# Wall between the reworked and old versions.
-# ABOVE: REWORKED.
-# BELOW: OLD.
-
-##########################################################################################################
-# OLD VERSION
-
-
-def login():
-    global login_screen
-    login_screen = Tk()
-
-    login_screen.title("Login")
-    login_screen.geometry("230x250")
-    Label(login_screen, text="Please enter details below to login").grid()
-    Label(login_screen, text="").grid()
-
-    global username_verify
-    global password_verify
-
-    username_verify = StringVar()
-    password_verify = StringVar()
-
-    global username_login_entry
-    global password_login_entry
-
-    Label(login_screen, text="Username * ").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-    username_login_entry = Entry(login_screen, textvariable=username_verify)
-    username_login_entry.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-    Label(login_screen, text="").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-    Label(login_screen, text="Password * ").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-    password_login_entry = Entry(login_screen, textvariable=password_verify, show='*')
-    password_login_entry.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-    Label(login_screen, text="").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-    Button(login_screen, text="login", width=10, height=1, command=login_verify).grid(
-        sticky=(tk.E + tk.W + tk.N + tk.S))
-
-
-# Implementing event on login button
-def login_verify():
-    username1 = username_verify.get()
-    password1 = password_verify.get()
-
-    username_login_entry.delete(0, END)
-    password_login_entry.delete(0, END)
-
-    list_of_files = os.listdir()
-    if username1 in list_of_files:
-        file1 = open(username1, "r")
-        verify = file1.read().splitlines()
-        if password1 in verify:
-            result_of_verification("Successfully logged in.")
-
-        else:
-            result_of_verification("Password not recognized.")
-
-    else:
-        result_of_verification("User not found.")
-
-
-def open_registration(screen_to_destroy):
-    screen_to_destroy.destroy()
-    registration.MyApplication().mainloop()
-
-
-# Popup for login success/failure
-def result_of_verification(result_message):
-    login_success_screen = Toplevel(login_screen)
-    login_success_screen.title("Login Result")
-    login_success_screen.geometry("140x140")
-    Label(login_success_screen, text=result_message).grid()
-
-    ok_button = Button(login_success_screen, text="OK", height="1", width="15", command=login_success_screen.destroy)
-    ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-    if result_message == "User not found.":
-        Label(login_success_screen, text="Do you want to register?").grid()
-        Label(login_success_screen, text="").grid()
-        Button(login_success_screen, text="Register", height="1", width="15",
-               command=lambda: open_registration(login_success_screen)) \
-            .grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-
-# The Main frame
-class MainAccountScreen(tk.Frame):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.login_label = Label(self, text="Select Your Choice", width="15", bg="blue", font=("Cambria", 25))
-        self.login_label.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        self.login_button = Button(self, text="Login", height="2", width="30", command=self.login_screen)
-        self.screen_changed = False
-        self.login_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-    def login_screen(self):
-        self.screen_changed = True
-        login()
-        self.destroy()
-
-
-class LoginSelectionWindow(tk.Tk):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.geometry("275x250")
-        self.title("Account Login")
-        self.ms = MainAccountScreen(self)
-        self.ms.grid()
-
-
-#############################################################################################################
 
 
 if __name__ == '__main__':
-    # ###############################################
-    # # Uncomment this to run the reworked version
     login_window = LoginScreen()
     login_window.mainloop()
-    # ###############################################
 
-    x = 5
-
-    ################################################
-    # # Uncomment this to run the old version
-    # selection_window = LoginSelectionWindow()
-    # selection_window.mainloop()
-    ################################################
