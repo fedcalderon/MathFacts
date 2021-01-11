@@ -153,6 +153,7 @@ if __name__ == '__main__':
     app = WelcomeView()
     app.mainloop()
 
+
     # if app.links.registration_pressed:
     #     registration_app = registration.MyApplication()
     #     registration_app.mainloop()
