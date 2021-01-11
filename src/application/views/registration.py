@@ -84,8 +84,8 @@ class ChildInformation(tk.LabelFrame):
         self.Grade = tk.StringVar()
         self.grade_label = ttk.Label(self, text="Grade of Child")
         self.grade_button = ttk.Combobox(self, width=27, textvariable=self.Grade)
-        self.grade_values = ["Preschool", "Kindergarten"]
-        for x in range(1, 19): self.grade_values.append(str(x))
+        self.grade_values = []
+        for x in range(1, 8): self.grade_values.append(str(x))
         self.grade_button['values'] = tuple(self.grade_values)
         self.grade_label.grid(row=200, column=00, sticky=tk.W)
         self.grade_button.grid(row=300, column=00, sticky=(tk.W))
@@ -140,7 +140,8 @@ class MyApplication(tk.Tk):
 
         #
         #self.users_data_file = r'views_data\users.json'
-        self.users_data_file = f'{Path().absolute().parent}\student_data.json'
+        # self.users_data_file = f'{Path().absolute().parent}\student_data.json'
+        self.users_data_file = f'{os.path.normpath(os.path.join(os.path.dirname( __file__ ), os.pardir))}\student_data.json'
 
     def save(self):
         self.user_count = self.user_count
@@ -193,6 +194,7 @@ class MyApplication(tk.Tk):
                 self.user_count = self.user_count + 1
                 self.users_list.append(users_data)
 
+#
                 self.all_users = {}
                 for user in self.users_list:
                     for key in user:
