@@ -144,8 +144,8 @@ class WelcomeView(tk.Tk):
 
         self.columnconfigure(0, weight=1)
 
-    # def kill_everything(self):
-    #     self.destroy()
+    def kill_everything(self):
+        self.destroy()
 
 
 if __name__ == '__main__':

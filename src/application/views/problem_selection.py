@@ -84,27 +84,27 @@ class SelectionView(tk.Frame):
         self.options = []
 
         # Use the grade to determine which tests to show
-        if grade == 1:
+        if grade == "1":
             self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy))
-        elif grade == 2:
+        elif grade == "2":
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
-        elif grade == 3:
+        elif grade == "3":
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
-        elif grade == 4:
+        elif grade == "4":
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV', screen_to_destroy))
-        elif grade == 5:
+        elif grade == "5":
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
-        elif grade >= 6:
+        elif grade >= "6":
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
