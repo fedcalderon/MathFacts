@@ -75,8 +75,9 @@ class LoginScreen(Tk):
 
         self.result_of_verification(self.result_message)
 
-    def open_registration(self, screen_to_destroy):
+    def open_registration(self, screen_to_destroy, screen_to_destroy_2):
         screen_to_destroy.destroy()
+        screen_to_destroy_2.destroy()
         registration.MyApplication().mainloop()
 
     # Popup for login success/failure
@@ -95,7 +96,7 @@ class LoginScreen(Tk):
             Label(self.login_success_screen, text="Do you want to register?").grid()
             Label(self.login_success_screen, text="").grid()
             Button(self.login_success_screen, text="Register", height="1", width="15",
-                   command=lambda: self.open_registration(self.login_success_screen)).grid(
+                   command=lambda: self.open_registration(self.login_success_screen, self)).grid(
                 sticky=(tk.E + tk.W + tk.N + tk.S))
 
         if result_message == "Successfully logged in.":
