@@ -81,7 +81,7 @@ class DescriptionFrame(tk.Frame):
 
 
 class LinksFrame(tk.Frame):
-    def __init__(self, parent, **kwargs):
+    def __init__(self, parent, screen_to_destroy,  **kwargs):
         super().__init__(parent, **kwargs)
 
         # Frame with button links
@@ -98,6 +98,7 @@ class LinksFrame(tk.Frame):
 
         # Popup Windows
         self.root = tk.Tk()
+        self.screen_to_destroy = screen_to_destroy
 
     def terms_of_use_open(self):
         # Terms of use window
@@ -111,14 +112,14 @@ class LinksFrame(tk.Frame):
     def Login_start(self):
         self.login_pressed = True
         #login.login()
-        app.destroy()
+        self.screen_to_destroy.destroy()
         login_window = login.LoginScreen()
         login_window.mainloop()
 
     # Open registration.py
     def Registration_start(self):
         self.registration_pressed = True
-        app.destroy()
+        self.screen_to_destroy.destroy()
         reg_screen = registration.MyApplication()
         reg_screen.mainloop()
 
@@ -139,7 +140,7 @@ class WelcomeView(tk.Tk):
         self.description = DescriptionFrame(self)
         self.description.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-        self.links = LinksFrame(self)
+        self.links = LinksFrame(self, self)
         self.links.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
         self.columnconfigure(0, weight=1)
