@@ -55,7 +55,7 @@ class LoginScreen(Tk):
         print(self.password1)
 
         # Replace Path call with os
-        with open(f'{Path().absolute().parent}\student_data.json') as jsonfile:
+        with open(f'{Path().absolute()}\student_data.json') as jsonfile:
             users_data = json.load(jsonfile)
             for key in users_data:
                 print(users_data[key]['username'])
