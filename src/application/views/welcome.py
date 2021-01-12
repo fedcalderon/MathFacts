@@ -97,11 +97,11 @@ class LinksFrame(tk.Frame):
         self.login_pressed = False
 
         # Popup Windows
-        self.root = tk.Tk()
         self.screen_to_destroy = screen_to_destroy
 
     def terms_of_use_open(self):
         # Terms of use window
+        self.root = tk.Tk()
         self.root.title('Terms Of Use')
         self.root.resizable(width=False, height=False)
         self.root.geometry('340x121')

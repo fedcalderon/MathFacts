@@ -23,7 +23,7 @@ class LoginInformation(tk.LabelFrame):
 
         self.Password = tk.StringVar()
         self.password_label = ttk.Label(self, text="Enter Password")
-        self.password_button = ttk.Entry(self, textvariable=self.Password)
+        self.password_button = ttk.Entry(self, textvariable=self.Password, show='*')
         self.password_label.grid(row=0, column=100, sticky=(tk.W))
         self.password_button.grid(row=100, column=100, sticky=(tk.W))
 
