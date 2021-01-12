@@ -23,7 +23,7 @@ class LoginInformation(tk.LabelFrame):
 
         self.Password = tk.StringVar()
         self.password_label = ttk.Label(self, text="Enter Password")
-        self.password_button = ttk.Entry(self, textvariable=self.Password)
+        self.password_button = ttk.Entry(self, textvariable=self.Password, show='*')
         self.password_label.grid(row=0, column=100, sticky=(tk.W))
         self.password_button.grid(row=100, column=100, sticky=(tk.W))
 
@@ -140,8 +140,8 @@ class MyApplication(tk.Tk):
 
         #
         #self.users_data_file = r'views_data\users.json'
-        # self.users_data_file = f'{Path().absolute().parent}\student_data.json'
-        self.users_data_file = f'{os.path.normpath(os.path.join(os.path.dirname( __file__ ), os.pardir))}\student_data.json'
+        self.users_data_file = f'{Path().absolute()}\student_data.json'
+        # self.users_data_file = f'{os.path.normpath(os.path.join(os.path.dirname( __file__ ), os.pardir))}\student_data.json'
 
     def save(self):
         self.user_count = self.user_count
