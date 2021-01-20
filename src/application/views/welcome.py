@@ -99,6 +99,7 @@ class LinksFrame(tk.Frame):
         # Popup Windows
         self.screen_to_destroy = screen_to_destroy
 
+
     def terms_of_use_open(self):
         # Terms of use window
         self.root = tk.Tk()
@@ -122,6 +123,9 @@ class LinksFrame(tk.Frame):
         self.screen_to_destroy.destroy()
         reg_screen = registration.MyApplication()
         reg_screen.mainloop()
+
+        login_window = login.LoginScreen()
+        login_window.mainloop()
 
 
 class WelcomeView(tk.Tk):
