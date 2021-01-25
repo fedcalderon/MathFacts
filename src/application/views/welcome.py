@@ -38,6 +38,9 @@ from tkinter import *
 from tkinter import ttk
 from src.application.views import login
 from src.application.views import registration
+import json
+from pathlib import Path
+
 
 class TermsOfUseWindow(tk.Frame):
     def __init__(self, parent, **kwargs):
@@ -78,35 +81,50 @@ class DescriptionFrame(tk.Frame):
 
 
 class LinksFrame(tk.Frame):
-    def __init__(self, parent, **kwargs):
+    def __init__(self, parent, screen_to_destroy,  **kwargs):
         super().__init__(parent, **kwargs)
+
         # Frame with button links
         self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
         self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
 
         self.registration_button = ttk.Button(self, text="Registration", command=self.Registration_start)
         self.registration_button.grid(row=100, column=100, sticky=(tk.E))
+        self.registration_pressed = False
 
         self.login_button = ttk.Button(self, text="Login", command=self.Login_start)
         self.login_button.grid(row=100, column=200, sticky=(tk.E))
+        self.login_pressed = False
+
+        # Popup Windows
+        self.screen_to_destroy = screen_to_destroy
+
 
     def terms_of_use_open(self):
         # Terms of use window
-        root = tk.Tk()
-        root.title('Terms Of Use')
-        root.resizable(width=False, height=False)
-        root.geometry('340x121')
-        TermsOfUseWindow(root).pack(expand=True, fill='both')
-        root.mainloop()
+        self.root = tk.Tk()
+        self.root.title('Terms Of Use')
+        self.root.resizable(width=False, height=False)
+        self.root.geometry('340x121')
+        TermsOfUseWindow(self.root).pack(expand=True, fill='both')
+        self.root.mainloop()
 
     def Login_start(self):
-        # Call login function
-        login.login()
+        self.login_pressed = True
+        #login.login()
+        self.screen_to_destroy.destroy()
+        login_window = login.LoginScreen()
+        login_window.mainloop()
 
     # Open registration.py
     def Registration_start(self):
-        app = registration.MyApplication()
-        app.mainloop()
+        self.registration_pressed = True
+        self.screen_to_destroy.destroy()
+        reg_screen = registration.MyApplication()
+        reg_screen.mainloop()
+
+        login_window = login.LoginScreen()
+        login_window.mainloop()
 
 
 class WelcomeView(tk.Tk):
@@ -125,7 +143,20 @@ class WelcomeView(tk.Tk):
         self.description = DescriptionFrame(self)
         self.description.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-        self.links = LinksFrame(self)
+        self.links = LinksFrame(self, self)
         self.links.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
         self.columnconfigure(0, weight=1)
+
+    def kill_everything(self):
+        self.destroy()
+
+
+if __name__ == '__main__':
+    app = WelcomeView()
+    app.mainloop()
+
+
+    # if app.links.registration_pressed:
+    #     registration_app = registration.MyApplication()
+    #     registration_app.mainloop()
