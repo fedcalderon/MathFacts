@@ -211,7 +211,6 @@ class Math_Screen(tk.Frame):
                                     self.all_questions_list.remove(self.all_questions_list[x])
                                     self.incorrect_questions += 1
 
-
                     # If the student's answer is correct...
                     if int(self.ans_insert.get()) == (self.Question.answer):
                         self.Question_Count = self.Question_Count + 1
@@ -277,10 +276,12 @@ class Math_Screen_Settings(tk.Tk):
     #         self.destroy()
 
     def close_down_app(self):
-        if self.math_screen.Question_Count < self.math_screen.Total_Questions:
-            print(f"You must complete at least {self.math_screen.Total_Questions} questions. ")
-
-        else:
+        # if self.math_screen.Question_Count < self.math_screen.Total_Questions + 1:
+        #     print(f"You must complete at least {self.math_screen.Total_Questions} questions. ")
+        #     ttk.Label(self, text=f"You must complete at least {self.math_screen.Total_Questions} questions. ",
+        #               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+        #
+        # else:
             self.destroy()
 
 
@@ -289,5 +290,5 @@ if __name__ == '__main__':
     app = Math_Screen_Settings(test_ID)
     # while len(app.math_screen.all_questions_list) < 3:
     app.mainloop()
-    #results.ResultsScreen(app).mainloop()
+    results.ResultsScreen(app).mainloop()
 
