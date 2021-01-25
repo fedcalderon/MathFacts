@@ -1,0 +1,3 @@
+Bug Number	Type	Description	Resolution
+b001	File System	"student_data.json does not save in Mac, only Windows "	Not fixed
+b002	Logging	Logging system is not working or fully implemented	Not fixed
