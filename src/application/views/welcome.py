@@ -109,7 +109,6 @@ class LinksFrame(tk.Frame):
         TermsOfUseWindow(self.root).pack(expand=True, fill='both')
         self.root.mainloop()
 
-    # METHOD IS BROKEN. DO NOT TOUCH.
     def Login_start(self):
         self.login_pressed = True
         #login.login()
