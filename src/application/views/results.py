@@ -29,8 +29,7 @@ class LinksFrame(Frame):
                   wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
         else:
-            Label(self, text=f"You did no questions. Grade: 0%"
-                             ,
+            Label(self, text=f"You did no questions. Grade: 0%",
                   wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
         # desc_label.grid()
