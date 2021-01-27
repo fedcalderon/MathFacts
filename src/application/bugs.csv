@@ -1,3 +1,6 @@
-Bug Number	Type	Description	Resolution
-b001	File System	"student_data.json does not save in Mac, only Windows "	Not fixed
-b002	Logging	Logging system is not working or fully implemented	Not fixed
+Bug Number, Type,   Description,    Resolution
+b001,	File System,    "student_data.json does not save in Mac, only Windows", Not fixed
+b002,	Logging,	Logging system is not working or fully implemented, Not fixed
+b003,   GUI,    Screens should appear in a single window,   Not fixed
+b004,   Login,  "After clicking OK on the 'Successfully logged in' pop-up, a very small window appears rather than the proper selection screen",    Not fixed
+b005,   Registration,   "Only one user can be registered, any additional registrations overwrite the original user",    Not fixed

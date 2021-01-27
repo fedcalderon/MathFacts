@@ -12,7 +12,7 @@ from pathlib import Path
 
 class LoginInformation(tk.LabelFrame):
     def __init__(self, parent):
-        super().__init__(parent, text="login Information", pady=20)
+        super().__init__(parent, text="Login Information", pady=20)
         # self.configure(bg="gold")
 
         self.Username = tk.StringVar()
