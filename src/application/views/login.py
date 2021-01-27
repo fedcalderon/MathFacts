@@ -23,6 +23,8 @@ class LoginScreen(Tk):
         Label(self, text='Please enter details below to login').grid()
         Label(self, text='').grid()
 
+
+
         self.username_verify = StringVar()
         self.password_verify = StringVar()
 
@@ -50,11 +52,9 @@ class LoginScreen(Tk):
 
         self.username_login_entry.delete(0, END)
         self.password_login_entry.delete(0, END)
-
         print(self.username1)
         print(self.password1)
 
-        # Replace Path call with os
         with open(f'{Path().absolute()}\student_data.json') as jsonfile:
             users_data = json.load(jsonfile)
             for key in users_data:
@@ -113,7 +113,6 @@ class LoginScreen(Tk):
         self.login_success_screen.destroy()
         self.destroy()
         problem_selection.run_problem_selection(self.student['child_grade'])
-
 
 
 if __name__ == '__main__':
