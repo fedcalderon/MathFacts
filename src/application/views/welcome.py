@@ -139,6 +139,7 @@ class WelcomeView(tk.Tk):
             json.dump({}, jsonfile)
 
         # FRAMES
+        
         self.icon_frame = IconFrame(self)
         self.icon_frame.grid()
         self.icon_frame.image_label.grid()
