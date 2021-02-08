@@ -135,7 +135,11 @@ class WelcomeView(tk.Tk):
 
         self.resizable(width=True, height=True)
 
+        with open(f'{Path().absolute()}\student_data.json', 'w') as jsonfile:
+            json.dump({}, jsonfile)
+
         # FRAMES
+
         self.icon_frame = IconFrame(self)
         self.icon_frame.grid()
         self.icon_frame.image_label.grid()

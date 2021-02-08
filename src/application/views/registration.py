@@ -227,8 +227,10 @@ class MyApplication(tk.Tk):
                 #    for key in user:
                 #        self.all_users.update({key : user[key]})
 
-                #with open(self.users_data_file, 'w') as jsonfile:
-                #    json.dump(self.all_users, jsonfile)
+                print({list(self.all_users)[-1]: list(self.all_users.keys())[-1]})
+
+                # with open(self.users_data_file, 'a') as jsonfile:
+                #     json.dump(list(self.all_users)[-1], jsonfile)
 
                 self.destroy()
                 self.is_saved = True
