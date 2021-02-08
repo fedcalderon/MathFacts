@@ -81,7 +81,7 @@ class DescriptionFrame(tk.Frame):
 
 
 class LinksFrame(tk.Frame):
-    def __init__(self, parent, **kwargs):
+    def __init__(self, parent, screen_to_destroy,  **kwargs):
         super().__init__(parent, **kwargs)
 
         # Frame with button links
@@ -97,30 +97,34 @@ class LinksFrame(tk.Frame):
         self.login_pressed = False
 
         # Popup Windows
-        self.root = tk.Tk()
+        self.screen_to_destroy = screen_to_destroy
+
 
     def terms_of_use_open(self):
         # Terms of use window
+        self.root = tk.Tk()
         self.root.title('Terms Of Use')
         self.root.resizable(width=False, height=False)
         self.root.geometry('340x121')
         TermsOfUseWindow(self.root).pack(expand=True, fill='both')
         self.root.mainloop()
 
-    # METHOD IS BROKEN. DO NOT TOUCH.
     def Login_start(self):
         self.login_pressed = True
         #login.login()
-        app.destroy()
+        self.screen_to_destroy.destroy()
         login_window = login.LoginScreen()
         login_window.mainloop()
 
     # Open registration.py
     def Registration_start(self):
         self.registration_pressed = True
-        app.destroy()
+        self.screen_to_destroy.destroy()
         reg_screen = registration.MyApplication()
         reg_screen.mainloop()
+
+        login_window = login.LoginScreen()
+        login_window.mainloop()
 
 
 class WelcomeView(tk.Tk):
@@ -131,7 +135,11 @@ class WelcomeView(tk.Tk):
 
         self.resizable(width=True, height=True)
 
+        with open(f'{Path().absolute()}\student_data.json', 'w') as jsonfile:
+            json.dump({}, jsonfile)
+
         # FRAMES
+
         self.icon_frame = IconFrame(self)
         self.icon_frame.grid()
         self.icon_frame.image_label.grid()
@@ -139,15 +147,19 @@ class WelcomeView(tk.Tk):
         self.description = DescriptionFrame(self)
         self.description.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-        self.links = LinksFrame(self)
+        self.links = LinksFrame(self, self)
         self.links.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
         self.columnconfigure(0, weight=1)
+
+    def kill_everything(self):
+        self.destroy()
 
 
 if __name__ == '__main__':
     app = WelcomeView()
     app.mainloop()
+
 
     # if app.links.registration_pressed:
     #     registration_app = registration.MyApplication()

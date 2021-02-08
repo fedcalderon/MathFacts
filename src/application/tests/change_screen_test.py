@@ -6,7 +6,7 @@ import csv
 class LoginInformation(tk.LabelFrame):
     def __init__(self, parent):
         super().__init__(parent, text="login Information", pady=20)
-        #self.configure(bg="gold")
+        # self.configure(bg="gold")
 
         self.Username = tk.StringVar()
         username_label = ttk.Label(self, text="Enter Username")
@@ -35,7 +35,7 @@ class LoginInformation(tk.LabelFrame):
 class Guardian1Info(tk.LabelFrame):
     def __init__(self, parent):
         super().__init__(parent, text="Guardian 1:", pady=20)
-        #self.configure(bg="gold")
+        # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
         first_name_label = ttk.Label(self, text="First Name")
@@ -53,7 +53,7 @@ class Guardian1Info(tk.LabelFrame):
 class Guardian2Info(tk.LabelFrame):
     def __init__(self, parent):
         super().__init__(parent, text="Guardian 2:", pady=20)
-        #self.configure(bg="gold")
+        # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
         first_name_label = ttk.Label(self, text="First Name")
@@ -71,7 +71,7 @@ class Guardian2Info(tk.LabelFrame):
 class ChildInformation(tk.LabelFrame):
     def __init__(self, parent):
         super().__init__(parent, text="Child Information", pady=15)
-        #self.configure(bg="gold")
+        # self.configure(bg="gold")
 
         self.FirstName = tk.StringVar()
         first_name_label = ttk.Label(self, text="First Name")
@@ -103,6 +103,26 @@ class ChildInformation(tk.LabelFrame):
         age_label.grid(row=200, column=100, sticky=tk.W)
         age_button.grid(row=300, column=100, sticky=(tk.W))
 
+class ChilInformation(tk.LabelFrame):
+    def __init__(self, parent):
+        super().__init__(parent, text="Screen 3", pady=15)
+        # self.configure(bg="gold")
+
+        self.FirstName = tk.StringVar()
+        first_name_label = ttk.Label(self, text="First Name")
+        first_name_button = ttk.Entry(self, textvariable=self.FirstName)
+        first_name_label.grid(row=0, column=0, sticky=(tk.W))
+        first_name_button.grid(row=100, column=0, sticky=(tk.W))
+
+        self.Age = tk.StringVar()
+        age_label = ttk.Label(self, text="Screen 3 thing")
+        age_button = ttk.Combobox(self, width=27, textvariable=self.Age)
+        age_values = ["Under 5"]
+        for x in range(5, 19): age_values.append(str(x))
+        age_button['values'] = tuple(age_values)
+        age_label.grid(row=200, column=100, sticky=tk.W)
+        age_button.grid(row=300, column=100, sticky=(tk.W))
+
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -115,7 +135,7 @@ class MyApplication(tk.Tk):
 
     def view_1(self):
         # View 1
-        self.Main_Label = ttk.Label(self, text="Signup for MathFacts", font=("TkDefaultFont", 27), wraplength=600)
+        self.Main_Label = ttk.Label(self, text="Screens test", font=("TkDefaultFont", 27), wraplength=600)
         self.Main_Label.grid(row=0, column=0, sticky=tk.W)
         self.c = ChildInformation(self)
         self.c.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
@@ -128,24 +148,32 @@ class MyApplication(tk.Tk):
         self.l = LoginInformation(self)
         self.view_2_items = [self.g2, self.l]
 
-        self.change_screen_button_1 = ttk.Button(self, text="Change view",
-                                                 command=lambda : self.change_screen(self.view_1_items, self.view_2_items))
+        # View 3
+        self.ch = ChilInformation(self)
+        self.view_3_items = [self.ch]
+
+        # e
+        self.change_screen_button_1 = ttk.Button(self, text="Go to screen 2",
+                                                 command=lambda: self.change_screen(self.view_1_items,
+                                                                                    self.view_2_items))
         self.change_screen_button_1.grid(row=1200, column=100, sticky=tk.E)
         self.view_1_items.append(self.change_screen_button_1)
 
         # Broken. Needs fixing.
+        self.change_screen_button_2 = ttk.Button(self, text="Go to screen 3",
+                                                 command=lambda: self.change_screen(self.view_2_items,
+                                                                                    self.view_3_items))
 
-        # self.change_screen_button_2 = ttk.Button(self, text="Back button",
-        #                                          command=lambda: self.change_screen(self.view_2_items,
-        #                                                                             self.view_1_items))
-        # self.view_2_items.append(self.change_screen_button_2)
-        #self.change_screen_button_2.grid(row=1200, column=100, sticky=tk.E)
+        # self.change_screen_button_2.grid(row=1200, column=100, sticky=tk.E)
+        self.view_2_items.append(self.change_screen_button_2)
 
     def change_screen(self, current_screen, new_screen):
         for item in current_screen:
             item.destroy()
         for item in new_screen:
-            item.grid(sticky=(tk.E+tk.W+tk.N+tk.S))
+            print(new_screen)
+            item.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+
 
 if __name__ == '__main__':
     app = MyApplication()

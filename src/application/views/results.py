@@ -11,21 +11,27 @@ class LinksFrame(Frame):
         super().__init__(parent, **kwargs)
 
         # List and print all problem set grades.
-        for x in range(0, len(problems.math_screen.all_questions_list)):
-            if len(problems.math_screen.all_questions_list[x]) >= problems.math_screen.Total_Questions:
-                Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
-                                 f"Student Answer: {problems.math_screen.all_questions_list[x][1]}. "
-                                 f"{problems.math_screen.all_questions_list[x][2]}.",
-                      wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
-            else:
-                Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
-                                 f"Student Answer: {problems.math_screen.all_questions_list[x][1]}. "
-                                 f"CORRECT.",
-                      wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+        if len(problems.math_screen.all_questions_list) > 0:
+            for x in range(0, len(problems.math_screen.all_questions_list)):
+                if len(problems.math_screen.all_questions_list[x]) >= problems.math_screen.Total_Questions:
+                    Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
+                                     f"Student Answer: {problems.math_screen.all_questions_list[x][1]}. "
+                                     f"{problems.math_screen.all_questions_list[x][2]}.",
+                          wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+                else:
+                    Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
+                                     f"Student Answer: {problems.math_screen.all_questions_list[x][1]}. "
+                                     f"CORRECT.",
+                          wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
-        Label(self, text=f"Asssignment grade is: "
-                         f"{int(round(((len(problems.math_screen.all_questions_list) - problems.math_screen.incorrect_questions) / len(problems.math_screen.all_questions_list)) * 100, 2))}%",
-              wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+            Label(self, text=f"Asssignment grade is: "
+                             f"{int(round(((len(problems.math_screen.all_questions_list) - problems.math_screen.incorrect_questions) / len(problems.math_screen.all_questions_list)) * 100, 2))}%",
+                  wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+
+        else:
+            Label(self, text=f"You did no questions. Grade: 0%",
+                  wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+
         # desc_label.grid()
 
 
