@@ -34,18 +34,21 @@ class Questions:
         if self.ID == '1-ADD':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, 10)
+            self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
 
         elif self.ID == '2-ADD':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(0, 99)
+            self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
 
         elif self.ID == '3-ADD':
             self.first_number = random.randint(12, 9999)
             self.second_number = random.randint(10, self.first_number)
+            self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
 
@@ -53,18 +56,21 @@ class Questions:
         elif self.ID == '1-SUB':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, self.first_number)
+            self.symbol = '-'
             self.answer = self.first_number - self.second_number
             return f"What is {self.first_number} - {self.second_number}?"
 
         elif self.ID == '2-SUB':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(0, self.first_number - 1)
+            self.symbol = '-'
             self.answer = self.first_number - self.second_number
             return f"What is {self.first_number} - {self.second_number}?"
 
         elif self.ID == '3_SUB':
             self.first_number = random.randint(12, 9999)
             self.second_number = random.randint(0, self.first_number)
+            self.symbol = '-'
             self.answer = self.first_number - self.second_number
             return f"What is {self.first_number} - {self.second_number}?"
 
@@ -72,12 +78,14 @@ class Questions:
         elif self.ID == '1-MUL':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, 10)
+            self.symbol = 'x'
             self.answer = self.first_number * self.second_number
             return f"What is {self.first_number} x {self.second_number}?"
 
         elif self.ID == '2-MUL':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(1, 99)
+            self.symbol = 'x'
             self.answer = self.first_number * self.second_number
             return f"What is {self.first_number} x {self.second_number}?"
 
@@ -86,6 +94,7 @@ class Questions:
             self.first_number = random.randint(1, 100)
             self.divisors = [x for x in range(1, 10) if self.first_number % x == 0]
             self.second_number = self.divisors[random.randint(0, len(self.divisors) - 1)]
+            self.symbol = '/'
             self.answer = self.first_number / self.second_number
             return f"What is {self.first_number} / {self.second_number}?"
 
@@ -93,6 +102,7 @@ class Questions:
             self.first_number = random.randint(1, 9999)
             self.divisors = [x for x in range(10, 99) if self.first_number % x == 0]
             self.second_number = self.divisors[random.randint(1, len(self.divisors) - 1)]
+            self.symbol = '/'
             self.answer = self.first_number / self.second_number
             return f"What is {self.first_number} / {self.second_number}?"
 
@@ -193,7 +203,7 @@ class Math_Screen(tk.Frame):
                               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
                 else:
 
-                    self.all_questions_list.append([f"What is {self.Question.first_number} + "
+                    self.all_questions_list.append([f"What is {self.Question.first_number} {self.Question.symbol} "
                                             f"{self.Question.second_number}?", f"{self.ans_insert.get()}"])
                     self.student_answer = self.ans_insert.get()
                     for x in range(0, len(self.all_questions_list)):
@@ -210,7 +220,6 @@ class Math_Screen(tk.Frame):
                                     self.all_questions_list[x - 1].append("INCORRECT")
                                     self.all_questions_list.remove(self.all_questions_list[x])
                                     self.incorrect_questions += 1
-
 
                     # If the student's answer is correct...
                     if int(self.ans_insert.get()) == (self.Question.answer):
@@ -277,10 +286,12 @@ class Math_Screen_Settings(tk.Tk):
     #         self.destroy()
 
     def close_down_app(self):
-        if self.math_screen.Question_Count < self.math_screen.Total_Questions:
-            print(f"You must complete at least {self.math_screen.Total_Questions} questions. ")
-
-        else:
+        # if self.math_screen.Question_Count < self.math_screen.Total_Questions + 1:
+        #     print(f"You must complete at least {self.math_screen.Total_Questions} questions. ")
+        #     ttk.Label(self, text=f"You must complete at least {self.math_screen.Total_Questions} questions. ",
+        #               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+        #
+        # else:
             self.destroy()
 
 
@@ -289,5 +300,5 @@ if __name__ == '__main__':
     app = Math_Screen_Settings(test_ID)
     # while len(app.math_screen.all_questions_list) < 3:
     app.mainloop()
-    #results.ResultsScreen(app).mainloop()
+    results.ResultsScreen(app).mainloop()
 
