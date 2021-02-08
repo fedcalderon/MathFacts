@@ -51,9 +51,6 @@ class LoginScreen(Tk):
         self.username_login_entry.delete(0, END)
         self.password_login_entry.delete(0, END)
 
-        print(self.username1)
-        print(self.password1)
-
         # Replace Path call with os
         with open(f'{Path().absolute()}\student_data.json') as jsonfile:
             users_data = json.load(jsonfile)
@@ -66,9 +63,11 @@ class LoginScreen(Tk):
                     if self.password1 == users_data[key]['password']:
                         self.student = users_data[key]
                         self.result_message = "Successfully logged in."
+                        break
 
                     else:
                         self.result_message = "Password not recognized."
+                        break
 
                 else:
                     self.result_message = "User not found."
