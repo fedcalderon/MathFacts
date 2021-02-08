@@ -34,18 +34,21 @@ class Questions:
         if self.ID == '1-ADD':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, 10)
+            self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
 
         elif self.ID == '2-ADD':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(0, 99)
+            self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
 
         elif self.ID == '3-ADD':
             self.first_number = random.randint(12, 9999)
             self.second_number = random.randint(10, self.first_number)
+            self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
 
@@ -53,18 +56,21 @@ class Questions:
         elif self.ID == '1-SUB':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, self.first_number)
+            self.symbol = '-'
             self.answer = self.first_number - self.second_number
             return f"What is {self.first_number} - {self.second_number}?"
 
         elif self.ID == '2-SUB':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(0, self.first_number - 1)
+            self.symbol = '-'
             self.answer = self.first_number - self.second_number
             return f"What is {self.first_number} - {self.second_number}?"
 
         elif self.ID == '3_SUB':
             self.first_number = random.randint(12, 9999)
             self.second_number = random.randint(0, self.first_number)
+            self.symbol = '-'
             self.answer = self.first_number - self.second_number
             return f"What is {self.first_number} - {self.second_number}?"
 
@@ -72,12 +78,14 @@ class Questions:
         elif self.ID == '1-MUL':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, 10)
+            self.symbol = 'x'
             self.answer = self.first_number * self.second_number
             return f"What is {self.first_number} x {self.second_number}?"
 
         elif self.ID == '2-MUL':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(1, 99)
+            self.symbol = 'x'
             self.answer = self.first_number * self.second_number
             return f"What is {self.first_number} x {self.second_number}?"
 
@@ -86,6 +94,7 @@ class Questions:
             self.first_number = random.randint(1, 100)
             self.divisors = [x for x in range(1, 10) if self.first_number % x == 0]
             self.second_number = self.divisors[random.randint(0, len(self.divisors) - 1)]
+            self.symbol = '/'
             self.answer = self.first_number / self.second_number
             return f"What is {self.first_number} / {self.second_number}?"
 
@@ -93,6 +102,7 @@ class Questions:
             self.first_number = random.randint(1, 9999)
             self.divisors = [x for x in range(10, 99) if self.first_number % x == 0]
             self.second_number = self.divisors[random.randint(1, len(self.divisors) - 1)]
+            self.symbol = '/'
             self.answer = self.first_number / self.second_number
             return f"What is {self.first_number} / {self.second_number}?"
 
@@ -193,7 +203,7 @@ class Math_Screen(tk.Frame):
                               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
                 else:
 
-                    self.all_questions_list.append([f"What is {self.Question.first_number} + "
+                    self.all_questions_list.append([f"What is {self.Question.first_number} {self.Question.symbol} "
                                             f"{self.Question.second_number}?", f"{self.ans_insert.get()}"])
                     self.student_answer = self.ans_insert.get()
                     for x in range(0, len(self.all_questions_list)):
