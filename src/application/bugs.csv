@@ -4,4 +4,6 @@ b002,	Logging,	Logging system is not working or fully implemented, Not fixed
 b003,   GUI,    Screens should appear in a single window,   In progress
 b004,   Login,  "After clicking OK on the 'Successfully logged in' pop-up, a very small window appears rather than the proper selection screen",    Unsure: only happen sometimes
 b005,   Registration,   "Only one user can be registered, any additional registrations overwrite the original user",    Fixed
+b006,   Results,    "Results screen always shows a plus for every problem, even if the problem is not addition",    Fixed
 b007,   Login,  "If student_data.json is empty or does not exist the program throws an exception",  Fixed
+b008,   Registration,   Registration allows multiple users with the same username,  Not fixed

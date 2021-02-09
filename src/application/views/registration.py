@@ -152,7 +152,7 @@ class MyApplication(tk.Tk):
             # Load user data from the json file
             with open(self.users_data_file) as jsonfile:
                 users_data = json.load(jsonfile)
-            print(users_data)
+            # print(users_data)
             return users_data
         except FileNotFoundError:
             # No users have been saved yet, so return an empty dictionary
