@@ -143,29 +143,32 @@ class MyApplication(tk.Tk):
         self.g1.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
         self.view_1_items = [self.Main_Label, self.c, self.g1]
 
-        # View 2
-        self.g2 = Guardian2Info(self)
-        self.l = LoginInformation(self)
-        self.view_2_items = [self.g2, self.l]
-
-        # View 3
-        self.ch = ChilInformation(self)
-        self.view_3_items = [self.ch]
-
-        # e
         self.change_screen_button_1 = ttk.Button(self, text="Go to screen 2",
                                                  command=lambda: self.change_screen(self.view_1_items,
                                                                                     self.view_2_items))
         self.change_screen_button_1.grid(row=1200, column=100, sticky=tk.E)
         self.view_1_items.append(self.change_screen_button_1)
 
-        # Broken. Needs fixing.
+        # View 2
+        self.g2 = Guardian2Info(self)
+        self.l = LoginInformation(self)
+        # self.view_2_items = [self.g2, self.l]
+        self.view_2_items = [Guardian2Info(self), LoginInformation(self)]
+
         self.change_screen_button_2 = ttk.Button(self, text="Go to screen 3",
                                                  command=lambda: self.change_screen(self.view_2_items,
                                                                                     self.view_3_items))
-
-        # self.change_screen_button_2.grid(row=1200, column=100, sticky=tk.E)
         self.view_2_items.append(self.change_screen_button_2)
+
+        # View 3
+        self.ch = ChilInformation(self)
+        self.view_3_items = [self.ch]
+
+        self.change_screen_button_3 = ttk.Button(self, text="Go back to screen 2",
+                                                 command=lambda: self.change_screen(self.view_3_items,
+                                                                                    [Guardian2Info(self),
+                                                                                     LoginInformation(self)]))
+        self.view_3_items.append(self.change_screen_button_3)
 
     def change_screen(self, current_screen, new_screen):
         for item in current_screen:
