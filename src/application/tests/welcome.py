@@ -122,9 +122,7 @@ class LinksFrame(tk.Frame):
         # login_window = login.LoginScreen()
         # login_window.mainloop()
         x = 5
-
     # Open registration.py
-
 
 
 class WelcomeView(tk.Tk):
