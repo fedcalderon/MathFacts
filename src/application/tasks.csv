@@ -1,6 +1,6 @@
 Taskid,Date Created,Due Date,Name,Description,Owner,Completed
-t001,8/2/2021,8/22/2021,"Window consolidation","Consolidate all windows into 1 - same size - change content as needed", TBD, no
-t002,8/2/2021,8/22/2021,"Enable continous screens","Once a user is done working go back to math operations screen",TBD,no
-t003,8/2/2021,8/22/2021,"Save data in a file","Just like user data is saved, save math work for every run into a separate file",Andrew,no
-t004,8/2/2021,8/22/2021,"Make problems appropriate for grades","Make sure each grade gets appropriate difficulty level problems",TBD,no
-t005,8/2/2021,8/22/2021,"Show progress on math screen","If there are 20 problems, show user which problem out of the total (4 of 20) and percentage completion",TBD,no
+t001,8/2/2021,8/22/2021,"Window consolidation","Consolidate all windows into 1 - same size - change content as needed", Asher, no
+t002,8/2/2021,8/22/2021,"Enable continous screens","Once a user is done working go back to math operations screen",Micah, no
+t003,8/2/2021,8/22/2021,"Save data in a file","Just like user data is saved, save math work for every run into a separate file",Andrew,yes
+t004,8/2/2021,8/22/2021,"Make problems appropriate for grades","Make sure each grade gets appropriate difficulty level problems",Milton,no
+t005,8/2/2021,8/22/2021,"Show progress on math screen","If there are 20 problems, show user which problem out of the total (4 of 20) and percentage completion",Xade,no
