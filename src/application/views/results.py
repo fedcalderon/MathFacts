@@ -32,6 +32,7 @@ class LinksFrame(Frame):
             Label(self, text=f"You did no questions. Grade: 0%",
                   wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
+
         # desc_label.grid()
 
 
@@ -39,10 +40,8 @@ class LinksFrame(Frame):
 class ResultsScreen(Tk):
     def __init__(self, ms, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        #self.geometry("600x800")
 
         self.LinksFrame = LinksFrame(self, ms)
-        #if len(ms_window.math_screen.all_questions_list) > 3:
         self.LinksFrame.grid()
 
 

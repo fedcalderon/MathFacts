@@ -152,17 +152,18 @@ class RootWindow(tk.Tk):
 
 
 def run_problem_selection(grade):
-    while True:
-        root = RootWindow(grade)
-        root.mainloop()
+    #while True:
+    root = RootWindow(grade)
+    root.mainloop()
 
-        for option in root.sv.options:
-            if option.start_is_clicked:
-                app = math_screen.Math_Screen_Settings(option.ID)
-                app.mainloop()
+    for option in root.sv.options:
+        if option.start_is_clicked:
+            app = math_screen.Math_Screen_Settings(option.ID)
+            app.mainloop()
 
-                Results = results.ResultsScreen(app)
-                Results.mainloop()
+            Results = results.ResultsScreen(app)
+            Results.mainloop()
+            Results.start_another_task(root)
 
 
 if __name__ == '__main__':
