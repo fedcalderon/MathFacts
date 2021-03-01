@@ -63,8 +63,12 @@ class OptionFrame(tk.Frame):
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
 
-    def __init__(self, parent, screen_to_destroy, grade, username='Username', *args, **kwargs):
+    def __init__(self, parent, screen_to_destroy, student, *args, **kwargs):
         super().__init__(parent, padx=20, pady=15, *args, *kwargs)
+
+        # Get grade and username
+        grade = int(student['child_grade'])
+        username = student['username']
 
         # Create users_list toolbar with menus
         # Source: http://zetcode.com/tkinter/menustoolbars/
@@ -85,27 +89,27 @@ class SelectionView(tk.Frame):
         self.options = []
 
         # Use the grade to determine which tests to show
-        if grade == "1":
+        if grade == 1:
             self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy))
-        elif grade == "2":
+        elif grade == 2:
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
-        elif grade == "3":
+        elif grade == 3:
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
-        elif grade == "4":
+        elif grade == 4:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV', screen_to_destroy))
-        elif grade == "5":
+        elif grade == 5:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
-        elif grade >= "6":
+        elif grade >= 6:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
@@ -131,18 +135,18 @@ class SelectionView(tk.Frame):
 
 
 class RootWindow(tk.Tk):
-    def __init__(self, grade, *args, **kwargs):
+    def __init__(self, student, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Math Facts Practice')
         self.resizable(width=False, height=False)
-        self.sv = SelectionView(self, self, grade=grade)
+        self.sv = SelectionView(self, self, student)
         self.sv.pack(expand=True, fill='both')
 
         self.columnconfigure(0, weight=1)
 
 
-def run_problem_selection(grade):
-    root = RootWindow(grade)
+def run_problem_selection(student_id, student):
+    root = RootWindow(student)
     root.mainloop()
 
     for option in root.sv.options:
@@ -150,8 +154,11 @@ def run_problem_selection(grade):
             app = math_screen.Math_Screen_Settings(option.ID)
             app.mainloop()
 
-            Results = results.ResultsScreen(app)
-            Results.mainloop()
+            results_screen = results.ResultsScreen(app, student_id)
+            results_screen.mainloop()
+
 
 if __name__ == '__main__':
-    run_problem_selection(1)
+    student = {'child_grade': 1,
+               'username': 'TestUser'}
+    run_problem_selection('testuser', student)
