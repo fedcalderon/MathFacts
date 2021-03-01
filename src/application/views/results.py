@@ -39,15 +39,17 @@ class LinksFrame(Frame):
         # List and print all problem set grades.
         if len(problems.math_screen.questions_list) > 0:
             index = 0
-            incorrect_questions = 0
+            incorrect_answers = 0
+            correct_answers = 0
             for question in problems.math_screen.questions_list:
                 index += 1
                 if question.student_correct():
                     text = f"Question {index}: {question.text} --- " \
                            f"Student Answer: {question.student_answer}. " \
                            f"Correct!"
+                    correct_answers += 1
                 else:
-                    incorrect_questions += 1
+                    incorrect_answers += 1
                     text = f"Question {index}: {question.text} --- " \
                            f"Student Answer: {question.student_answer}. " \
                            f"Incorrect! " \
@@ -65,9 +67,19 @@ class LinksFrame(Frame):
                                      f"CORRECT.",
                           wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
                 """
+            # Look for uncompleted questions
+            total_questions = problems.math_screen.Total_Questions
+            incomplete_questions = total_questions - (correct_answers + incorrect_answers)
+            if incomplete_questions != 0:
+                if incomplete_questions == 1:
+                    text = "1 question was not answered."
+                else:
+                    text = f"{incomplete_questions} questions were not answered."
+                Label(self, text=text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
-            score_text = f"Asssignment grade is: " \
-                         f"{int(round(((len(problems.math_screen.questions_list) - incorrect_questions) / len(problems.math_screen.questions_list)) * 100, 2))}%"
+            # Give the score
+            score = round((correct_answers / total_questions) * 100, 1)
+            score_text = f"Assignment grade is {score:g}%"
             Label(self, text=score_text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
             save_results(problems.math_screen.questions_list, student_id)

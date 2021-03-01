@@ -88,7 +88,7 @@ class LinksFrame(tk.Frame):
         self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
         self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
 
-        self.registration_button = ttk.Button(self, text="Registration", command=self.Registration_start)
+        self.registration_button = ttk.Button(self, text="Register", command=self.Registration_start)
         self.registration_button.grid(row=100, column=100, sticky=(tk.E))
         self.registration_pressed = False
 
