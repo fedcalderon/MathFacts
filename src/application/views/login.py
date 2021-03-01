@@ -41,6 +41,7 @@ class LoginScreen(Tk):
 
         self.result_message = ""
         self.student = {}
+        self.student_id = ''
 
     def login_verify(self):
         # TODO: FOR LOGIN VERIFY
@@ -64,6 +65,7 @@ class LoginScreen(Tk):
                 if self.username1 == users_data[key]['username']:
                     if self.password1 == users_data[key]['password']:
                         self.student = users_data[key]
+                        self.student_id = key
                         self.result_message = "Successfully logged in."
                         break
 
@@ -113,7 +115,7 @@ class LoginScreen(Tk):
     def kill_everything(self):
         self.login_success_screen.destroy()
         self.destroy()
-        problem_selection.run_problem_selection(self.student['child_grade'])
+        problem_selection.run_problem_selection(self.student_id, self.student)
 
 
 if __name__ == '__main__':
