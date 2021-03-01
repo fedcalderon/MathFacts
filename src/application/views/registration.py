@@ -154,12 +154,12 @@ class MyApplication(tk.Tk):
                 users_data = json.load(jsonfile)
             # print(users_data)
             return users_data
-        except FileNotFoundError:
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
             # No users have been saved yet, so return an empty dictionary
             return {}
 
     def find_next_user_index(self):
-        # Keep track of the highest user index so far
+        # Find the highest user index so far
         highest_index = -1
         for key in self.users_dict.keys():
             user_index = int(key[5:])  # Substring just the number from "user ##"
@@ -187,19 +187,23 @@ class MyApplication(tk.Tk):
             "password": self.l.Password.get(),
         }
 
+        # Make sure the username is unique
+        for user in self.users_dict.values():
+            if self.all_information['username'] == user['username']:
+                self.field = ttk.Label(self, text=f"Username '{user['username']}' is already taken",
+                                       font=("TkDefaultFont", 10), wraplength=600)
+                self.field.grid(row=1400, column=0, sticky=tk.W)
+                return
         for key in self.all_information:
             if key == "guardian_2_first_name" or key == "guardian_2_last_name":
                 pass
-
             else:
                 if self.all_information.get(key) == "":
                     self.field = ttk.Label(self, text="Not all required fields have been answered"
                                            , font=("TkDefaultFont", 10), wraplength=600)
                     self.field.grid(row=1400, column=0, sticky=tk.W)
                     break
-
             if key == "password":
-
                 # print(self.user_count)
                 self.field = ttk.Label(self, text="          "
                                                   "                   "

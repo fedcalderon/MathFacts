@@ -1,34 +1,15 @@
-# Select which problem set to work on
-# Andrew
-#This is task #4 and it works
-
+import unittest
 import tkinter as tk
 from tkinter import ttk
 from src.application.views import math_screen
 from src.application.views import results
 
-#
-# DIFFERENT TYPES OF PROBLEMS AND IDS:
-# 1-ADD: Single digit addition
-# 2-ADD: Double digit addition
-# 3-ADD: Addition up to 5 digits
-# 1-SUB: Single digit subtraction
-# 2-SUB: Double digit subtraction
-# 3-SUB: Subtraction up to 5 digits
-# 1-MUL: Single digit multiplication
-# 2-MUL: Double digit multiplication
-# 1-DIV: Division with a single digit divisor.
-# 2-DIV: Division with a double digit divisor.
-
-class OptionFrame(tk.Frame):
-    """A frame that contains one option for the user."""
+class TestClass(unittest.TestCase):
+    def test_math_facts(self):
+        """A frame that contains one option for the user."""
 
     def __init__(self, parent, name, detail, ID, screen_to_destroy, *args, **kwargs):
-        """Initializes an OptionFrame widget.
-        :param parent: the parent widget
-        :param name: the name of the option
-        :param detail: optional additional detail about the option"""
-        # Set the text of the LabelFrame to this option's name
+
         super().__init__(parent, padx=20, pady=20, width=500, *args, **kwargs)
         self.name = name
         self.ID = ID
@@ -48,7 +29,7 @@ class OptionFrame(tk.Frame):
         start_frame.grid(row=1, column=0)
         self.start_button = ttk.Button(self.label_frame, text='Start', command=self.on_start)
         self.start_button.place(relx=1, rely=1,
-                           anchor='se')  # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
+                                anchor='se')  # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
         if self.start_is_clicked:
             self.start_is_clicked = True
 
@@ -63,15 +44,9 @@ class OptionFrame(tk.Frame):
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
 
-    def __init__(self, parent, screen_to_destroy, student, *args, **kwargs):
+    def __init__(self, parent, screen_to_destroy, grade, username='Username', *args, **kwargs):
         super().__init__(parent, padx=20, pady=15, *args, *kwargs)
 
-        # Get grade and username
-        grade = int(student['child_grade'])
-        username = student['username']
-
-        # Create users_list toolbar with menus
-        # Source: http://zetcode.com/tkinter/menustoolbars/
         toolbar = tk.Menu(self)
         self.master.config(menu=toolbar)
 
@@ -89,35 +64,33 @@ class SelectionView(tk.Frame):
         self.options = []
 
         # Use the grade to determine which tests to show
-        if grade == 1:
+        if grade == "1":
             self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy))
-        elif grade == 2:
+        elif grade == "2":
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
-        elif grade == 3:
+        elif grade == "3":
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
-        elif grade == 4:
+        elif grade == "4":
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV', screen_to_destroy))
-        elif grade == 5:
+        elif grade == "5":
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
-        elif grade >= 6:
+        elif grade >= "6":
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
             # TODO: Create a linear equations problem set for math_screen.py
-            # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
-        # Place the options in the grid automatically
         max_columns = 2
 
         row = 0
@@ -135,18 +108,18 @@ class SelectionView(tk.Frame):
 
 
 class RootWindow(tk.Tk):
-    def __init__(self, student, *args, **kwargs):
+    def __init__(self, grade, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Math Facts Practice')
         self.resizable(width=False, height=False)
-        self.sv = SelectionView(self, self, student)
+        self.sv = SelectionView(self, self, grade=grade)
         self.sv.pack(expand=True, fill='both')
 
         self.columnconfigure(0, weight=1)
 
 
-def run_problem_selection(student_id, student):
-    root = RootWindow(student)
+def run_problem_selection(grade):
+    root = RootWindow(grade)
     root.mainloop()
 
     for option in root.sv.options:
@@ -154,11 +127,8 @@ def run_problem_selection(student_id, student):
             app = math_screen.Math_Screen_Settings(option.ID)
             app.mainloop()
 
-            results_screen = results.ResultsScreen(app, student_id)
-            results_screen.mainloop()
-
+            Results = results.ResultsScreen(app)
+            Results.mainloop()
 
 if __name__ == '__main__':
-    student = {'child_grade': 1,
-               'username': 'TestUser'}
-    run_problem_selection('testuser', student)
+    unittest.main()
