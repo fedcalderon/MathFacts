@@ -1,14 +1,13 @@
 # Xade
+import random
+import time
 import tkinter as tk
 from tkinter import ttk
-import re
-import threading
-import time
-import random
-import math
+
+from src.application.objects.question import Question
 from src.application.views import results
 
-#
+
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
 # 1-ADD: Single digit addition
 # 2-ADD: Double digit addition
@@ -26,7 +25,7 @@ class Questions:
     def __init__(self, ID):
         self.ID = ID
         self.all_questions_taken = []
-        #self.all_questions_taken.append([f"What is {self.first_number} + {self.second_number}?",  f"{self.answer}"])
+        # self.all_questions_taken.append([f"What is {self.first_number} + {self.second_number}?",  f"{self.answer}"])
         print(self.all_questions_taken)
 
     def toggle_topics(self):
@@ -106,6 +105,8 @@ class Questions:
             self.answer = self.first_number / self.second_number
             return f"What is {self.first_number} / {self.second_number}?"
 
+# TODO: Prevent same question from appearing multiple times
+
 
 class Math_Screen(tk.Frame):
     def __init__(self, parent, ID, *args, **kwargs):
@@ -116,7 +117,8 @@ class Math_Screen(tk.Frame):
         self.insert_num = tk.StringVar()
         self.Question_Count = 1
         self.Total_Questions = 3
-        self.all_questions_list = []
+        self.questions_list = []
+        self.finished = False
 
         self.Question_label = tk.StringVar()
         self.Question_label.set(f"Question # of {self.Total_Questions}")
@@ -124,34 +126,34 @@ class Math_Screen(tk.Frame):
         self.time_left = 0
 
         self.ID = ID
-        self.Question = Questions(self.ID)
+        self.questions = Questions(self.ID)
         self.is_Question_Correct = False
 
         self.student_answer = 0
 
         # User entry, Submit button and Labels for layout
         self.UserInsert_entry = ttk.Entry(self, textvariable=self.ans_insert)
-        self.submit_button = ttk.Button(self, text="Submit", command=self.submit_ans)
-        self.clear_button = ttk.Button(self, text="Clear", command= lambda : self.UserInsert_entry.delete(0, 'end'))
+        self.UserInsert_entry.bind("<Key>", self.entry_key)
+        self.submit_button_text = tk.StringVar()
+        self.submit_button_text.set('Submit')
+        self.submit_button = ttk.Button(self, textvariable=self.submit_button_text, command=self.submit_ans)
+        self.clear_button = ttk.Button(self, text="Clear", command=lambda: self.UserInsert_entry.delete(0, 'end'))
         self.Question_Label = ttk.Label(self, textvariable=self.Question_label,
-                                font=("TkDefaultFont", 10), wraplength=600)
+                                        font=("TkDefaultFont", 10), wraplength=600)
         self.Question_is_correct = False
-        self.incorrect_questions = 0
-
-        Time_label = ttk.Label(self, textvariable=self.Time_label,
-                                font=("TkDefaultFont", 10), wraplength=600)
+        self.form_enabled = True
+        time_label = ttk.Label(self, textvariable=self.Time_label,
+                               font=("TkDefaultFont", 10), wraplength=600)
 
         # Display Questions
-
-
         self.Display_Question = tk.StringVar()
-        self.Display_Question.set(self.Question.toggle_topics())
+        self.Display_Question.set(self.questions.toggle_topics())
         self.addition_question = ttk.Label(self, textvariable=self.Display_Question,
-                                      font=("TkDefaultFont", 10), wraplength=600)
+                                           font=("TkDefaultFont", 10), wraplength=600)
 
         self.addition_question.grid(row=1, column=0, sticky=tk.W)
 
-        #Number buttons
+        # Number buttons
         self.number_button0 = ttk.Button(self, text="0", command=lambda: self.UserInsert_entry.insert('end', "0"))
         self.number_button1 = ttk.Button(self, text="1", command=lambda: self.UserInsert_entry.insert('end', "1"))
         self.number_button2 = ttk.Button(self, text="2", command=lambda: self.UserInsert_entry.insert('end', "2"))
@@ -169,10 +171,10 @@ class Math_Screen(tk.Frame):
         self.submit_button.grid(row=5, column=3, sticky=tk.E)
         self.clear_button.grid(row=5, column=4, sticky=tk.E)
         self.Question_Label.grid(row=0, column=0, sticky=tk.E)
-        Time_label.grid(row=0, column=12, sticky=tk.E)
+        time_label.grid(row=0, column=12, sticky=tk.E)
         self.columnconfigure(1, weight=1)
 
-        # number button grid
+        # Number button grid
         self.number_button0.grid(row=11, column=2, sticky=(tk.E))
         self.number_button1.grid(row=10, column=2, sticky=(tk.E))
         self.number_button2.grid(row=10, column=3, sticky=(tk.E))
@@ -185,6 +187,34 @@ class Math_Screen(tk.Frame):
         self.number_button9.grid(row=8, column=4, sticky=(tk.W))
         self.decimal_button.grid(row=11, column=4, sticky=(tk.W))
 
+        self.reset_fields()
+        # Set focus on text box
+        self.UserInsert_entry.focus()
+
+    def enable_buttons(self, enable=True):
+        if enable:
+            set_state = 'normal'
+            self.submit_button_text.set('Submit')
+            self.form_enabled = True
+        else:
+            set_state = 'disabled'
+            self.submit_button_text.set('Next')
+            self.form_enabled = False
+        self.clear_button['state'] = set_state
+        self.decimal_button['state'] = set_state
+        self.number_button0['state'] = set_state
+        self.number_button1['state'] = set_state
+        self.number_button2['state'] = set_state
+        self.number_button2['state'] = set_state
+        self.number_button3['state'] = set_state
+        self.number_button4['state'] = set_state
+        self.number_button5['state'] = set_state
+        self.number_button6['state'] = set_state
+        self.number_button7['state'] = set_state
+        self.number_button8['state'] = set_state
+        self.number_button9['state'] = set_state
+        self.UserInsert_entry['state'] = set_state
+
     def update_time(self, start_time):
         self.time_left = start_time
         for x in range(start_time, -1, -1):
@@ -193,50 +223,70 @@ class Math_Screen(tk.Frame):
             self.Time_label.set(f"Time Left: {self.time_left}")
             print(self.time_left)
 
+    def entry_key(self, key):
+        # If the user presses the enter key, submit their answer
+        if key.char == '\r':
+            self.submit_ans()
+
     def submit_ans(self):
+        if self.finished:
+            # Don't do anything
+            return
+        if self.form_enabled is not True:
+            self.enable_buttons(True)
+            self.answer_verification.set('')
+            self.reset_fields()
+            return
         if self.Question_Count - 1 < self.Total_Questions:
             if len(self.ans_insert.get()) > 0:
-                if re.search('[a-zA-Z]', self.ans_insert.get()):
+                # Make sure the user's input can be represented as an int
+                try:
+                    student_answer = int(self.ans_insert.get())
+                except ValueError:
                     print("Your answer is incomprehensible.")
                     self.answer_verification.set("\nYour answer is incomprehensible")
                     ttk.Label(self, textvariable=self.answer_verification,
                               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+                    return
+
+                text = f"What is {self.questions.first_number} {self.questions.symbol} {self.questions.second_number}?"
+                question = Question(question_type=self.ID,
+                                    first_num=self.questions.first_number,
+                                    second_num=self.questions.second_number,
+                                    symbol=self.questions.symbol,
+                                    correct_ans=self.questions.answer,
+                                    student_ans=student_answer,
+                                    text=text)
+                self.questions_list.append(question)
+
+                """
+                for x in range(0, len(self.questions_list)):
+                    if len(self.questions_list) >= 2:
+
+                        if len(self.questions_list) == 2:
+                            if self.questions_list[x][0] == self.questions_list[x - 1][0]:
+                                self.questions_list[x].append("INCORRECT")
+                                self.questions_list.remove(self.questions_list[x - 1])
+                                self.incorrect_questions += 1
+
+                        if len(self.questions_list) > 2:
+                            if self.questions_list[x][0] == self.questions_list[x - 1][0]:
+                                self.questions_list[x - 1].append("INCORRECT")
+                                self.questions_list.remove(self.questions_list[x])
+                                self.incorrect_questions += 1
+                """
+
+                # Check if the student's answer is correct
+                if student_answer == self.questions.answer:
+                    self.Question_Count = self.Question_Count + 1
+                    self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
+                    self.reset_fields()
                 else:
-
-                    self.all_questions_list.append([f"What is {self.Question.first_number} {self.Question.symbol} "
-                                            f"{self.Question.second_number}?", f"{self.ans_insert.get()}"])
-                    self.student_answer = self.ans_insert.get()
-                    for x in range(0, len(self.all_questions_list)):
-                        if len(self.all_questions_list) >= 2:
-
-                            if len(self.all_questions_list) == 2:
-                                if self.all_questions_list[x][0] == self.all_questions_list[x - 1][0]:
-                                    self.all_questions_list[x].append("INCORRECT")
-                                    self.all_questions_list.remove(self.all_questions_list[x - 1])
-                                    self.incorrect_questions += 1
-
-                            if len(self.all_questions_list) > 2:
-                                if self.all_questions_list[x][0] == self.all_questions_list[x - 1][0]:
-                                    self.all_questions_list[x - 1].append("INCORRECT")
-                                    self.all_questions_list.remove(self.all_questions_list[x])
-                                    self.incorrect_questions += 1
-
-                    # If the student's answer is correct...
-                    if int(self.ans_insert.get()) == (self.Question.answer):
-                        self.Question_Count = self.Question_Count + 1
-                        self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
-                        self.reset_fields()
-
-                    else:
-                        print(f"Your answer is wrong.")
-                        print(self.all_questions_list)
-                        self.answer_verification.set(f"\nYour answer is wrong.")
-                        ttk.Label(self, textvariable=self.answer_verification,
-                                  font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
-
-                    # question_list updating should go here
-                    print(self.all_questions_list)
-
+                    print(f"Your answer is wrong.")
+                    self.answer_verification.set(f"\nYour answer is wrong.")
+                    ttk.Label(self, textvariable=self.answer_verification,
+                              font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+                    self.enable_buttons(False)
             else:
                 print("Your answer is blank.")
                 self.answer_verification.set("\nYour answer is blank")
@@ -244,14 +294,19 @@ class Math_Screen(tk.Frame):
                           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
 
         if self.Question_Count - 1 == self.Total_Questions:
+            self.finished = True
+            self.reset_fields()
+            self.enable_buttons(False)
+            self.submit_button['state'] = 'disabled'
             ttk.Label(self, text="You have completed all questions. Close the window to view your answers and grade.",
                       font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
             self.Display_Question.set('')
             self.Question_label.set('')
-
+        # Set the focus back to the entry
+        self.UserInsert_entry.focus()
 
     def reset_fields(self):
-        self.Display_Question.set(self.Question.toggle_topics())
+        self.Display_Question.set(self.questions.toggle_topics())
         self.answer_verification.set('')
         self.ans_insert.set('')
 
@@ -267,7 +322,7 @@ class Math_Screen_Settings(tk.Tk):
         self.math_screen = Math_Screen(self, ID)
 
         self.math_screen.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        #self.math_screen.update_time(10)
+        # self.math_screen.update_time(10)
 
         # self.t1 = threading.Thread(target=lambda : self.math_screen.grid(sticky=(tk.E + tk.W + tk.N + tk.S)), args=[])
         # self.t2 = threading.Thread(target=lambda : self.math_screen.update_time(10), args=[])
@@ -292,7 +347,7 @@ class Math_Screen_Settings(tk.Tk):
         #               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
         #
         # else:
-            self.destroy()
+        self.destroy()
 
 
 if __name__ == '__main__':
@@ -300,5 +355,4 @@ if __name__ == '__main__':
     app = Math_Screen_Settings(test_ID)
     # while len(app.math_screen.all_questions_list) < 3:
     app.mainloop()
-    results.ResultsScreen(app).mainloop()
-
+    results.ResultsScreen(app, 'test').mainloop()
