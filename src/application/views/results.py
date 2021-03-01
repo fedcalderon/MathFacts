@@ -3,6 +3,7 @@
 from tkinter import *
 import time
 from src.application.views import math_screen
+from src.application.views import problem_selection
 
 
 # Frame
@@ -45,13 +46,31 @@ class ResultsScreen(Tk):
         #if len(ms_window.math_screen.all_questions_list) > 3:
         self.LinksFrame.grid()
 
+class RootWindow(Tk):
+    def __init__(self, grade, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.title('Math Facts Practice')
+        self.resizable(width=False, height=False)
+        self.sv = SelectionView(self, self, grade=grade)
+        self.sv.pack(expand=True, fill='both')
+
+        self.columnconfigure(0, weight=1)
+
+def run_problem_selection(grade):
+    Results = RootWindow(grade)
+    Results.mainloop()
 
 if __name__ == "__main__":
+    run_problem_selection(1)
     ms_window_id = '1-SUB'
+    run_problem_selection_id = '2-SUB'
     ms_window = math_screen.Math_Screen_Settings(ms_window_id)
-    # ms_window.geometry("600x500")
+    #ms_window.geometry("600x500")
     ms_window.resizable(width=False, height=False)
+    run_problem_selection = problem_selection.SelectionView(ResultsScreen)
+    run_problem_selection.resizable(width=False, height=False)
 
     ms_window.mainloop()
-    Results = ResultsScreen(ms_window)
+    #Results = ResultsScreen(ms_window)
     Results.mainloop()
+

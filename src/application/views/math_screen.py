@@ -6,7 +6,7 @@ import threading
 import time
 import random
 import math
-from src.application.views import results
+#from src.application.views import results
 
 #
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -16,7 +16,7 @@ from src.application.views import results
 # 1-SUB: Single digit subtraction
 # 2-SUB: Double digit subtraction
 # 3-SUB: Subtraction up to 5 digits
-# 1-MUL: Single digit multiplication
+# 1-MUL: Single  digit multiplication
 # 2-MUL: Double digit multiplication
 # 1-DIV: Division with a single digit divisor.
 # 2-DIV: Division with a double digit divisor.
@@ -295,10 +295,12 @@ class Math_Screen_Settings(tk.Tk):
             self.destroy()
 
 
+
+
 if __name__ == '__main__':
     test_ID = '1-ADD'
     app = Math_Screen_Settings(test_ID)
     # while len(app.math_screen.all_questions_list) < 3:
     app.mainloop()
-    results.ResultsScreen(app).mainloop()
+    #results.ResultsScreen(app).mainloop()
 
