@@ -26,7 +26,7 @@ class Questions:
         self.ID = ID
         self.all_questions_taken = []
         # self.all_questions_taken.append([f"What is {self.first_number} + {self.second_number}?",  f"{self.answer}"])
-        print(self.all_questions_taken)
+        # print(self.all_questions_taken)
 
     def toggle_topics(self):
         # Addition
@@ -91,18 +91,18 @@ class Questions:
         # Division
         elif self.ID == '1-DIV':
             self.first_number = random.randint(1, 100)
-            self.divisors = [x for x in range(1, 10) if self.first_number % x == 0]
+            self.divisors = [x for x in range(1, self.first_number + 1) if self.first_number % x == 0]
             self.second_number = self.divisors[random.randint(0, len(self.divisors) - 1)]
             self.symbol = '/'
-            self.answer = self.first_number / self.second_number
+            self.answer = int(self.first_number / self.second_number)
             return f"What is {self.first_number} / {self.second_number}?"
 
         elif self.ID == '2-DIV':
-            self.first_number = random.randint(1, 9999)
-            self.divisors = [x for x in range(10, 99) if self.first_number % x == 0]
+            self.first_number = random.randint(1, 999)
+            self.divisors = [x for x in range(10, self.first_number + 1) if self.first_number % x == 0]
             self.second_number = self.divisors[random.randint(1, len(self.divisors) - 1)]
             self.symbol = '/'
-            self.answer = self.first_number / self.second_number
+            self.answer = int(self.first_number / self.second_number)
             return f"What is {self.first_number} / {self.second_number}?"
 
 # TODO: Prevent same question from appearing multiple times
@@ -352,7 +352,7 @@ class Math_Screen_Settings(tk.Tk):
 
 
 if __name__ == '__main__':
-    test_ID = '1-ADD'
+    test_ID = '1-DIV'
     app = Math_Screen_Settings(test_ID)
     # while len(app.math_screen.all_questions_list) < 3:
     app.mainloop()
