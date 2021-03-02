@@ -71,7 +71,11 @@ class MyApplication(tk.Tk):
         self.registration_screen = [ttk.Label(self, text="Signup for MathFacts",
                                               font=("TkDefaultFont", 27), wraplength=600),
                                     r.ChildInformation(self), r.Guardian1Info(self), r.Guardian2Info(self),
-                                    r.LoginInformation(self)]
+                                    r.LoginInformation(self),
+
+                                    tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
+                                        self.registration_screen, self.welcome_screen))
+                                    ]
 
         # Login screen
         self.username_verify = tk.StringVar()
@@ -93,12 +97,19 @@ class MyApplication(tk.Tk):
                              self.password_login_entry,
                              tk.Label(self, text=""),
                              tk.Button(self, text="Login", width=10, height=1, command=
-                                lambda: login.login_verify(self))
+                                lambda: login.login_verify(self)),
+                             tk.Label(self, text=""),
+                             tk.Label(self, text=""),
+                             tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
+                                self.login_screen, self.welcome_screen))
                              ]
 
         # Problem selection screen
         self.problem_selection_screen = [ps.SelectionView(self, self, student = {'child_grade': 1,
-               'username': 'TestUser'})]
+               'username': 'TestUser'}),
+            tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
+                                                       self.problem_selection_screen, self.welcome_screen))
+                                         ]
 
 
     def change_screen(self, current_screen, new_screen):
