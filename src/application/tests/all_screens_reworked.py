@@ -40,7 +40,10 @@ class MyApplication(tk.Tk):
         self.terms_of_use_button = ttk.Button(self, text="Terms Of Use", command=lambda: self.change_screen(
             self.welcome_screen, self.terms_of_use_screen))
 
-        self.welcome_screen.extend([self.registration_button, self.terms_of_use_button])
+        self.login_button = ttk.Button(self, text="Login", command=lambda: self.change_screen(
+            self.welcome_screen, self.login_screen))
+
+        self.welcome_screen.extend([self.terms_of_use_button, self.registration_button, self.login_button])
 
         # Append all frames to the welcome view
         for item in self.welcome_screen:
@@ -51,6 +54,31 @@ class MyApplication(tk.Tk):
                                               font=("TkDefaultFont", 27), wraplength=600),
                                     r.ChildInformation(self), r.Guardian1Info(self), r.Guardian2Info(self),
                                     r.LoginInformation(self)]
+
+        # Login screen
+        self.username_verify = tk.StringVar()
+        self.password_verify = tk.StringVar()
+        self.username_login_entry = tk.Entry(self, textvariable=self.username_verify)
+        self.password_login_entry = tk.Entry(self, textvariable=self.password_verify, show='*')
+
+        self.result_message = ""
+        self.student = {}
+        self.student_id = ''
+        self.username1 = self.username_verify.get()
+        self.password1 = self.password_verify.get()
+        self.login_success_screen = tk.Toplevel(self)
+
+        self.login_screen = [tk.Label(self, text='Please enter details below to login'),
+                             tk.Label(self, text=''),
+                             tk.Label(self, text="Username * "),
+                             self.username_login_entry,
+                             tk.Label(self, text=""),
+                             tk.Label(self, text="Password * "),
+                             self.password_login_entry,
+                             tk.Label(self, text=""),
+                             tk.Button(self, text="Login", width=10, height=1, command=
+                                lambda: login.login_verify(self))
+                             ]
 
         # Terms of use screen
         self.terms_of_use_description = "No copying this program or using it illegally. " \
