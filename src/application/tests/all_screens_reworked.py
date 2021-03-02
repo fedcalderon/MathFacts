@@ -14,6 +14,7 @@ import src.application.tests.welcome as welcome
 import src.application.tests.registration as r
 import src.application.tests.login as login
 import src.application.tests.problem_selection as ps
+import src.application.tests.math_screen as ms
 
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -46,8 +47,11 @@ class MyApplication(tk.Tk):
         self.problem_selection_button = ttk.Button(self, text="Problem Selection", command=lambda: self.change_screen(
             self.welcome_screen, self.problem_selection_screen))
 
+        self.math_problems_button = ttk.Button(self, text="Math Problems", command=lambda: self.change_screen(
+            self.welcome_screen, self.math_problems_screen))
+
         self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
-                                    self.login_button, self.problem_selection_button])
+                                    self.login_button, self.problem_selection_button, self.math_problems_button])
 
         # Append all frames to the welcome view
         for item in self.welcome_screen:
@@ -111,6 +115,8 @@ class MyApplication(tk.Tk):
                                                        self.problem_selection_screen, self.welcome_screen))
                                          ]
 
+        # Math problems screen
+        self.math_problems_screen = [ms.Math_Screen(self, '1-ADD')]
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.
