@@ -12,6 +12,7 @@ from tkinter import ttk
 import csv
 import src.application.tests.welcome as welcome
 import src.application.tests.registration as r
+import src.application.tests.login as login
 
 
 class MyApplication(tk.Tk):
@@ -60,20 +61,17 @@ class MyApplication(tk.Tk):
         self.terms_of_use_screen = [ttk.Label(self, text="Terms Of Use",
                                               font=("TkDefaultFont", 27), wraplength=600), self.desc_label]
 
-        # self.terms_of_use_back = tk.Button(self, text="Back",
-        #                                       command=lambda: self.change_screen(
-        #                                           self.terms_of_use_screen, [welcome.IconFrame(self),
-        #                                                                      welcome.DescriptionFrame(self),
-        #                                                                      self.registration_button,
-        #                                                                      self.terms_of_use_button]))
-        #
-        # self.terms_of_use_screen.append(self.terms_of_use_back)
+        self.terms_of_use_back = tk.Button(self, text="Back",
+                                              command=lambda: self.change_screen(
+                                                  self.terms_of_use_screen, self.welcome_screen))
+
+        self.terms_of_use_screen.append(self.terms_of_use_back)
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.
         # It deletes all frames in the current view, and replaces them with all the frames in the new view.
         for item in current_screen:
-            item.destroy()
+            item.grid_forget()
         for item in new_screen:
             item.grid(sticky=(tk.W + tk.E + tk.N + tk.S))
 
