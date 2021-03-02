@@ -151,13 +151,11 @@ class RootWindow(tk.Tk):
         self.resizable(width=False, height=False)
         self.sv = SelectionView(self, self, student)
         self.sv.pack(expand=True, fill='both')
-
         self.columnconfigure(0, weight=1)
 
 
 def run_problem_selection(student_id, student):
     root = RootWindow(student)
-
     root.mainloop()
 
     for option in root.sv.options:

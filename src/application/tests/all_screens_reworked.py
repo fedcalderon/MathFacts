@@ -13,7 +13,7 @@ import csv
 import src.application.tests.welcome as welcome
 import src.application.tests.registration as r
 import src.application.tests.login as login
-
+import src.application.tests.problem_selection as ps
 
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -43,11 +43,29 @@ class MyApplication(tk.Tk):
         self.login_button = ttk.Button(self, text="Login", command=lambda: self.change_screen(
             self.welcome_screen, self.login_screen))
 
-        self.welcome_screen.extend([self.terms_of_use_button, self.registration_button, self.login_button])
+        self.problem_selection_button = ttk.Button(self, text="Problem Selection", command=lambda: self.change_screen(
+            self.welcome_screen, self.problem_selection_screen))
+
+        self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
+                                    self.login_button, self.problem_selection_button])
 
         # Append all frames to the welcome view
         for item in self.welcome_screen:
             item.grid(sticky=(tk.W + tk.E + tk.N + tk.S))
+
+        # Terms of use screen
+        self.terms_of_use_description = "No copying this program or using it illegally. " \
+                                        "It is strictly for the use of Math Facts purposes only. \n"
+        self.desc_label = ttk.Label(
+            self, text=self.terms_of_use_description, wraplength=400, font=("TkDefaultFont", 11))
+
+        self.terms_of_use_screen = [ttk.Label(self, text="Terms Of Use",
+                                              font=("TkDefaultFont", 27), wraplength=600), self.desc_label]
+
+        self.terms_of_use_back = tk.Button(self, text="Back",
+                                           command=lambda: self.change_screen(
+                                               self.terms_of_use_screen, self.welcome_screen))
+        self.terms_of_use_screen.append(self.terms_of_use_back)
 
         # Registration screen
         self.registration_screen = [ttk.Label(self, text="Signup for MathFacts",
@@ -60,14 +78,12 @@ class MyApplication(tk.Tk):
         self.password_verify = tk.StringVar()
         self.username_login_entry = tk.Entry(self, textvariable=self.username_verify)
         self.password_login_entry = tk.Entry(self, textvariable=self.password_verify, show='*')
-
         self.result_message = ""
         self.student = {}
         self.student_id = ''
         self.username1 = self.username_verify.get()
         self.password1 = self.password_verify.get()
         self.login_success_screen = tk.Toplevel(self)
-
         self.login_screen = [tk.Label(self, text='Please enter details below to login'),
                              tk.Label(self, text=''),
                              tk.Label(self, text="Username * "),
@@ -80,20 +96,10 @@ class MyApplication(tk.Tk):
                                 lambda: login.login_verify(self))
                              ]
 
-        # Terms of use screen
-        self.terms_of_use_description = "No copying this program or using it illegally. " \
-                                        "It is strictly for the use of Math Facts purposes only. \n"
-        self.desc_label = ttk.Label(
-            self, text=self.terms_of_use_description, wraplength=400, font=("TkDefaultFont", 11))
+        # Problem selection screen
+        self.problem_selection_screen = [ps.SelectionView(self, self, student = {'child_grade': 1,
+               'username': 'TestUser'})]
 
-        self.terms_of_use_screen = [ttk.Label(self, text="Terms Of Use",
-                                              font=("TkDefaultFont", 27), wraplength=600), self.desc_label]
-
-        self.terms_of_use_back = tk.Button(self, text="Back",
-                                              command=lambda: self.change_screen(
-                                                  self.terms_of_use_screen, self.welcome_screen))
-
-        self.terms_of_use_screen.append(self.terms_of_use_back)
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.
