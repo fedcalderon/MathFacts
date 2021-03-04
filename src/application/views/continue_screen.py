@@ -1,7 +1,9 @@
 import tkinter as tk
+import _json
 from tkinter import ttk
 from src.application.views import math_screen
 from src.application.views import results
+from results import ResultsScreen
 
 class OptionFrame(tk.Frame):
     """A frame that contains one option for the user."""
@@ -124,3 +126,28 @@ class Resume(tk.Tk):
         self.sv.pack(expand=True, fill='both')
 
         self.columnconfigure(0, weight=1)
+
+def run_problem_selection(student_id, student):
+    root = Resume(student)
+    root.mainloop()
+
+    for option in root.sv.options:
+        if option.start_is_clicked:
+            app = math_screen.Math_Screen_Settings(option.ID)
+            app.mainloop()
+
+            results_screen = results.ResultsScreen(app, student_id)
+            results_screen.mainloop()
+
+
+if __name__ == '__main__':
+    ms_window_id = '1-SUB'
+    ms_window = math_screen.Math_Screen_Settings(ms_window_id)
+    ms_window.resizable(width=False, height=False)
+
+    ms_window.mainloop()
+    Results = ResultsScreen(ms_window, 'test')
+    Results.mainloop()
+    student = {'child_grade': 1,
+               'username': 'TestUser'}
+    run_problem_selection('testuser', student)
