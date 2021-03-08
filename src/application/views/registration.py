@@ -135,7 +135,7 @@ class MyApplication(tk.Tk):
 
         self.columnconfigure(0, weight=1)
 
-        # self.users_data_file = r'views_data\users.json'
+        # self.users_data_file = registration'views_data\users.json'
         # self.users_data_file = f'{Path().absolute()}\student_data.json'
         self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
         # self.users_data_file = f'{os.path.normpath(os.path.join(os.path.dirname( __file__ ), os.pardir))}\student_data.json'
@@ -212,7 +212,7 @@ class MyApplication(tk.Tk):
                                                   "                   ", font=("TkDefaultFont", 10), wraplength=600)
                 self.field.grid(row=1400, column=0, sticky=tk.W)
 
-                # with open(r'users.json', 'w') as jsonfile:
+                # with open(registration'users.json', 'w') as jsonfile:
                 #     json.dump({f"user {self.user_count}": all_information}, jsonfile)
 
                 # Add new data to the users dictionary and save it all to the file

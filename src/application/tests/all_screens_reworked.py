@@ -11,10 +11,11 @@ import tkinter as tk
 from tkinter import ttk
 import csv
 import src.application.tests.welcome as welcome
-import src.application.tests.registration as r
+import src.application.tests.registration as registration
 import src.application.tests.login as login
 import src.application.tests.problem_selection as ps
 import src.application.tests.math_screen as ms
+import src.application.tests.results as results
 
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -74,8 +75,8 @@ class MyApplication(tk.Tk):
         # Registration screen
         self.registration_screen = [ttk.Label(self, text="Signup for MathFacts",
                                               font=("TkDefaultFont", 27), wraplength=600),
-                                    r.ChildInformation(self), r.Guardian1Info(self), r.Guardian2Info(self),
-                                    r.LoginInformation(self),
+                                    registration.ChildInformation(self), registration.Guardian1Info(self), registration.Guardian2Info(self),
+                                    registration.LoginInformation(self),
 
                                     tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
                                         self.registration_screen, self.welcome_screen))
@@ -116,7 +117,15 @@ class MyApplication(tk.Tk):
                                          ]
 
         # Math problems screen
-        self.math_problems_screen = [ms.Math_Screen(self, '1-ADD')]
+        # self.math_problems_screen = [ms.Math_Screen(self, '1-ADD')]
+
+        self.math_problems_screen = [ms.Math_Screen(self, '1-ADD'),
+            tk.Button(self, text="Show Grades", command=lambda: self.change_screen(
+            self.math_problems_screen, self.results_screen))
+                                     ]
+
+        # Results screen
+        self.results_screen = [results.LinksFrame(self, self.math_problems_screen[0], 'test')]
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.
