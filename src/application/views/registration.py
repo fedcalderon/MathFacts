@@ -194,6 +194,7 @@ class MyApplication(tk.Tk):
                                        font=("TkDefaultFont", 10), wraplength=600)
                 self.field.grid(row=1400, column=0, sticky=tk.W)
                 return
+
         for key in self.all_information:
             if key == "guardian_2_first_name" or key == "guardian_2_last_name":
                 pass
