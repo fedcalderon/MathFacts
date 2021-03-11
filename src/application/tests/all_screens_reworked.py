@@ -17,6 +17,7 @@ import src.application.tests.problem_selection as ps
 import src.application.tests.math_screen as ms
 import src.application.tests.results as results
 
+
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -119,13 +120,17 @@ class MyApplication(tk.Tk):
         # Math problems screen
         # self.math_problems_screen = [ms.Math_Screen(self, '1-ADD')]
 
-        self.math_problems_screen = [ms.Math_Screen(self, '1-ADD'),
+        m_s = ms.Math_Screen(self, '1-ADD')
+        self.math_problems_screen = [m_s,
             tk.Button(self, text="Show Grades", command=lambda: self.change_screen(
             self.math_problems_screen, self.results_screen))
                                      ]
 
+        if m_s.Question_Count == 2:
+            print('r')
+
         # Results screen
-        self.results_screen = [results.LinksFrame(self, self.math_problems_screen[0], 'test')]
+        self.results_screen = [results.LinksFrame(self, m_s, 'test')]
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.

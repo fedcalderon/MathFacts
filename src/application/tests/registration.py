@@ -100,6 +100,82 @@ class ChildInformation(tk.LabelFrame):
         self.age_button.grid(row=300, column=100, sticky=(tk.W))
 
 
+class SaveButton(tk.LabelFrame):
+    def __init__(self, parent, all_information, users_dict, users_data_file, user_index):
+        super().__init__(parent, text="Save", pady=25)
+
+        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
+        self.users_dict = self.get_users()
+
+        # Read current users from file and set the correct index
+        if self.users_dict.items() == 0:
+            self.user_index = 0
+        else:
+            self.user_index = lambda: self.find_next_user_index()
+
+        self.is_saved = False
+        self.columnconfigure(0, weight=1)
+
+        self.Save = ttk.Button(self, text="Save",
+                               command=lambda: self.save(all_information, self.users_dict, self.users_data_file, self.user_index))
+        self.Save.grid(row=1200, column=0, sticky=tk.W)
+
+    def get_users(self):
+        try:
+            # Load user data from the json file
+            with open(self.users_data_file) as jsonfile:
+                users_data = json.load(jsonfile)
+            print(users_data)
+            return users_data
+        except FileNotFoundError:
+            # No users have been saved yet, so return an empty dictionary
+            return {}
+
+    def find_next_user_index(self):
+        # Keep track of the highest user index so far
+        highest_index = -1
+        for key in self.users_dict.keys():
+            user_index = int(key[5:])  # Substring just the number from "user ##"
+            if user_index > highest_index:
+                highest_index = user_index
+
+        # The next user index will be 1 more than the previous highest index
+        return highest_index + 1
+
+    def save(self, information_dict, users_dict, users_data_file, user_index):
+        # self.user_count = self.user_count
+
+        for key in information_dict:
+            if key == "guardian_2_first_name" or key == "guardian_2_last_name":
+                pass
+
+            else:
+                if information_dict.get(key) == "":
+                    self.field = ttk.Label(self, text="Not all required fields have been answered"
+                                           , font=("TkDefaultFont", 10), wraplength=600)
+                    self.field.grid(row=1400, column=0, sticky=tk.W)
+                    break
+
+            if key == "password":
+
+                # print(self.user_count)
+                self.field = ttk.Label(self, text="          "
+                                                  "                   "
+                                                  "                   "
+                                                  "                   "
+                                                  "                   ", font=("TkDefaultFont", 10), wraplength=600)
+                self.field.grid(row=1400, column=0, sticky=tk.W)
+
+                # Add new data to the users dictionary and save it all to the file
+                users_dict[f'user {user_index}'] = information_dict
+                with open(users_data_file, 'w') as jsonfile:
+                    json.dump(users_dict, jsonfile)
+
+                user_index += 1
+                self.destroy()
+                self.is_saved = True
+
+
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -128,24 +204,40 @@ class MyApplication(tk.Tk):
         self.l = LoginInformation(self)
         self.l.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-        self.Save = ttk.Button(self, text="Save", command=self.save)
-        self.Save.grid(row=1200, column=0, sticky=tk.W)
+        self.all_information = {
+            "child_first_name": self.c.FirstName.get(),
+            "child_last_name": self.c.LastName.get(),
+            "child_grade": self.c.Grade.get(),
+            "child_age": self.c.Age.get(),
 
-        self.is_saved = False
+            "guardian_1_first_name": self.g1.FirstName.get(),
+            "guardian_1_last_name": self.g1.LastName.get(),
 
-        self.columnconfigure(0, weight=1)
+            "guardian_2_first_name": self.g2.FirstName.get(),
+            "guardian_2_last_name": self.g2.LastName.get(),
 
-        # self.users_data_file = registration'views_data\users.json'
-        # self.users_data_file = f'{Path().absolute()}\student_data.json'
+            "username": self.l.Username.get(),
+            "password": self.l.Password.get(),
+        }
+
         self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
-        # self.users_data_file = f'{os.path.normpath(os.path.join(os.path.dirname( __file__ ), os.pardir))}\student_data.json'
+        self.users_dict = self.get_users()
 
         # Read current users from file and set the correct index
-        self.users_dict = self.get_users()
         if self.users_dict.items() == 0:
             self.user_index = 0
         else:
             self.user_index = self.find_next_user_index()
+
+        # Things needed for saving
+        self.s = SaveButton(self, self.all_information, self.users_dict, self.users_data_file, self.user_index)
+        self.s.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+
+        # self.Save = ttk.Button(self, text="Save", command=self.save)
+        # self.Save.grid(row=1200, column=0, sticky=tk.W)
+
+        self.is_saved = False
+        self.columnconfigure(0, weight=1)
 
     def get_users(self):
         try:
@@ -171,21 +263,6 @@ class MyApplication(tk.Tk):
 
     def save(self):
         # self.user_count = self.user_count
-        self.all_information = {
-            "child_first_name": self.c.FirstName.get(),
-            "child_last_name": self.c.LastName.get(),
-            "child_grade": self.c.Grade.get(),
-            "child_age": self.c.Age.get(),
-
-            "guardian_1_first_name": self.g1.FirstName.get(),
-            "guardian_1_last_name": self.g1.LastName.get(),
-
-            "guardian_2_first_name": self.g2.FirstName.get(),
-            "guardian_2_last_name": self.g2.LastName.get(),
-
-            "username": self.l.Username.get(),
-            "password": self.l.Password.get(),
-        }
 
         for key in self.all_information:
             if key == "guardian_2_first_name" or key == "guardian_2_last_name":

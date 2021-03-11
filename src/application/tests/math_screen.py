@@ -105,9 +105,8 @@ class Questions:
             self.answer = self.first_number / self.second_number
             return f"What is {self.first_number} / {self.second_number}?"
 
+
 # TODO: Prevent same question from appearing multiple times
-
-
 class Math_Screen(tk.Frame):
     def __init__(self, parent, ID, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -279,8 +278,10 @@ class Math_Screen(tk.Frame):
                 # Check if the student's answer is correct
                 if student_answer == self.questions.answer:
                     self.Question_Count = self.Question_Count + 1
+                    print(self.Question_Count)
                     self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
                     self.reset_fields()
+
                 else:
                     print(f"Your answer is wrong.")
                     self.answer_verification.set(f"\nYour answer is wrong.")

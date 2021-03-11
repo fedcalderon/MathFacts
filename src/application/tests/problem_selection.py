@@ -90,17 +90,19 @@ class SelectionView(tk.Frame):
         self.options = []
 
         # Use the grade to determine which tests to show
-
         if grade == 1:
             self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy))
+
         elif grade == 2:
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
+
         elif grade == 3:
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
+
         elif grade == 4:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(
