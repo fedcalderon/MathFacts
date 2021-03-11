@@ -37,11 +37,11 @@ class LinksFrame(Frame):
         super().__init__(parent, **kwargs)
 
         # List and print all problem set grades.
-        if len(problems.math_screen.questions_list) > 0:
+        if len(problems.questions_list) > 0:
             index = 0
             incorrect_answers = 0
             correct_answers = 0
-            for question in problems.math_screen.questions_list:
+            for question in problems.questions_list:
                 index += 1
                 if question.student_correct():
                     text = f"Question {index}: {question.text} --- " \
@@ -68,7 +68,7 @@ class LinksFrame(Frame):
                           wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
                 """
             # Look for uncompleted questions
-            total_questions = problems.math_screen.Total_Questions
+            total_questions = problems.Total_Questions
             incomplete_questions = total_questions - (correct_answers + incorrect_answers)
             if incomplete_questions != 0:
                 if incomplete_questions == 1:
@@ -82,7 +82,7 @@ class LinksFrame(Frame):
             score_text = f"Assignment grade is {score:g}%"
             Label(self, text=score_text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
-            save_results(problems.math_screen.questions_list, student_id)
+            save_results(problems.questions_list, student_id)
 
         else:
             Label(self, text=f"You did no questions. Grade: 0%",
@@ -108,5 +108,5 @@ if __name__ == "__main__":
     ms_window.resizable(width=False, height=False)
 
     ms_window.mainloop()
-    Results = ResultsScreen(ms_window, 'test')
+    Results = ResultsScreen(ms_window.math_screen, 'test')
     Results.mainloop()
