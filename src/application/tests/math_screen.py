@@ -119,6 +119,8 @@ class Math_Screen(tk.Frame):
         self.questions_list = []
         self.finished = False
 
+        self.Correct_Answers = 0
+
         self.Question_label = tk.StringVar()
         self.Question_label.set(f"Question # of {self.Total_Questions}")
         self.Time_label = tk.StringVar()
@@ -278,7 +280,9 @@ class Math_Screen(tk.Frame):
                 # Check if the student's answer is correct
                 if student_answer == self.questions.answer:
                     self.Question_Count = self.Question_Count + 1
-                    print(self.Question_Count)
+                    self.Correct_Answers += 1
+                    # print(self.Correct_Answers)
+                    # print(self.Total_Questions)
                     self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
                     self.reset_fields()
 

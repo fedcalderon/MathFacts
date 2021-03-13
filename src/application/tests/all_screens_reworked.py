@@ -93,7 +93,7 @@ class MyApplication(tk.Tk):
         self.student_id = ''
         self.username1 = self.username_verify.get()
         self.password1 = self.password_verify.get()
-        self.login_success_screen = tk.Toplevel(self)
+        #self.login_success_screen = tk.Toplevel(self)
         self.login_screen = [tk.Label(self, text='Please enter details below to login'),
                              tk.Label(self, text=''),
                              tk.Label(self, text="Username * "),
@@ -116,21 +116,20 @@ class MyApplication(tk.Tk):
             tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
                                                        self.problem_selection_screen, self.welcome_screen))
                                          ]
+        #print(self.problem_selection_screen[0].)
 
         # Math problems screen
         # self.math_problems_screen = [ms.Math_Screen(self, '1-ADD')]
 
-        m_s = ms.Math_Screen(self, '1-ADD')
-        self.math_problems_screen = [m_s,
+        self.m_s = ms.Math_Screen(self, '1-ADD')
+        self.math_problems_screen = [self.m_s,
             tk.Button(self, text="Show Grades", command=lambda: self.change_screen(
             self.math_problems_screen, self.results_screen))
                                      ]
 
-        if m_s.Question_Count == 2:
-            print('r')
-
         # Results screen
-        self.results_screen = [results.LinksFrame(self, m_s, 'test')]
+        self.results_screen = [results.LinksFrame(self, self.m_s, 'test')]
+
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.
@@ -138,7 +137,7 @@ class MyApplication(tk.Tk):
         for item in current_screen:
             item.grid_forget()
         for item in new_screen:
-            item.grid(sticky=(tk.W + tk.E + tk.N + tk.S))
+            item.grid()
 
 
 if __name__ == '__main__':

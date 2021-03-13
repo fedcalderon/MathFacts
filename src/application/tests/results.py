@@ -32,29 +32,32 @@ def save_results(questions_list, student_id):
 
 
 # Frame
+
+
 class LinksFrame(Frame):
     def __init__(self, parent, problems, student_id, **kwargs):
         super().__init__(parent, **kwargs)
+        self.problems = problems
 
         # List and print all problem set grades.
-        if len(problems.questions_list) > 0:
-            index = 0
-            incorrect_answers = 0
-            correct_answers = 0
-            for question in problems.questions_list:
-                index += 1
+        if len(self.problems.questions_list) > 0:
+            self.index = 0
+            self.incorrect_answers = 0
+            self.correct_answers = 0
+            for question in self.problems.questions_list:
+                self.index += 1
                 if question.student_correct():
-                    text = f"Question {index}: {question.text} --- " \
+                    self.text = f"Question {self.index}: {question.text} --- " \
                            f"Student Answer: {question.student_answer}. " \
                            f"Correct!"
-                    correct_answers += 1
+                    self.correct_answers += 1
                 else:
-                    incorrect_answers += 1
-                    text = f"Question {index}: {question.text} --- " \
+                    self.incorrect_answers += 1
+                    self.text = f"Question {self.index}: {question.text} --- " \
                            f"Student Answer: {question.student_answer}. " \
                            f"Incorrect! " \
                            f"Correct Answer: {question.correct_answer}"
-                Label(self, text=text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+                Label(self, text=self.text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
                 """
                 if len(problems.math_screen.all_questions_list[x]) >= problems.math_screen.Total_Questions:
                     Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
@@ -68,26 +71,25 @@ class LinksFrame(Frame):
                           wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
                 """
             # Look for uncompleted questions
-            total_questions = problems.Total_Questions
-            incomplete_questions = total_questions - (correct_answers + incorrect_answers)
-            if incomplete_questions != 0:
-                if incomplete_questions == 1:
-                    text = "1 question was not answered."
+            self.total_questions = self.problems.Total_Questions
+            self.incomplete_questions = self.total_questions - (self.correct_answers + self.incorrect_answers)
+            if self.incomplete_questions != 0:
+                if self.incomplete_questions == 1:
+                    self.text = "1 question was not answered."
                 else:
-                    text = f"{incomplete_questions} questions were not answered."
-                Label(self, text=text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+                    self.text = f"{self.incomplete_questions} questions were not answered."
+                Label(self, text=self.text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
             # Give the score
-            score = round((correct_answers / total_questions) * 100, 1)
-            score_text = f"Assignment grade is {score:g}%"
-            Label(self, text=score_text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+            self.score = round((self.correct_answers / self.total_questions) * 100, 1)
+            self.score_text = f"Assignment grade is {self.score:g}%"
+            Label(self, text=self.score_text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
-            save_results(problems.questions_list, student_id)
+            save_results(self.problems.questions_list, student_id)
 
         else:
             Label(self, text=f"You did no questions. Grade: 0%",
                   wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
-        # desc_label.grid()
 
 
 # Results screen
@@ -101,10 +103,10 @@ class ResultsScreen(Tk):
 
 if __name__ == "__main__":
     ms_window_id = '1-SUB'
-    # ms_window = math_screen.Math_Screen_Settings(ms_window_id)
-    ms_window = math_screen.Math_Screen(Tk(), ms_window_id)
+    ms_window = math_screen.Math_Screen_Settings(ms_window_id)
     # ms_window.geometry("600x500")
+    ms_window.resizable(width=False, height=False)
 
     ms_window.mainloop()
-    Results = ResultsScreen(ms_window, 'test')
+    Results = ResultsScreen(ms_window.math_screen, 'test')
     Results.mainloop()

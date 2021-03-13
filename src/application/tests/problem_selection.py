@@ -68,8 +68,8 @@ class SelectionView(tk.Frame):
         super().__init__(parent, padx=20, pady=15, *args, *kwargs)
 
         # Get grade and username
-        grade = int(student['child_grade'])
-        username = student['username']
+        self.grade = int(student['child_grade'])
+        self.username = student['username']
 
         # Create users_list toolbar with menus
         # Source: http://zetcode.com/tkinter/menustoolbars/
@@ -78,7 +78,7 @@ class SelectionView(tk.Frame):
 
         user_menu = tk.Menu(toolbar)
         user_menu.add_command(label='Log Out')
-        toolbar.add_cascade(label=username, menu=user_menu)
+        toolbar.add_cascade(label=self.username, menu=user_menu)
 
         settings_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Settings', menu=settings_menu)
@@ -90,20 +90,20 @@ class SelectionView(tk.Frame):
         self.options = []
 
         # Use the grade to determine which tests to show
-        if grade == 1:
+        if self.grade == 1:
             self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy))
 
-        elif grade == 2:
+        elif self.grade == 2:
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
 
-        elif grade == 3:
+        elif self.grade == 3:
             self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
 
-        elif grade == 4:
+        elif self.grade == 4:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(
                 OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
@@ -111,7 +111,7 @@ class SelectionView(tk.Frame):
                 OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV', screen_to_destroy))
 
-        elif grade == 5:
+        elif self.grade == 5:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(
                 OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
@@ -119,7 +119,7 @@ class SelectionView(tk.Frame):
                 OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
 
-        elif grade >= 6:
+        elif self.grade >= 6:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
             self.options.append(
                 OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
@@ -165,7 +165,7 @@ def run_problem_selection(student_id, student):
             app = math_screen.Math_Screen_Settings(option.ID)
             app.mainloop()
 
-            results_screen = results.ResultsScreen(app, student_id)
+            results_screen = results.ResultsScreen(app.math_screen, student_id)
             results_screen.mainloop()
 
 
