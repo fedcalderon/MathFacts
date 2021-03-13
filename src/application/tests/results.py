@@ -32,8 +32,6 @@ def save_results(questions_list, student_id):
 
 
 # Frame
-
-
 class LinksFrame(Frame):
     def __init__(self, parent, problems, student_id, **kwargs):
         super().__init__(parent, **kwargs)
@@ -102,7 +100,7 @@ class ResultsScreen(Tk):
 
 
 if __name__ == "__main__":
-    ms_window_id = '1-SUB'
+    ms_window_id = '1-ADD'
     ms_window = math_screen.Math_Screen_Settings(ms_window_id)
     # ms_window.geometry("600x500")
     ms_window.resizable(width=False, height=False)

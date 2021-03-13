@@ -111,17 +111,14 @@ class MyApplication(tk.Tk):
                              ]
 
         # Problem selection screen
-        self.problem_selection_screen = [ps.SelectionView(self, self, student = {'child_grade': 1,
-               'username': 'TestUser'}),
+        self.problem_selection_screen = [ps.SelectionView(self, self, {'child_grade': 1,
+               'username': 'TestUser'}, self),
             tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
                                                        self.problem_selection_screen, self.welcome_screen))
                                          ]
-        #print(self.problem_selection_screen[0].)
-
-        # Math problems screen
-        # self.math_problems_screen = [ms.Math_Screen(self, '1-ADD')]
 
         self.m_s = ms.Math_Screen(self, '1-ADD')
+
         self.math_problems_screen = [self.m_s,
             tk.Button(self, text="Show Grades", command=lambda: self.change_screen(
             self.math_problems_screen, self.results_screen))
