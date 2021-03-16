@@ -111,21 +111,24 @@ class MyApplication(tk.Tk):
                              ]
 
         # Problem selection screen
-        self.problem_selection_screen = [ps.SelectionView(self, self, {'child_grade': 1,
-               'username': 'TestUser'}, self),
-            tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
+        self.selection_view = ps.SelectionView(self, self, {'child_grade': 1, 'username': 'TestUser'}, self)
+        self.problem_selection_screen = [self.selection_view,
+            tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
                                                        self.problem_selection_screen, self.welcome_screen))
                                          ]
 
         self.m_s = ms.Math_Screen(self, '1-ADD')
+        if self.selection_view.options[0].start_is_clicked:
+            print(self.m_s)
 
         self.math_problems_screen = [self.m_s,
-            tk.Button(self, text="Show Grades", command=lambda: self.change_screen(
-            self.math_problems_screen, self.results_screen))
+            # tk.Button(self, text="Show Grades", command=lambda: self.change_screen(
+            # self.math_problems_screen, self.results_screen))
                                      ]
 
         # Results screen
-        self.results_screen = [results.LinksFrame(self, self.m_s, 'test')]
+        #self.results_screen = [results.LinksFrame(self, self.m_s, 'test')]
+        self.results_screen = [self.m_s.results_screen]
 
 
     def change_screen(self, current_screen, new_screen):

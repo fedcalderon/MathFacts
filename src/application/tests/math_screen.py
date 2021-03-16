@@ -3,6 +3,7 @@ import random
 import time
 import tkinter as tk
 from tkinter import ttk
+from src.application.tests.results import LinksFrame
 
 from src.application.objects.question import Question
 from src.application.views import results
@@ -111,6 +112,7 @@ class Math_Screen(tk.Frame):
     def __init__(self, parent, ID, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
+        self.parent = parent
         self.answer_verification = tk.StringVar()
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
@@ -189,8 +191,11 @@ class Math_Screen(tk.Frame):
         self.decimal_button.grid(row=11, column=4, sticky=(tk.W))
 
         self.reset_fields()
+        self.results_screen = results.LinksFrame(parent, self, 'test')
+
         # Set focus on text box
         self.UserInsert_entry.focus()
+
 
     def enable_buttons(self, enable=True):
         if enable:
@@ -215,6 +220,7 @@ class Math_Screen(tk.Frame):
         self.number_button8['state'] = set_state
         self.number_button9['state'] = set_state
         self.UserInsert_entry['state'] = set_state
+
 
     def update_time(self, start_time):
         self.time_left = start_time
@@ -299,16 +305,27 @@ class Math_Screen(tk.Frame):
                           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
 
         if self.Question_Count - 1 == self.Total_Questions:
-            self.finished = True
-            self.reset_fields()
-            self.enable_buttons(False)
-            self.submit_button['state'] = 'disabled'
-            ttk.Label(self, text="You have completed all questions. Close the window to view your answers and grade.",
-                      font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
-            self.Display_Question.set('')
-            self.Question_label.set('')
+            self.reset_exercise(self.parent)
+
         # Set the focus back to the entry
         self.UserInsert_entry.focus()
+
+    def reset_exercise(self, parent_screen):
+        self.finished = True
+        self.reset_fields()
+        self.enable_buttons(False)
+        self.submit_button['state'] = 'disabled'
+        ttk.Label(self, text="You have completed this task.",
+                  font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+        self.Display_Question.set('')
+        self.Question_label.set('')
+
+        # tk.Button(self, text="Start Another Task", command=lambda: parent_screen.change_screen(
+        #     parent_screen.math_problems_screen, parent_screen.problem_selection_screen)).grid()
+        # Results = results.ResultsScreen(self, 'test')
+        # Results.mainloop()
+
+        tk.Button(self, text="Show Grades", command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
 
     def reset_fields(self):
         self.Display_Question.set(self.questions.toggle_topics())
@@ -325,7 +342,6 @@ class Math_Screen_Settings(tk.Tk):
         self.resizable(width=False, height=False)
         self.ID = ID
         self.math_screen = Math_Screen(self, ID)
-
         self.math_screen.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
         # self.math_screen.update_time(10)
 

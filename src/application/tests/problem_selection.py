@@ -21,6 +21,7 @@ import src.application.tests.math_screen
 # 1-DIV: Division with a single digit divisor.
 # 2-DIV: Division with a double digit divisor.
 
+
 class OptionFrame(tk.Frame):
     """A frame that contains one option for the user."""
 
@@ -58,7 +59,7 @@ class OptionFrame(tk.Frame):
         print(f"Starting {self.name} activity...")
         self.start_is_clicked = True
         if self.start_is_clicked:
-            self.m_s = math_screen.Math_Screen(self, self.ID)
+            self.m_s = math_screen.Math_Screen(master_screen, self.ID)
             master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
 
 
@@ -93,7 +94,6 @@ class SelectionView(tk.Frame):
         # Use the grade to determine which tests to show
         if self.grade == 1:
             self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy, master_screen))
-
             self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy, master_screen))
 
         elif self.grade == 2:
@@ -148,11 +148,16 @@ class SelectionView(tk.Frame):
                 column = 0
                 row += 1
 
+        # self.m_s = self.change(master_screen)
+        # if self.options[0].start_is_clicked:
+        self.m_s = math_screen.Math_Screen(master_screen, '1-ADD')
+        print(self.m_s)
+
     def change(self, master_screen):
         for option in self.options:
             if option.start_is_clicked:
                 master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
-                self.m_s = math_screen.Math_Screen(self, option.ID)
+                self.m_s = math_screen.Math_Screen(master_screen, option.ID)
                 master_screen.m_s = self.m_s
                 return self.m_s
 
