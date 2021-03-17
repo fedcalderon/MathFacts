@@ -50,17 +50,18 @@ class OptionFrame(tk.Frame):
         self.start_button = ttk.Button(self.label_frame, text='Start', command=lambda: self.on_start(master_screen))
         self.start_button.place(relx=1, rely=1,
                                 anchor='se')  # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
-        if self.start_is_clicked:
-            self.start_is_clicked = True
+
+        self.m_s = math_screen.Math_Screen(master_screen, self.ID)
 
     def on_start(self, master_screen):
         """Handle the start button pressed event."""
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
         self.start_is_clicked = True
-        if self.start_is_clicked:
-            self.m_s = math_screen.Math_Screen(master_screen, self.ID)
-            master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
+        print(self.m_s)
+        master_screen.math_problems_screen[0] = self.m_s
+        master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
+        print(master_screen.math_problems_screen[0])
 
 
 class SelectionView(tk.Frame):
@@ -107,26 +108,20 @@ class SelectionView(tk.Frame):
 
         elif self.grade == 4:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
-            self.options.append(
-                OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
-            self.options.append(
-                OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy, master_screen))
             self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV', screen_to_destroy, master_screen))
 
         elif self.grade == 5:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
-            self.options.append(
-                OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
-            self.options.append(
-                OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy, master_screen))
 
         elif self.grade >= 6:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
-            self.options.append(
-                OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
-            self.options.append(
-                OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy, master_screen))
             # TODO: Create a linear equations problem set for math_screen.py
             # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
@@ -137,6 +132,7 @@ class SelectionView(tk.Frame):
 
         row = 0
         column = 0
+
         for option in self.options:
             # Add the option to the grid
             option.grid(row=row, column=column, sticky=(tk.E + tk.W))
@@ -147,19 +143,6 @@ class SelectionView(tk.Frame):
                 # Move to the next row if the row is filled
                 column = 0
                 row += 1
-
-        # self.m_s = self.change(master_screen)
-        # if self.options[0].start_is_clicked:
-        self.m_s = math_screen.Math_Screen(master_screen, '1-ADD')
-        print(self.m_s)
-
-    def change(self, master_screen):
-        for option in self.options:
-            if option.start_is_clicked:
-                master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
-                self.m_s = math_screen.Math_Screen(master_screen, option.ID)
-                master_screen.m_s = self.m_s
-                return self.m_s
 
 
 class RootWindow(tk.Tk):

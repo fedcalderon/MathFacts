@@ -122,8 +122,6 @@ class MyApplication(tk.Tk):
             print(self.m_s)
 
         self.math_problems_screen = [self.m_s,
-            # tk.Button(self, text="Show Grades", command=lambda: self.change_screen(
-            # self.math_problems_screen, self.results_screen))
                                      ]
 
         # Results screen

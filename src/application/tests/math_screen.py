@@ -322,8 +322,6 @@ class Math_Screen(tk.Frame):
 
         # tk.Button(self, text="Start Another Task", command=lambda: parent_screen.change_screen(
         #     parent_screen.math_problems_screen, parent_screen.problem_selection_screen)).grid()
-        # Results = results.ResultsScreen(self, 'test')
-        # Results.mainloop()
 
         tk.Button(self, text="Show Grades", command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
 
