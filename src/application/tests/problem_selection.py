@@ -4,9 +4,8 @@
 
 import tkinter as tk
 from tkinter import ttk
-from src.application.views import math_screen
-from src.application.views import results
-import src.application.tests.math_screen
+from src.application.tests import math_screen
+from src.application.tests import results
 
 #
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -53,6 +52,7 @@ class OptionFrame(tk.Frame):
 
         self.m_s = math_screen.Math_Screen(master_screen, self.ID)
 
+
     def on_start(self, master_screen):
         """Handle the start button pressed event."""
         # Start the proper math exercise
@@ -62,6 +62,15 @@ class OptionFrame(tk.Frame):
         master_screen.math_problems_screen[0] = self.m_s
         master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
         print(master_screen.math_problems_screen[0])
+
+        # Results stuff. Delete if nessescary
+        #########################################################################################################
+        # results.ResultsScreen(self.m_s, 'test').mainloop()
+        if self.m_s.Question_Count - 1 == self.m_s.Total_Questions:
+            print('4')
+            tk.Button(master_screen, text="Show Grades",
+                      command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
+        #########################################################################################################
 
 
 class SelectionView(tk.Frame):

@@ -169,6 +169,8 @@ class Math_Screen(tk.Frame):
         self.number_button9 = ttk.Button(self, text="9", command=lambda: self.UserInsert_entry.insert('end', "9"))
         self.decimal_button = ttk.Button(self, text=".", command=lambda: self.UserInsert_entry.insert('end', "."))
 
+
+
         # Grid Layout
         self.UserInsert_entry.grid(row=5, column=2, sticky=(tk.E))
         self.submit_button.grid(row=5, column=3, sticky=tk.E)
@@ -190,9 +192,10 @@ class Math_Screen(tk.Frame):
         self.number_button9.grid(row=8, column=4, sticky=(tk.W))
         self.decimal_button.grid(row=11, column=4, sticky=(tk.W))
 
-        self.reset_fields()
+
         self.results_screen = results.LinksFrame(parent, self, 'test')
 
+        self.reset_fields()
         # Set focus on text box
         self.UserInsert_entry.focus()
 
@@ -305,7 +308,14 @@ class Math_Screen(tk.Frame):
                           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
 
         if self.Question_Count - 1 == self.Total_Questions:
+            print('u')
+
+            self.results_button = tk.Button(self, text="Show Grades",
+                                            command=lambda: results.ResultsScreen(self, 'test').mainloop())
+
+            self.results_button.grid()
             self.reset_exercise(self.parent)
+
 
         # Set the focus back to the entry
         self.UserInsert_entry.focus()
@@ -322,8 +332,6 @@ class Math_Screen(tk.Frame):
 
         # tk.Button(self, text="Start Another Task", command=lambda: parent_screen.change_screen(
         #     parent_screen.math_problems_screen, parent_screen.problem_selection_screen)).grid()
-
-        tk.Button(self, text="Show Grades", command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
 
     def reset_fields(self):
         self.Display_Question.set(self.questions.toggle_topics())

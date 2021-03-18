@@ -121,8 +121,7 @@ class MyApplication(tk.Tk):
         if self.selection_view.options[0].start_is_clicked:
             print(self.m_s)
 
-        self.math_problems_screen = [self.m_s,
-                                     ]
+        self.math_problems_screen = [self.m_s]
 
         # Results screen
         #self.results_screen = [results.LinksFrame(self, self.m_s, 'test')]
