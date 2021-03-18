@@ -15,7 +15,6 @@ import src.application.tests.registration as registration
 import src.application.tests.login as login
 import src.application.tests.problem_selection as ps
 import src.application.tests.math_screen as ms
-import src.application.tests.results as results
 
 
 class MyApplication(tk.Tk):
@@ -49,7 +48,7 @@ class MyApplication(tk.Tk):
         self.problem_selection_button = ttk.Button(self, text="Problem Selection", command=lambda: self.change_screen(
             self.welcome_screen, self.problem_selection_screen))
 
-        self.math_problems_button = ttk.Button(self, text="Math Problems", command=lambda: self.change_screen(
+        self.math_problems_button = ttk.Button(self, text="Sample Math Lesson", command=lambda: self.change_screen(
             self.welcome_screen, self.math_problems_screen))
 
         self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
@@ -122,10 +121,6 @@ class MyApplication(tk.Tk):
             print(self.m_s)
 
         self.math_problems_screen = [self.m_s]
-
-        # Results screen
-        #self.results_screen = [results.LinksFrame(self, self.m_s, 'test')]
-        self.results_screen = [self.m_s.results_screen]
 
 
     def change_screen(self, current_screen, new_screen):

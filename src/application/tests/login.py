@@ -75,11 +75,11 @@ def result_of_verification(self, result_message):
     if result_message == "User not found.":
         Label(self.login_success_screen, text="Do you want to register?").grid()
         Label(self.login_success_screen, text="").grid()
-        Button(self.login_success_screen, text="Register", height="1", width="15",
-               command=lambda: self.open_registration(self.login_success_screen, self)).grid(
-            sticky=(tk.E + tk.W + tk.N + tk.S))
+        ok = Button(self.login_success_screen, text="Register", height="1", width="15",
+            command=lambda: self.change_screen(self.login_screen, self.registration_screen))
+        ok.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-    if result_message == "Successfully logged in.":
+    elif result_message == "Successfully logged in.":
         ok_button = Button(self.login_success_screen, text="OK", height="1", width="15",
                            command=self.kill_everything)
         ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
