@@ -103,6 +103,7 @@ class SelectionView(tk.Frame):
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
         elif grade == 4:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
+
             self.options.append(
                 OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
             self.options.append(
@@ -124,6 +125,7 @@ class SelectionView(tk.Frame):
             self.options.append(
                 OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
+
             # TODO: Create a linear equations problem set for math_screen.py
             # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
