@@ -7,6 +7,7 @@ from tkinter import ttk
 from src.application.views import math_screen
 from src.application.views import results
 
+
 #
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
 # 1-ADD: Single digit addition
@@ -48,7 +49,7 @@ class OptionFrame(tk.Frame):
         start_frame.grid(row=1, column=0)
         self.start_button = ttk.Button(self.label_frame, text='Start', command=self.on_start)
         self.start_button.place(relx=1, rely=1,
-                           anchor='se')  # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
+                                anchor='se')  # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
         if self.start_is_clicked:
             self.start_is_clicked = True
 
@@ -89,6 +90,7 @@ class SelectionView(tk.Frame):
         self.options = []
 
         # Use the grade to determine which tests to show
+
         if grade == 1:
             self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy))
@@ -101,19 +103,29 @@ class SelectionView(tk.Frame):
             self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
         elif grade == 4:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
-            self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
+
+            self.options.append(
+                OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
+            self.options.append(
+                OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV', screen_to_destroy))
+
         elif grade == 5:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
-            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
+            self.options.append(
+                OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
+            self.options.append(
+                OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
+
         elif grade >= 6:
             self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
-            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
+            self.options.append(
+                OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy))
+            self.options.append(
+                OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy))
             self.options.append(OptionFrame(self, 'Division', 'Double digit division', '2-DIV', screen_to_destroy))
+
             # TODO: Create a linear equations problem set for math_screen.py
             # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
@@ -147,6 +159,7 @@ class RootWindow(tk.Tk):
 
 def run_problem_selection(student_id, student):
     root = RootWindow(student)
+
     root.mainloop()
 
     for option in root.sv.options:

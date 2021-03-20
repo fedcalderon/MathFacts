@@ -2,10 +2,12 @@
 # Asher
 # ask for name, last name, age, grade, parents names, username, password
 
-import json
 import tkinter as tk
-from pathlib import Path
 from tkinter import ttk
+import json
+import src.application
+import os
+from pathlib import Path
 
 
 class LoginInformation(tk.LabelFrame):
@@ -16,14 +18,14 @@ class LoginInformation(tk.LabelFrame):
         self.Username = tk.StringVar()
         self.username_label = ttk.Label(self, text="Enter Username")
         self.username_button = ttk.Entry(self, textvariable=self.Username)
-        self.username_label.grid(row=0, column=0, sticky=tk.W)
-        self.username_button.grid(row=100, column=0, sticky=tk.W)
+        self.username_label.grid(row=0, column=0, sticky=(tk.W))
+        self.username_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.Password = tk.StringVar()
         self.password_label = ttk.Label(self, text="Enter Password")
         self.password_button = ttk.Entry(self, textvariable=self.Password, show='*')
-        self.password_label.grid(row=0, column=100, sticky=tk.W)
-        self.password_button.grid(row=100, column=100, sticky=tk.W)
+        self.password_label.grid(row=0, column=100, sticky=(tk.W))
+        self.password_button.grid(row=100, column=100, sticky=(tk.W))
 
 
 class Guardian1Info(tk.LabelFrame):
@@ -34,14 +36,14 @@ class Guardian1Info(tk.LabelFrame):
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
         self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
+        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
         self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
+        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
 
 
 class Guardian2Info(tk.LabelFrame):
@@ -52,14 +54,14 @@ class Guardian2Info(tk.LabelFrame):
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
         self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
+        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
         self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
+        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
 
 
 class ChildInformation(tk.LabelFrame):
@@ -70,34 +72,108 @@ class ChildInformation(tk.LabelFrame):
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
         self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
+        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
         self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
+        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
 
         self.Grade = tk.StringVar()
         self.grade_label = ttk.Label(self, text="Grade of Child")
         self.grade_button = ttk.Combobox(self, width=27, textvariable=self.Grade)
         self.grade_values = []
-        for x in range(1, 8):
-            self.grade_values.append(str(x))
+        for x in range(1, 8): self.grade_values.append(str(x))
         self.grade_button['values'] = tuple(self.grade_values)
         self.grade_label.grid(row=200, column=00, sticky=tk.W)
-        self.grade_button.grid(row=300, column=00, sticky=tk.W)
+        self.grade_button.grid(row=300, column=00, sticky=(tk.W))
 
         self.Age = tk.StringVar()
         self.age_label = ttk.Label(self, text="Age of Child")
         self.age_button = ttk.Combobox(self, width=27, textvariable=self.Age)
         self.age_values = ["Under 5"]
-        for x in range(5, 19):
-            self.age_values.append(str(x))
+        for x in range(5, 19): self.age_values.append(str(x))
         self.age_button['values'] = tuple(self.age_values)
         self.age_label.grid(row=200, column=100, sticky=tk.W)
-        self.age_button.grid(row=300, column=100, sticky=tk.W)
+        self.age_button.grid(row=300, column=100, sticky=(tk.W))
+
+
+class SaveButton(tk.LabelFrame):
+    def __init__(self, parent, all_information, users_dict, users_data_file, user_index):
+        super().__init__(parent, text="Save", pady=25)
+
+        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
+        self.users_dict = self.get_users()
+
+        # Read current users from file and set the correct index
+        if self.users_dict.items() == 0:
+            self.user_index = 0
+        else:
+            self.user_index = lambda: self.find_next_user_index()
+
+        self.is_saved = False
+        self.columnconfigure(0, weight=1)
+
+        self.Save = ttk.Button(self, text="Save",
+                               command=lambda: self.save(all_information, self.users_dict, self.users_data_file, self.user_index))
+        self.Save.grid(row=1200, column=0, sticky=tk.W)
+
+    def get_users(self):
+        try:
+            # Load user data from the json file
+            with open(self.users_data_file) as jsonfile:
+                users_data = json.load(jsonfile)
+            print(users_data)
+            return users_data
+        except FileNotFoundError:
+            # No users have been saved yet, so return an empty dictionary
+            return {}
+
+    def find_next_user_index(self):
+        # Keep track of the highest user index so far
+        highest_index = -1
+        for key in self.users_dict.keys():
+            user_index = int(key[5:])  # Substring just the number from "user ##"
+            if user_index > highest_index:
+                highest_index = user_index
+
+        # The next user index will be 1 more than the previous highest index
+        return highest_index + 1
+
+    def save(self, information_dict, users_dict, users_data_file, user_index):
+        # self.user_count = self.user_count
+
+        for key in information_dict:
+            if key == "guardian_2_first_name" or key == "guardian_2_last_name":
+                pass
+
+            else:
+                if information_dict.get(key) == "":
+                    self.field = ttk.Label(self, text="Not all required fields have been answered"
+                                           , font=("TkDefaultFont", 10), wraplength=600)
+                    self.field.grid(row=1400, column=0, sticky=tk.W)
+                    break
+
+            if key == "password":
+
+                # print(self.user_count)
+                self.field = ttk.Label(self, text="          "
+                                                  "                   "
+                                                  "                   "
+                                                  "                   "
+                                                  "                   ", font=("TkDefaultFont", 10), wraplength=600)
+                self.field.grid(row=1400, column=0, sticky=tk.W)
+
+                # Add new data to the users dictionary and save it all to the file
+                users_dict[f'user {user_index}'] = information_dict
+                with open(users_data_file, 'w') as jsonfile:
+                    json.dump(users_dict, jsonfile)
+
+                user_index += 1
+                self.destroy()
+                self.is_saved = True
 
 
 class MyApplication(tk.Tk):
@@ -114,7 +190,7 @@ class MyApplication(tk.Tk):
 
         self.resizable(width=True, height=True)
         self.Main_Label = ttk.Label(self, text="Signup for MathFacts", font=("TkDefaultFont", 27), wraplength=600)
-        self.Main_Label.grid(row=0, column=0, sticky=tk.W)
+        self.Main_Label.grid(row=0, column=0, sticky=(tk.W))
 
         self.c = ChildInformation(self)
         self.c.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
@@ -128,49 +204,6 @@ class MyApplication(tk.Tk):
         self.l = LoginInformation(self)
         self.l.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-        self.Save = ttk.Button(self, text="Save", command=self.save)
-        self.Save.grid(row=1200, column=0, sticky=tk.W)
-
-        self.is_saved = False
-
-        self.columnconfigure(0, weight=1)
-
-        # self.users_data_file = registration'views_data\users.json'
-        # self.users_data_file = f'{Path().absolute()}\student_data.json'
-        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
-        # self.users_data_file = f'{os.path.normpath(os.path.join(os.path.dirname( __file__ ), os.pardir))}\student_data.json'
-
-        # Read current users from file and set the correct index
-        self.users_dict = self.get_users()
-        if self.users_dict.items() == 0:
-            self.user_index = 0
-        else:
-            self.user_index = self.find_next_user_index()
-
-    def get_users(self):
-        try:
-            # Load user data from the json file
-            with open(self.users_data_file) as jsonfile:
-                users_data = json.load(jsonfile)
-            # print(users_data)
-            return users_data
-        except (FileNotFoundError, json.decoder.JSONDecodeError):
-            # No users have been saved yet, so return an empty dictionary
-            return {}
-
-    def find_next_user_index(self):
-        # Find the highest user index so far
-        highest_index = -1
-        for key in self.users_dict.keys():
-            user_index = int(key[5:])  # Substring just the number from "user ##"
-            if user_index > highest_index:
-                highest_index = user_index
-
-        # The next user index will be 1 more than the previous highest index
-        return highest_index + 1
-
-    def save(self):
-        # self.user_count = self.user_count
         self.all_information = {
             "child_first_name": self.c.FirstName.get(),
             "child_last_name": self.c.LastName.get(),
@@ -187,24 +220,63 @@ class MyApplication(tk.Tk):
             "password": self.l.Password.get(),
         }
 
-        # Make sure the username is unique
-        for user in self.users_dict.values():
-            if self.all_information['username'] == user['username']:
-                self.field = ttk.Label(self, text=f"Username '{user['username']}' is already taken",
-                                       font=("TkDefaultFont", 10), wraplength=600)
-                self.field.grid(row=1400, column=0, sticky=tk.W)
-                return
+        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
+        self.users_dict = self.get_users()
+
+        # Read current users from file and set the correct index
+        if self.users_dict.items() == 0:
+            self.user_index = 0
+        else:
+            self.user_index = self.find_next_user_index()
+
+        # Things needed for saving
+        self.s = SaveButton(self, self.all_information, self.users_dict, self.users_data_file, self.user_index)
+        self.s.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+
+        # self.Save = ttk.Button(self, text="Save", command=self.save)
+        # self.Save.grid(row=1200, column=0, sticky=tk.W)
+
+        self.is_saved = False
+        self.columnconfigure(0, weight=1)
+
+    def get_users(self):
+        try:
+            # Load user data from the json file
+            with open(self.users_data_file) as jsonfile:
+                users_data = json.load(jsonfile)
+            print(users_data)
+            return users_data
+        except FileNotFoundError:
+            # No users have been saved yet, so return an empty dictionary
+            return {}
+
+    def find_next_user_index(self):
+        # Keep track of the highest user index so far
+        highest_index = -1
+        for key in self.users_dict.keys():
+            user_index = int(key[5:])  # Substring just the number from "user ##"
+            if user_index > highest_index:
+                highest_index = user_index
+
+        # The next user index will be 1 more than the previous highest index
+        return highest_index + 1
+
+    def save(self):
+        # self.user_count = self.user_count
 
         for key in self.all_information:
             if key == "guardian_2_first_name" or key == "guardian_2_last_name":
                 pass
+
             else:
                 if self.all_information.get(key) == "":
                     self.field = ttk.Label(self, text="Not all required fields have been answered"
                                            , font=("TkDefaultFont", 10), wraplength=600)
                     self.field.grid(row=1400, column=0, sticky=tk.W)
                     break
+
             if key == "password":
+
                 # print(self.user_count)
                 self.field = ttk.Label(self, text="          "
                                                   "                   "
@@ -221,14 +293,14 @@ class MyApplication(tk.Tk):
                 with open(self.users_data_file, 'w') as jsonfile:
                     json.dump(self.users_dict, jsonfile)
 
-                # with open(self.users_data_file) as jsonfile:
+                #with open(self.users_data_file) as jsonfile:
                 #    users_data = json.load(jsonfile)
 
                 self.user_index += 1
-                # self.users_list.append(users_data)
+                #self.users_list.append(users_data)
 
-                # self.all_users = {}
-                # for user in self.users_list:
+                #self.all_users = {}
+                #for user in self.users_list:
                 #    for key in user:
                 #        self.all_users.update({key : user[key]})
 

@@ -10,7 +10,7 @@ def main_account_screen():
     main_screen.geometry("1000x800")
     main_screen.title("MathFacts")
     main_screen.configure(background='yellow')
-    main_screen.iconbitmap(r'icon.ico')
+    main_screen.iconbitmap(registration'icon.ico')
     photo = PhotoImage(file='icon.ico')
     labelphoto = Label(main_screen, image = photo)
     labelphoto.pack()
