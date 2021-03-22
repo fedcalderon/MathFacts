@@ -35,7 +35,7 @@ class MyApplication(tk.Tk):
         self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
 
         # Bridge buttons(buttons that connect the welcome view to other views)
-        self.registration_button = ttk.Button(self, text="Registration",
+        self.registration_button = ttk.Button(self, text="Register",
                                               command=lambda: self.change_screen(
                                                   self.welcome_screen, self.registration_screen))
 
@@ -73,11 +73,8 @@ class MyApplication(tk.Tk):
         self.terms_of_use_screen.append(self.terms_of_use_back)
 
         # Registration screen
-        self.registration_screen = [ttk.Label(self, text="Signup for MathFacts",
-                                              font=("TkDefaultFont", 27), wraplength=600),
-                                    registration.ChildInformation(self), registration.Guardian1Info(self), registration.Guardian2Info(self),
-                                    registration.LoginInformation(self),
-
+        self.registration_view = registration.RegistrationView(self)
+        self.registration_screen = [self.registration_view,
                                     tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
                                         self.registration_screen, self.welcome_screen))
                                     ]
@@ -92,7 +89,7 @@ class MyApplication(tk.Tk):
         self.student_id = ''
         self.username1 = self.username_verify.get()
         self.password1 = self.password_verify.get()
-        #self.login_success_screen = tk.Toplevel(self)
+        # self.login_success_screen = tk.Toplevel(self)
         self.login_screen = [tk.Label(self, text='Please enter details below to login'),
                              tk.Label(self, text=''),
                              tk.Label(self, text="Username * "),
@@ -102,18 +99,18 @@ class MyApplication(tk.Tk):
                              self.password_login_entry,
                              tk.Label(self, text=""),
                              tk.Button(self, text="Login", width=10, height=1, command=
-                                lambda: login.login_verify(self)),
+                             lambda: login.login_verify(self)),
                              tk.Label(self, text=""),
                              tk.Label(self, text=""),
                              tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
-                                self.login_screen, self.welcome_screen))
+                                 self.login_screen, self.welcome_screen))
                              ]
 
         # Problem selection screen
         self.selection_view = ps.SelectionView(self, self, {'child_grade': 1, 'username': 'TestUser'}, self)
         self.problem_selection_screen = [self.selection_view,
-            tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
-                                                       self.problem_selection_screen, self.welcome_screen))
+                                         tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
+                                             self.problem_selection_screen, self.welcome_screen))
                                          ]
 
         self.m_s = ms.Math_Screen(self, '1-ADD')
@@ -121,7 +118,6 @@ class MyApplication(tk.Tk):
             print(self.m_s)
 
         self.math_problems_screen = [self.m_s]
-
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.
