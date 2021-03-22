@@ -103,7 +103,7 @@ class ChildInformation(tk.LabelFrame):
 class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.title("MathFacts")
+        self.title("Math Facts Registration")
         self.geometry("800x650")
         # self.configure(bg="gold")
 

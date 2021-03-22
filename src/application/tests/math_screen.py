@@ -6,7 +6,7 @@ from tkinter import ttk
 from src.application.tests.results import LinksFrame
 
 from src.application.objects.question import Question
-from src.application.views import results
+from src.application.tests import results
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -92,18 +92,25 @@ class Questions:
         # Division
         elif self.ID == '1-DIV':
             self.first_number = random.randint(1, 100)
-            self.divisors = [x for x in range(1, 10) if self.first_number % x == 0]
-            self.second_number = self.divisors[random.randint(0, len(self.divisors) - 1)]
+            divisors = [x for x in range(1, self.first_number + 1) if self.first_number % x == 0]
+            self.second_number = divisors[random.randint(0, len(divisors) - 1)]
             self.symbol = '/'
-            self.answer = self.first_number / self.second_number
+            self.answer = int(self.first_number / self.second_number)
             return f"What is {self.first_number} / {self.second_number}?"
 
         elif self.ID == '2-DIV':
-            self.first_number = random.randint(1, 9999)
-            self.divisors = [x for x in range(10, 99) if self.first_number % x == 0]
-            self.second_number = self.divisors[random.randint(1, len(self.divisors) - 1)]
+            self.first_number = random.randint(50, 999)
+            # hard_divisors excludes 1 and the first number
+            hard_divisors = [x for x in range(2, self.first_number) if self.first_number % x == 0]
+            if len(hard_divisors) == 0:
+                # Use 1 and the first number as possible divisors if there are no hard_divisors
+                divisors = [1, self.first_number]
+            else:
+                # Use hard_divisors as possible divisors
+                divisors = hard_divisors
+            self.second_number = divisors[random.randint(0, len(divisors) - 1)]
             self.symbol = '/'
-            self.answer = self.first_number / self.second_number
+            self.answer = int(self.first_number / self.second_number)
             return f"What is {self.first_number} / {self.second_number}?"
 
 
@@ -150,7 +157,6 @@ class Math_Screen(tk.Frame):
 
         # Display Questions
         self.Display_Question = tk.StringVar()
-        self.Display_Question.set(self.questions.toggle_topics())
         self.addition_question = ttk.Label(self, textvariable=self.Display_Question,
                                            font=("TkDefaultFont", 10), wraplength=600)
 
