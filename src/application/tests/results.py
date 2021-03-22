@@ -94,6 +94,7 @@ class LinksFrame(Frame):
 class ResultsScreen(Tk):
     def __init__(self, ms, student_id, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.title('Math Facts Results')
 
         self.LinksFrame = LinksFrame(self, ms, student_id)
         self.LinksFrame.grid()
