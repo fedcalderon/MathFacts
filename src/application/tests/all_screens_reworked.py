@@ -15,6 +15,8 @@ import src.application.tests.registration as registration
 import src.application.tests.login as login
 import src.application.tests.problem_selection as ps
 import src.application.tests.math_screen as ms
+from pathlib import Path
+import json
 
 
 class MyApplication(tk.Tk):
@@ -82,6 +84,8 @@ class MyApplication(tk.Tk):
                                         self.registration_screen, self.welcome_screen))
                                     ]
 
+        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
+
         # Login screen
         self.username_verify = tk.StringVar()
         self.password_verify = tk.StringVar()
@@ -110,7 +114,16 @@ class MyApplication(tk.Tk):
                              ]
 
         # Problem selection screen
-        self.selection_view = ps.SelectionView(self, self, {'child_grade': 1, 'username': 'TestUser'}, self)
+
+        with open(self.users_data_file) as jsonfile:
+            users_data = json.load(jsonfile)
+
+        self.users_data = users_data
+
+        print(int(self.users_data['user 0']['child_grade']))
+        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data['user 0']['child_grade']), 'username': 'TestUser'}, self)
+
+        # self.selection_view =
         self.problem_selection_screen = [self.selection_view,
             tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
                                                        self.problem_selection_screen, self.welcome_screen))

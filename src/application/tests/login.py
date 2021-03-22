@@ -5,7 +5,7 @@ from src.application.views import registration
 import src.application
 import json
 from pathlib import Path
-from src.application.views import problem_selection
+from src.application.views import problem_selection as ps
 
 
 # Designing window for login
@@ -35,6 +35,9 @@ def login_verify(self):
                     self.student = users_data[key]
                     self.student_id = key
                     self.result_message = "Successfully logged in."
+
+                    # problem selection screen
+                    self.selection_view = ps.SelectionView(self, self, {'child_grade': 1, 'username': 'TestUser'}, self)
                     break
 
                 else:
@@ -46,6 +49,8 @@ def login_verify(self):
 
     result_of_verification(self, self.result_message)
 
+#def selection_view():
+
 
 def open_registration(self, screen_to_destroy, screen_to_destroy_2):
     screen_to_destroy.destroy()
@@ -54,12 +59,6 @@ def open_registration(self, screen_to_destroy, screen_to_destroy_2):
 
 
 # Popup for login success/failure
-
-def kill_everything(self):
-    self.login_success_screen.destroy()
-    self.destroy()
-    problem_selection.run_problem_selection(self.student_id, self.student)
-
 
 def result_of_verification(self, result_message):
     self.result_message = result_message
@@ -89,5 +88,10 @@ def result_of_verification(self, result_message):
                            command=self.login_success_screen.destroy)
         ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
+
+def kill_everything(self):
+    self.login_success_screen.destroy()
+    self.destroy()
+    ps.run_problem_selection(self.student_id, self.student)
 
 
