@@ -23,7 +23,7 @@ def login_verify(self):
     self.password_login_entry.delete(0, END)
 
     # Replace Path call with os
-    with open(f'{Path().absolute()}\student_data.json') as jsonfile:
+    with open(f'{Path(__file__).parent.parent}\\student_data.json') as jsonfile:
         users_data = json.load(jsonfile)
         for key in users_data:
             # print(users_data[key]['username'])
