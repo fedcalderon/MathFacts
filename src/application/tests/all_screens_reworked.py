@@ -121,7 +121,7 @@ class MyApplication(tk.Tk):
         self.users_data = users_data
 
         print(int(self.users_data['user 0']['child_grade']))
-        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data['user 0']['child_grade']), 'username': 'TestUser'}, self)
+        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data['user 0']['child_grade']), self.username_login_entry: 'TestUser'}, self)
 
         # self.selection_view =
         self.problem_selection_screen = [self.selection_view,
