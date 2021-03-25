@@ -12,6 +12,7 @@ from src.application.views import problem_selection as ps
 
 
 def login_verify(self):
+
     # TODO: FOR LOGIN VERIFY
     self.username1 = self.username_verify.get()
     self.password1 = self.password_verify.get()
@@ -34,10 +35,10 @@ def login_verify(self):
                 if self.password1 == users_data[key]['password']:
                     self.student = users_data[key]
                     self.student_id = key
+                    #print(self.student_id)
                     self.result_message = "Successfully logged in."
 
                     # problem selection screen
-                    self.selection_view = ps.SelectionView(self, self, {'child_grade': 1, 'username': 'TestUser'}, self)
                     break
 
                 else:
@@ -59,7 +60,6 @@ def open_registration(self, screen_to_destroy, screen_to_destroy_2):
 
 
 # Popup for login success/failure
-
 def result_of_verification(self, result_message):
     self.result_message = result_message
     self.login_success_screen = Toplevel(self)
@@ -80,7 +80,7 @@ def result_of_verification(self, result_message):
 
     elif result_message == "Successfully logged in.":
         ok_button = Button(self.login_success_screen, text="OK", height="1", width="15",
-                           command=self.kill_everything)
+                           command=lambda: kill_everything(self))
         ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
     else:
@@ -91,7 +91,4 @@ def result_of_verification(self, result_message):
 
 def kill_everything(self):
     self.login_success_screen.destroy()
-    self.destroy()
-    ps.run_problem_selection(self.student_id, self.student)
-
-
+    self.change_screen(self.login_screen, self.problem_selection_screen)

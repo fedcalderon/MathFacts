@@ -90,7 +90,7 @@ class MyApplication(tk.Tk):
         self.password_login_entry = tk.Entry(self, textvariable=self.password_verify, show='*')
         self.result_message = ""
         self.student = {}
-        self.student_id = ''
+
         self.username1 = self.username_verify.get()
         self.password1 = self.password_verify.get()
         # self.login_success_screen = tk.Toplevel(self)
@@ -110,17 +110,16 @@ class MyApplication(tk.Tk):
                                  self.login_screen, self.welcome_screen))
                              ]
 
+        self.student_id = ''
         # Problem selection screen
 
         with open(self.users_data_file) as jsonfile:
             users_data = json.load(jsonfile)
 
         self.users_data = users_data
+        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data['user 0']['child_grade']), 'username': self.username_login_entry}, self)
 
-        print(int(self.users_data['user 0']['child_grade']))
-        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data['user 0']['child_grade']), self.username_login_entry: 'TestUser'}, self)
-
-        # self.selection_view =
+        print(self.student_id)
         self.problem_selection_screen = [self.selection_view,
                                          tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
                                              self.problem_selection_screen, self.welcome_screen))
