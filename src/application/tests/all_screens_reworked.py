@@ -110,25 +110,33 @@ class MyApplication(tk.Tk):
                                  self.login_screen, self.welcome_screen))
                              ]
 
-        self.student_id = ''
-        # Problem selection screen
+        # print(self.student_id)
 
+        # Problem selection screen
         with open(self.users_data_file) as jsonfile:
             users_data = json.load(jsonfile)
 
         self.users_data = users_data
-        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data['user 0']['child_grade']), 'username': self.username_login_entry}, self)
+        #print(self.username_verify.)
 
-        print(self.student_id)
+        for key in self.users_data:
+            # print(users_data[key]['username'])
+            # print(users_data[key]['password'])
+            # print(f"Username: {self.username1}")
+            # print(f"Password: {self.password1}")
+            if self.username1 == self.users_data[key]['username']:
+                if self.password1 == self.users_data[key]['password']:
+                    self.student = self.users_data[key]
+                    self.student_id = key
+                    print(self.student_id)
+
+        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data[f'user 0']['child_grade']), 'username': self.users_data[f'user 0']['username']}, self)
         self.problem_selection_screen = [self.selection_view,
                                          tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
                                              self.problem_selection_screen, self.welcome_screen))
                                          ]
 
         self.m_s = ms.Math_Screen(self, '1-ADD')
-        if self.selection_view.options[0].start_is_clicked:
-            print(self.m_s)
-
         self.math_problems_screen = [self.m_s]
 
     def change_screen(self, current_screen, new_screen):
