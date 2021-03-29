@@ -294,15 +294,15 @@ class Math_Screen(tk.Frame):
 
                 # Check if the student's answer is correct
                 if student_answer == self.questions.answer:
-                    self.Question_Count = self.Question_Count + 1
+                    self.Question_Count += 1
                     self.Correct_Answers += 1
                     # print(self.Correct_Answers)
                     # print(self.Total_Questions)
-                    self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
                     self.reset_fields()
 
                 else:
                     print(f"Your answer is wrong.")
+                    self.Question_Count += 1
                     self.answer_verification.set(f"\nYour answer is wrong.")
                     ttk.Label(self, textvariable=self.answer_verification,
                               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
@@ -343,6 +343,7 @@ class Math_Screen(tk.Frame):
         self.Display_Question.set(self.questions.toggle_topics())
         self.answer_verification.set('')
         self.ans_insert.set('')
+        self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
 
 
 class Math_Screen_Settings(tk.Tk):
