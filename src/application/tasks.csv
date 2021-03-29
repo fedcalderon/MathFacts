@@ -1,7 +1,14 @@
 Taskid,Date Created,Due Date,Name,Description,Owner,Completed
-t001,8/2/2021,8/22/2021,"Window consolidation","Consolidate all windows into 1 - same size - change content as needed", Asher, no
-t002,8/2/2021,8/22/2021,"Enable continous screens","Once a user is done working go back to math operations screen",Micah, no
-t003,8/2/2021,8/22/2021,"Save data in a file","Just like user data is saved, save math work for every run into a separate file",Andrew,yes
-t004,8/2/2021,8/22/2021,"Make problems appropriate for grades","Make sure each grade gets appropriate difficulty level problems",Milton,no
-t005,8/2/2021,8/22/2021,"Show progress on math screen","If there are 20 problems, show user which problem out of the total (4 of 20) and percentage completion",Xade,no
-
+t001,2/8/2021,3/22/2021,Window consolidation,Consolidate all windows into 1 - same size - change content as needed, Asher, no
+t002,2/8/2021,3/22/2021,Enable continous screens,Once a user is done working go back to math operations screen,Micah, no
+t003,2/8/2021,3/22/2021,Save data in a file,"Just like user data is saved, save math work for every run into a separate file",Andrew,yes
+t004,2/8/2021,3/22/2021,Make problems appropriate for grades,Make sure each grade gets appropriate difficulty level problems,Milton,no
+t005,2/8/2021,3/22/2021,Show progress on math screen,"If there are 20 problems, show user which problem out of the total (4 of 20) and percentage completion",Xade,no
+t006,3/4/2021,,Testing app,Each member of the group pick a task to test thoroughly. Identify bugs and report back to the person who the code. That person needs to fix those bugs.,,
+t007,3/4/2021,,Each member test the entire application ,"Make sure each of the previous tasks, 1-5, are fully functional. If bugs detected, report them in the bugs spreadsheet.",,
+t008,3/4/2021,,Work on bugs list,Each member pick a bug to fix,,
+t009,3/29/2021,4/12/2021,Single screen design,Implement the single screen design. This is a group collaboration. Coordinate with Asher.,Asher,
+t010,3/29/2021,4/12/2021,Centralize settings in Settings menu,"1. Make number of problems to solve 20 for default. 2. Provide a drop down menu for optios of 20, 50 and 100 problems.",Micah,
+t011,3/29/2021,4/12/2021,Create a user dashboard page,"Dashboard page shows after logging in. When a user is done solving problems, or when they exit out of the results page, always go back to the dashboard. Give user the option to logout. If user logs out, show login/registration page. Have a File menu to exit the program at any time.",Xade,
+t012,3/29/2021,4/12/2021,Create a statistics page ,This page shows the user graphs and other important statistical data to evaluate results and show improvements,Milton,
+t013,3/29/2021,4/12/2021,Create a database ,It is time to transition from a json file to a database. Investigate which database technology is best and implement a prototype.,Andrew,
