@@ -12,8 +12,7 @@ from tkinter import ttk
 import csv
 import src.application.tests.welcome as welcome
 import src.application.tests.registration as registration
-import src.application.tests.login as login
-import src.application.tests.login2 as login2
+import src.application.tests.new_login as new_login
 import src.application.tests.problem_selection as ps
 import src.application.tests.math_screen as ms
 from pathlib import Path
@@ -86,15 +85,15 @@ class MyApplication(tk.Tk):
 
         # Login screen
         ####################################################################################
-        self.Login_Manager = login2.Login(self)
+        self.Login_Manager = new_login.Login(self)
         self.login_screen = [self.Login_Manager]
 
         with open(self.users_data_file) as jsonfile:
             users_data = json.load(jsonfile)
 
         self.users_data = users_data
-
         ####################################################################################
+
         # Problem selection screen
         self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data[f'user 0']['child_grade']), 'username': self.users_data[f'user 0']['username']}, self)
         # self.selection_view = self.Login_Manager.generate_problem_set(self)
