@@ -41,14 +41,15 @@ class LoginScreen(Tk):
 
         self.result_message = ""
         self.student = {}
+        self.student_id = ''
 
     def login_verify(self):
         # TODO: FOR LOGIN VERIFY
         self.username1 = self.username_verify.get()
         self.password1 = self.password_verify.get()
 
-        print(self.username1)
-        print(self.password1)
+        # print(self.username1)
+        # print(self.password1)
 
         self.username_login_entry.delete(0, END)
         self.password_login_entry.delete(0, END)
@@ -57,13 +58,14 @@ class LoginScreen(Tk):
         with open(f'{Path().absolute()}\student_data.json') as jsonfile:
             users_data = json.load(jsonfile)
             for key in users_data:
-                print(users_data[key]['username'])
-                print(users_data[key]['password'])
-                print(f"Username: {self.username1}")
-                print(f"Password: {self.password1}")
+                # print(users_data[key]['username'])
+                # print(users_data[key]['password'])
+                # print(f"Username: {self.username1}")
+                # print(f"Password: {self.password1}")
                 if self.username1 == users_data[key]['username']:
                     if self.password1 == users_data[key]['password']:
                         self.student = users_data[key]
+                        self.student_id = key
                         self.result_message = "Successfully logged in."
                         break
 
@@ -113,7 +115,7 @@ class LoginScreen(Tk):
     def kill_everything(self):
         self.login_success_screen.destroy()
         self.destroy()
-        problem_selection.run_problem_selection(self.student['child_grade'])
+        problem_selection.run_problem_selection(self.student_id, self.student)
 
 
 if __name__ == '__main__':

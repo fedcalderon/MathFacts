@@ -1,6 +1,6 @@
 import json
 
-with open("users.json", "r") as rf:
+with open("users.json", "registration") as rf:
     decoded_data = json.load(rf)
 
 print(decoded_data)
