@@ -9,22 +9,17 @@ from src.application.views import problem_selection as ps
 
 
 # Designing window for login
+class Login:
+    def __init__(self):
+        self.username_verify = tk.StringVar()
+        self.password_verify = tk.StringVar()
+        self.username_login_entry = tk.Entry(self, textvariable=self.username_verify)
+        self.password_login_entry = tk.Entry(self, textvariable=self.password_verify, show='*')
+        self.result_message = ""
+        self.student = {}
 
-def set_student_id(self):
-    with open(f'{Path(__file__).parent.parent}\\student_data.json') as jsonfile:
-        users_data = json.load(jsonfile)
-        for key in users_data:
-            # print(users_data[key]['username'])
-            # print(users_data[key]['password'])
-            # print(f"Username: {self.username1}")
-            # print(f"Password: {self.password1}")
-            if self.username1 == users_data[key]['username']:
-                if self.password1 == users_data[key]['password']:
-                    self.student = users_data[key]
-                    self.student_id = key
-                    print(self.student_id)
-                    return self.student_id
-
+        self.username1 = self.username_verify.get()
+        self.password1 = self.password_verify.get()
 
 def login_verify(self):
     # TODO: FOR LOGIN VERIFY
