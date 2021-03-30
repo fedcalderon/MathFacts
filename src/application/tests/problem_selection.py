@@ -52,21 +52,25 @@ class OptionFrame(tk.Frame):
 
         self.m_s = math_screen.Math_Screen(master_screen, self.ID)
 
-
     def on_start(self, master_screen):
         """Handle the start button pressed event."""
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
         self.start_is_clicked = True
         print(self.m_s)
-        master_screen.math_problems_screen[0] = self.m_s
+        master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID)
         master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
         print(master_screen.math_problems_screen[0])
 
         # Results stuff. Delete if nessescary
         #########################################################################################################
         # results.ResultsScreen(self.m_s, 'test').mainloop()
-        if self.m_s.Question_Count - 1 == self.m_s.Total_Questions:
+        # if self.m_s.Question_Count - 1 == self.m_s.Total_Questions:
+        #     print('4')
+        #     tk.Button(master_screen, text="Show Grades",
+        #               command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
+
+        if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
             print('4')
             tk.Button(master_screen, text="Show Grades",
                       command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()

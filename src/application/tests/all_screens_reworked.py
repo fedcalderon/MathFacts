@@ -1,12 +1,7 @@
 # This is a work in progress. This keeps all the screens in a single window.
 # The major difference between this and the current program is that all the screens are contained in lists rather than
 #   tk windows.
-#
-#
-#
-#
-#
-#
+
 import tkinter as tk
 from tkinter import ttk
 import csv
@@ -104,7 +99,9 @@ class MyApplication(tk.Tk):
                                          ]
 
         self.m_s = ms.Math_Screen(self, '1-ADD')
-        self.math_problems_screen = [self.m_s]
+        self.math_problems_screen = [self.m_s, tk.Button(self, text="Start a new exercise", command=lambda: self.change_screen(
+                                             self.math_problems_screen, self.problem_selection_screen))]
+
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.
