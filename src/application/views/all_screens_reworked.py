@@ -4,11 +4,11 @@
 
 import tkinter as tk
 from tkinter import ttk
-import src.application.new_views.welcome as welcome
-import src.application.new_views.registration as registration
-import src.application.new_views.login as new_login
-import src.application.new_views.problem_selection as ps
-import src.application.new_views.math_screen as ms
+import src.application.views.welcome as welcome
+import src.application.views.registration as registration
+import src.application.views.login as new_login
+import src.application.views.problem_selection as ps
+import src.application.views.math_screen as ms
 from pathlib import Path
 import json
 
