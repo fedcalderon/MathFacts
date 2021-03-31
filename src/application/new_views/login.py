@@ -1,11 +1,11 @@
 from tkinter import *
 import os
 import tkinter as tk
-from src.application.views import registration
+from src.application.new_views import registration
 import src.application
 import json
 from pathlib import Path
-from src.application.tests import problem_selection as ps
+from src.application.new_views import problem_selection as ps
 
 
 # Designing window for login

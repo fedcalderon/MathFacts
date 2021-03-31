@@ -5,11 +5,11 @@
 import tkinter as tk
 from tkinter import ttk
 import csv
-import src.application.tests.welcome as welcome
-import src.application.tests.registration as registration
-import src.application.tests.login as new_login
-import src.application.tests.problem_selection as ps
-import src.application.tests.math_screen as ms
+import src.application.new_views.welcome as welcome
+import src.application.new_views.registration as registration
+import src.application.new_views.login as new_login
+import src.application.new_views.problem_selection as ps
+import src.application.new_views.math_screen as ms
 from pathlib import Path
 import json
 
@@ -49,7 +49,7 @@ class MyApplication(tk.Tk):
             self.welcome_screen, self.math_problems_screen))
 
         self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
-                                    self.login_button, self.problem_selection_button, self.math_problems_button])
+                                    self.login_button, self.problem_selection_button])
 
         # Append all frames to the welcome view
         for item in self.welcome_screen:
@@ -98,6 +98,7 @@ class MyApplication(tk.Tk):
                                              self.problem_selection_screen, self.welcome_screen))
                                          ]
 
+        # The math screen.
         self.m_s = ms.Math_Screen(self, '1-ADD')
         self.math_problems_screen = [self.m_s, tk.Button(self, text="Start a new exercise", command=lambda: self.change_screen(
                                              self.math_problems_screen, self.problem_selection_screen))]

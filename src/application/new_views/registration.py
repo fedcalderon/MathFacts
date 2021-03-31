@@ -5,8 +5,6 @@
 import tkinter as tk
 from tkinter import ttk
 import json
-import src.application
-import os
 from pathlib import Path
 
 

@@ -34,12 +34,7 @@ It is meant to be shown on the welcome screen."""
 # Andrew
 
 import tkinter as tk
-from tkinter import *
 from tkinter import ttk
-from src.application.views import login
-from src.application.views import registration
-import json
-from pathlib import Path
 
 
 class IconFrame(tk.Frame):
