@@ -1,8 +1,6 @@
 # Showing all problems worked on by user
 # Milton
 from tkinter import *
-import time
-from src.application.views import math_screen
 from pathlib import Path
 import json
 from datetime import datetime
@@ -98,14 +96,3 @@ class ResultsScreen(Tk):
 
         self.LinksFrame = LinksFrame(self, ms, student_id)
         self.LinksFrame.grid()
-
-
-if __name__ == "__main__":
-    ms_window_id = '1-ADD'
-    ms_window = math_screen.Math_Screen_Settings(ms_window_id)
-    # ms_window.geometry("600x500")
-    ms_window.resizable(width=False, height=False)
-
-    ms_window.mainloop()
-    Results = ResultsScreen(ms_window.math_screen, 'test')
-    Results.mainloop()

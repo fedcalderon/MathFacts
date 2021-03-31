@@ -157,31 +157,3 @@ class SelectionView(tk.Frame):
                 column = 0
                 row += 1
 
-
-class RootWindow(tk.Tk):
-    def __init__(self, student, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.title('Math Facts Practice')
-        self.resizable(width=False, height=False)
-        self.sv = SelectionView(self, self, student, self)
-        self.sv.pack(expand=True, fill='both')
-        self.columnconfigure(0, weight=1)
-
-
-def run_problem_selection(student_id, student):
-    root = RootWindow(student)
-    root.mainloop()
-
-    for option in root.sv.options:
-        if option.start_is_clicked:
-            app = math_screen.Math_Screen_Settings(option.ID)
-            app.mainloop()
-
-            results_screen = results.ResultsScreen(app.math_screen, student_id)
-            results_screen.mainloop()
-
-
-if __name__ == '__main__':
-    student = {'child_grade': 1,
-               'username': 'TestUser'}
-    run_problem_selection('testuser', student)

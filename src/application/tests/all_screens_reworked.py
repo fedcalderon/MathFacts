@@ -7,7 +7,7 @@ from tkinter import ttk
 import csv
 import src.application.tests.welcome as welcome
 import src.application.tests.registration as registration
-import src.application.tests.new_login as new_login
+import src.application.tests.login as new_login
 import src.application.tests.problem_selection as ps
 import src.application.tests.math_screen as ms
 from pathlib import Path
@@ -101,7 +101,6 @@ class MyApplication(tk.Tk):
         self.m_s = ms.Math_Screen(self, '1-ADD')
         self.math_problems_screen = [self.m_s, tk.Button(self, text="Start a new exercise", command=lambda: self.change_screen(
                                              self.math_problems_screen, self.problem_selection_screen))]
-
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two views) is clicked.

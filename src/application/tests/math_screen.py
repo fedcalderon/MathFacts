@@ -3,8 +3,6 @@ import random
 import time
 import tkinter as tk
 from tkinter import ttk
-from src.application.tests.results import LinksFrame
-
 from src.application.objects.question import Question
 from src.application.tests import results
 
@@ -343,49 +341,3 @@ class Math_Screen(tk.Frame):
         self.Display_Question.set(self.questions.toggle_topics())
         self.answer_verification.set('')
         self.ans_insert.set('')
-
-
-class Math_Screen_Settings(tk.Tk):
-    """Screen settings"""
-
-    def __init__(self, ID, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.geometry("600x500")
-        self.resizable(width=False, height=False)
-        self.ID = ID
-        self.math_screen = Math_Screen(self, ID)
-        self.math_screen.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        # self.math_screen.update_time(10)
-
-        # self.t1 = threading.Thread(target=lambda : self.math_screen.grid(sticky=(tk.E + tk.W + tk.N + tk.S)), args=[])
-        # self.t2 = threading.Thread(target=lambda : self.math_screen.update_time(10), args=[])
-        #
-        # self.t1.start()
-        # self.t2.start()
-
-        self.protocol("WM_DELETE_WINDOW", self.close_down_app)
-        self.columnconfigure(0, weight=1)
-
-    # def close_down_app(self):
-    #     if self.math_screen.time_left > 0:
-    #         print("The timer must stop before the app is closed. ")
-    #
-    #     else:
-    #         self.destroy()
-
-    def close_down_app(self):
-        # if self.math_screen.Question_Count < self.math_screen.Total_Questions + 1:
-        #     print(f"You must complete at least {self.math_screen.Total_Questions} questions. ")
-        #     ttk.Label(self, text=f"You must complete at least {self.math_screen.Total_Questions} questions. ",
-        #               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
-        #
-        # else:
-        self.destroy()
-
-
-if __name__ == '__main__':
-    test_ID = '1-ADD'
-    app = Math_Screen_Settings(test_ID)
-    # while len(app.math_screen.all_questions_list) < 3:
-    app.mainloop()
-    results.ResultsScreen(app, 'test').mainloop()

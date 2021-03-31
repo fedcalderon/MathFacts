@@ -42,17 +42,6 @@ import json
 from pathlib import Path
 
 
-class TermsOfUseWindow(tk.Frame):
-    def __init__(self, parent, **kwargs):
-        super().__init__(parent, **kwargs)
-
-        # Used this from andrews code to display window
-        description = "No copying this program or using it illegally. It is strictly for the use of Math Facts " \
-                      "purposes only. \n"
-        desc_label = ttk.Label(self, text=description, wraplength=200, font=("TkDefaultFont", 14))
-        desc_label.pack()
-
-
 class IconFrame(tk.Frame):
     """Contains and displays the description of the Math Facts Practice application."""
     def __init__(self, parent, **kwargs):
@@ -80,77 +69,3 @@ class DescriptionFrame(tk.Frame):
 
         desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 11))
         desc_label.pack()
-
-
-class LinksFrame(tk.Frame):
-    def __init__(self, parent, screen_to_destroy, registration_screen, **kwargs):
-        super().__init__(parent, **kwargs)
-
-        # Popup Windows
-        self.screen_to_destroy = screen_to_destroy
-        self.parent = parent
-
-        # Frame with button links
-        self.terms_of_use_link = ttk.Button(self, text="Terms Of Use", command=self.terms_of_use_open)
-        self.terms_of_use_link.grid(row=100, column=0, sticky=tk.W)
-
-        self.registration_button = ttk.Button(self, text="Registration",
-            command=lambda: self.Registration_start(registration_screen))
-        self.registration_button.grid(row=100, column=100, sticky=(tk.E))
-        self.registration_pressed = False
-
-        self.login_button = ttk.Button(self, text="Login", command=self.Login_start)
-        self.login_button.grid(row=100, column=200, sticky=(tk.E))
-        self.login_pressed = False
-
-    def Registration_start(self, registration_screen):
-        self.screen_to_destroy.change_screen(self.parent.welcome_screen, registration_screen)
-
-    def terms_of_use_open(self):
-        # Terms of use window
-        self.root = tk.Tk()
-        self.root.title('Terms Of Use')
-        self.root.resizable(width=False, height=False)
-        self.root.geometry('340x121')
-        TermsOfUseWindow(self.root).pack(expand=True, fill='both')
-        self.root.mainloop()
-
-    def Login_start(self):
-        # self.login_pressed = True
-        # #login.login()
-        # self.screen_to_destroy.destroy()
-        # login_window = login.LoginScreen()
-        # login_window.mainloop()
-        x = 5
-    # Open registration.py
-
-
-class WelcomeView(tk.Tk):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.title("MathFacts")
-        self.geometry("1000x650")
-
-        self.resizable(width=True, height=True)
-
-        # FRAMES
-        self.icon_frame = IconFrame(self)
-        self.description = DescriptionFrame(self)
-        self.description.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        self.links = LinksFrame(self, self)
-        self.links.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-        self.columnconfigure(0, weight=1)
-
-    def kill_everything(self):
-        self.destroy()
-
-
-if __name__ == '__main__':
-    app = WelcomeView()
-    app.mainloop()
-
-
-    # if app.links.registration_pressed:
-    #     registration_app = registration.MyApplication()
-    #     registration_app.mainloop()

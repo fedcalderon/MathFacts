@@ -5,7 +5,7 @@ from src.application.views import registration
 import src.application
 import json
 from pathlib import Path
-from src.application.views import problem_selection as ps
+from src.application.tests import problem_selection as ps
 
 
 # Designing window for login
