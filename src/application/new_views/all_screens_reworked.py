@@ -4,7 +4,6 @@
 
 import tkinter as tk
 from tkinter import ttk
-import csv
 import src.application.new_views.welcome as welcome
 import src.application.new_views.registration as registration
 import src.application.new_views.login as new_login
@@ -31,7 +30,7 @@ class MyApplication(tk.Tk):
         # Welcome_screen
         self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
 
-        # Bridge buttons(buttons that connect the welcome view to other views)
+        # Bridge buttons(buttons that connect the welcome view to other archived)
         self.registration_button = ttk.Button(self, text="Register",
                                               command=lambda: self.change_screen(
                                                   self.welcome_screen, self.registration_screen))
@@ -104,7 +103,7 @@ class MyApplication(tk.Tk):
                                              self.math_problems_screen, self.problem_selection_screen))]
 
     def change_screen(self, current_screen, new_screen):
-        # This method runs when a bridging button(buttons that connect two views) is clicked.
+        # This method runs when a bridging button(buttons that connect two archived) is clicked.
         # It deletes all frames in the current view, and replaces them with all the frames in the new view.
         for item in current_screen:
             item.grid_forget()

@@ -2,7 +2,7 @@
 # Milton
 from tkinter import *
 import time
-from src.application.views import math_screen
+from src.application.archived import math_screen
 from pathlib import Path
 import json
 from datetime import datetime

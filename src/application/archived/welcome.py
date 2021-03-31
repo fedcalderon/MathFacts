@@ -36,8 +36,8 @@ It is meant to be shown on the welcome screen."""
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from src.application.views import login
-from src.application.views import registration
+from src.application.archived import login
+from src.application.archived import registration
 import json
 from pathlib import Path
 

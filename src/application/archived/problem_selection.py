@@ -4,8 +4,8 @@
 
 import tkinter as tk
 from tkinter import ttk
-from src.application.views import math_screen
-from src.application.views import results
+from src.application.archived import math_screen
+from src.application.archived import results
 
 
 #
