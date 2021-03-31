@@ -320,7 +320,6 @@ class Math_Screen(tk.Frame):
             self.results_button.grid()
             self.reset_exercise(self.parent)
 
-
         # Set the focus back to the entry
         self.UserInsert_entry.focus()
 
