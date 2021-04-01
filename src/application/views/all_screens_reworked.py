@@ -9,12 +9,11 @@
 #
 import tkinter as tk
 from tkinter import ttk
-import csv
-import src.application.tests.welcome as welcome
-import src.application.tests.registration as registration
-import src.application.tests.login as login
-import src.application.tests.problem_selection as ps
-import src.application.tests.math_screen as ms
+import src.application.views.welcome as welcome
+import src.application.views.registration as registration
+import src.application.views.login as login
+import src.application.views.problem_selection as ps
+import src.application.views.math_screen as ms
 from pathlib import Path
 import json
 

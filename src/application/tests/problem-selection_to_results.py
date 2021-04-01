@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import src.application.tests.problem_selection as ps
+import src.application.views.problem_selection as ps
 
 
 class MyApplication(tk.Tk):
