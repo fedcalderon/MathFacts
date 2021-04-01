@@ -5,68 +5,85 @@ from src.application.views import registration
 import src.application
 import json
 from pathlib import Path
-from src.application.views import problem_selection
+from src.application.views import problem_selection as ps
 
 
 # Designing window for login
-
-############################################################################################################
-# REWORKED VERSION
-
-
-class LoginScreen(Tk):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.title("Login")
-        self.geometry("230x250")
-        Label(self, text='Please enter details below to login').grid()
-        Label(self, text='').grid()
+class problem_set:
+    def __init__(self, parent):
+        self.login_manager = Login(parent)
+        self.selection_view = self.login_manager.generate_problem_set()
 
 
+class Login(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
 
-        self.username_verify = StringVar()
-        self.password_verify = StringVar()
-
-        Label(self, text="Username * ").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        self.username_login_entry = Entry(self, textvariable=self.username_verify)
-        self.username_login_entry.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        Label(self, text="").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        Label(self, text="Password * ").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        self.password_login_entry = Entry(self, textvariable=self.password_verify, show='*')
-        self.password_login_entry.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        Label(self, text="").grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        Button(self, text="Login", width=10, height=1, command=self.login_verify).grid(
-            sticky=(tk.E + tk.W + tk.N + tk.S))
-
+        self.username_verify = tk.StringVar()
+        self.password_verify = tk.StringVar()
+        self.username_login_entry = tk.Entry(self, textvariable=self.username_verify)
+        self.password_login_entry = tk.Entry(self, textvariable=self.password_verify, show='*')
         self.result_message = ""
         self.student = {}
-        self.student_id = ''
 
-    def login_verify(self):
-        # TODO: FOR LOGIN VERIFY
         self.username1 = self.username_verify.get()
         self.password1 = self.password_verify.get()
 
-        # print(self.username1)
-        # print(self.password1)
+        self.selection_view = self.generate_problem_set()
+
+        tk.Label(self, text='Please enter details below to login').grid()
+        tk.Label(self, text='').grid()
+        tk.Label(self, text="Username * ").grid()
+        self.username_login_entry.grid()
+        tk.Label(self, text="").grid()
+        tk.Label(self, text="Password * ").grid()
+        self.password_login_entry.grid()
+        tk.Label(self, text="").grid()
+        tk.Button(self, text="Login", width=10, height=1, command=
+        lambda: self.login_verify(parent)).grid()
+        tk.Label(self, text="").grid()
+        tk.Label(self, text="").grid()
+        tk.Button(self, text="Back to Welcome Screen", command=lambda: parent.change_screen(
+            parent.login_screen, parent.welcome_screen)).grid()
+
+    def generate_problem_set(self):
+        with open(f'{Path(__file__).parent.parent}\\student_data.json') as jsonfile:
+            self.users_data = json.load(jsonfile)
+            for key in self.users_data:
+                if self.username1 == self.users_data[key]['username']:
+                    if self.password1 == self.users_data[key]['password']:
+                        self.student = self.users_data[key]
+                        self.student_id = key
+                        selection_view = ps.SelectionView(self, self,
+                                               {'child_grade': int(self.users_data[f'user 0']['child_grade']),
+                                                'username': self.users_data[f'user 0']['username']}, self)
+
+                        return selection_view
+
+    def login_verify(self, parent):
+        # TODO: FOR LOGIN VERIFY
+        self.username1 = self.username_verify.get()
+        self.password1 = self.password_verify.get()
 
         self.username_login_entry.delete(0, END)
         self.password_login_entry.delete(0, END)
 
         # Replace Path call with os
-        with open(f'{Path().absolute()}\student_data.json') as jsonfile:
-            users_data = json.load(jsonfile)
-            for key in users_data:
+        with open(f'{Path(__file__).parent.parent}\\student_data.json') as jsonfile:
+            self.users_data = json.load(jsonfile)
+            for key in self.users_data:
                 # print(users_data[key]['username'])
                 # print(users_data[key]['password'])
                 # print(f"Username: {self.username1}")
                 # print(f"Password: {self.password1}")
-                if self.username1 == users_data[key]['username']:
-                    if self.password1 == users_data[key]['password']:
-                        self.student = users_data[key]
+                if self.username1 == self.users_data[key]['username']:
+                    if self.password1 == self.users_data[key]['password']:
+                        self.student = self.users_data[key]
                         self.student_id = key
+                        # print(self.student_id)
                         self.result_message = "Successfully logged in."
+
+                        # problem selection screen
                         break
 
                     else:
@@ -76,7 +93,11 @@ class LoginScreen(Tk):
                 else:
                     self.result_message = "User not found."
 
-        self.result_of_verification(self.result_message)
+        self.result_of_verification(self.result_message, parent)
+
+    def kill_everything(self, parent):
+        self.login_success_screen.destroy()
+        parent.change_screen(parent.login_screen, parent.problem_selection_screen)
 
     def open_registration(self, screen_to_destroy, screen_to_destroy_2):
         screen_to_destroy.destroy()
@@ -84,7 +105,7 @@ class LoginScreen(Tk):
         registration.MyApplication().mainloop()
 
     # Popup for login success/failure
-    def result_of_verification(self, result_message):
+    def result_of_verification(self, result_message, parent):
         self.result_message = result_message
         self.login_success_screen = Toplevel(self)
         self.login_success_screen.title("Login Result")
@@ -98,27 +119,17 @@ class LoginScreen(Tk):
         if result_message == "User not found.":
             Label(self.login_success_screen, text="Do you want to register?").grid()
             Label(self.login_success_screen, text="").grid()
-            Button(self.login_success_screen, text="Register", height="1", width="15",
-                   command=lambda: self.open_registration(self.login_success_screen, self)).grid(
-                sticky=(tk.E + tk.W + tk.N + tk.S))
+            ok = Button(self.login_success_screen, text="Register", height="1", width="15",
+                        command=lambda: parent.change_screen(parent.login_screen, parent.registration_screen))
+            ok.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
-        if result_message == "Successfully logged in.":
+        elif result_message == "Successfully logged in.":
             ok_button = Button(self.login_success_screen, text="OK", height="1", width="15",
-                               command=self.kill_everything)
+                               command=lambda: self.kill_everything(parent))
             ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
         else:
             ok_button = Button(self.login_success_screen, text="No, go back.", height="1", width="15",
                                command=self.login_success_screen.destroy)
             ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
-    def kill_everything(self):
-        self.login_success_screen.destroy()
-        self.destroy()
-        problem_selection.run_problem_selection(self.student_id, self.student)
-
-
-if __name__ == '__main__':
-    login_window = LoginScreen()
-    login_window.mainloop()
 
