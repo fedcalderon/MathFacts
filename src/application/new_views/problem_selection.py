@@ -4,8 +4,8 @@
 
 import tkinter as tk
 from tkinter import ttk
-from src.application.views import math_screen
-from src.application.views import results
+from src.application.new_views import math_screen
+from src.application.new_views import results
 
 #
 # DIFFERENT TYPES OF PROBLEMS AND IDS:

@@ -4,11 +4,11 @@
 
 import tkinter as tk
 from tkinter import ttk
-import src.application.views.welcome as welcome
-import src.application.views.registration as registration
-import src.application.views.login as new_login
-import src.application.views.problem_selection as ps
-import src.application.views.math_screen as ms
+import src.application.new_views.welcome as welcome
+import src.application.new_views.registration as registration
+import src.application.new_views.login as new_login
+import src.application.new_views.problem_selection as ps
+import src.application.new_views.math_screen as ms
 from pathlib import Path
 import json
 
@@ -85,22 +85,22 @@ class MyApplication(tk.Tk):
         with open(self.users_data_file) as jsonfile:
             users_data = json.load(jsonfile)
 
-        self.users_data = users_data
-        ####################################################################################
+            self.users_data = users_data
+            ####################################################################################
+            if 5 > 4:
+                # Problem selection screen
+                self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data[f'user 0']['child_grade']), 'username': self.users_data[f'user 0']['username']}, self)
+                #self.selection_view = self.Login_Manager.generate_problem_set(self)
 
-        # Problem selection screen
-        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data[f'user 0']['child_grade']), 'username': self.users_data[f'user 0']['username']}, self)
-        # self.selection_view = self.Login_Manager.generate_problem_set(self)
+                self.problem_selection_screen = [self.selection_view,
+                                                tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
+                                                     self.problem_selection_screen, self.welcome_screen))
+                                                 ]
 
-        self.problem_selection_screen = [self.selection_view,
-                                         tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
-                                             self.problem_selection_screen, self.welcome_screen))
-                                         ]
-
-        # The math screen.
-        self.m_s = ms.Math_Screen(self, '1-ADD')
-        self.math_problems_screen = [self.m_s, tk.Button(self, text="Start a new exercise", command=lambda: self.change_screen(
-                                             self.math_problems_screen, self.problem_selection_screen))]
+                # The math screen.
+                self.m_s = ms.Math_Screen(self, '1-ADD')
+                self.math_problems_screen = [self.m_s, tk.Button(self, text="Start a new exercise", command=lambda: self.change_screen(
+                                                     self.math_problems_screen, self.problem_selection_screen))]
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two archived) is clicked.

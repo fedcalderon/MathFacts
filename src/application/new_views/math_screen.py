@@ -4,7 +4,7 @@ import time
 import tkinter as tk
 from tkinter import ttk
 from src.application.objects.question import Question
-from src.application.views import results
+from src.application.new_views import results
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
