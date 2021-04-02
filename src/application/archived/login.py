@@ -1,8 +1,11 @@
 from tkinter import *
+import os
 import tkinter as tk
+from src.application.archived import registration
+import src.application
 import json
 from pathlib import Path
-from src.application.archived import problem_selection, registration
+from src.application.archived import problem_selection
 
 
 # Designing window for login

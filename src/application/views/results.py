@@ -1,8 +1,6 @@
 # Showing all problems worked on by user
 # Milton
 from tkinter import *
-import time
-from src.application.views import math_screen
 from pathlib import Path
 import json
 from datetime import datetime
@@ -56,18 +54,7 @@ class LinksFrame(Frame):
                            f"Incorrect! " \
                            f"Correct Answer: {question.correct_answer}"
                 Label(self, text=self.text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
-                """
-                if len(problems.math_screen.all_questions_list[x]) >= problems.math_screen.Total_Questions:
-                    Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
-                                     f"Student Answer: {problems.math_screen.all_questions_list[x][1]}. "
-                                     f"{problems.math_screen.all_questions_list[x][2]}.",
-                          wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
-                else:
-                    Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
-                                     f"Student Answer: {problems.math_screen.all_questions_list[x][1]}. "
-                                     f"CORRECT.",
-                          wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
-                """
+
             # Look for uncompleted questions
             self.total_questions = self.problems.Total_Questions
             self.incomplete_questions = self.total_questions - (self.correct_answers + self.incorrect_answers)
@@ -98,14 +85,3 @@ class ResultsScreen(Tk):
 
         self.LinksFrame = LinksFrame(self, ms, student_id)
         self.LinksFrame.grid()
-
-
-if __name__ == "__main__":
-    ms_window_id = '1-ADD'
-    ms_window = math_screen.Math_Screen_Settings(ms_window_id)
-    # ms_window.geometry("600x500")
-    ms_window.resizable(width=False, height=False)
-
-    ms_window.mainloop()
-    Results = ResultsScreen(ms_window.math_screen, 'test')
-    Results.mainloop()

@@ -53,7 +53,7 @@ class IconFrame(tk.Frame):
     """Contains and displays the description of the Math Facts Practice application."""
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
-        self.image = tk.PhotoImage(file="../views/icon.ico")
+        self.image = tk.PhotoImage(file="icon.ico")
         self.image_label = tk.Label(self, image=self.image)
         self.grid()
         self.image_label.grid()
@@ -96,7 +96,6 @@ class LinksFrame(tk.Frame):
 
         # Popup Windows
         self.screen_to_destroy = screen_to_destroy
-
 
     def terms_of_use_open(self):
         # Terms of use window

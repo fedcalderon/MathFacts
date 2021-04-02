@@ -1,13 +1,11 @@
 # Select which problem set to work on
 # Andrew
-#This is task #4 and it works
+# This is task #4 and it works
 
 import tkinter as tk
 from tkinter import ttk
 from src.application.views import math_screen, results
 
-
-#
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
 # 1-ADD: Single digit addition
 # 2-ADD: Double digit addition
@@ -52,21 +50,25 @@ class OptionFrame(tk.Frame):
 
         self.m_s = math_screen.Math_Screen(master_screen, self.ID)
 
-
     def on_start(self, master_screen):
         """Handle the start button pressed event."""
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
         self.start_is_clicked = True
         print(self.m_s)
-        master_screen.math_problems_screen[0] = self.m_s
+        master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID)
         master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
         print(master_screen.math_problems_screen[0])
 
         # Results stuff. Delete if nessescary
         #########################################################################################################
         # results.ResultsScreen(self.m_s, 'test').mainloop()
-        if self.m_s.Question_Count - 1 == self.m_s.Total_Questions:
+        # if self.m_s.Question_Count - 1 == self.m_s.Total_Questions:
+        #     print('4')
+        #     tk.Button(master_screen, text="Show Grades",
+        #               command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
+
+        if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
             print('4')
             tk.Button(master_screen, text="Show Grades",
                       command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
@@ -135,13 +137,11 @@ class SelectionView(tk.Frame):
             # TODO: Create a linear equations problem set for math_screen.py
             # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
-
         # Place the options in the grid automatically
         max_columns = 2
 
         row = 0
         column = 0
-
         for option in self.options:
             # Add the option to the grid
             option.grid(row=row, column=column, sticky=(tk.E + tk.W))
@@ -153,31 +153,3 @@ class SelectionView(tk.Frame):
                 column = 0
                 row += 1
 
-
-class RootWindow(tk.Tk):
-    def __init__(self, student, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.title('Math Facts Practice')
-        self.resizable(width=False, height=False)
-        self.sv = SelectionView(self, self, student, self)
-        self.sv.pack(expand=True, fill='both')
-        self.columnconfigure(0, weight=1)
-
-
-def run_problem_selection(student_id, student):
-    root = RootWindow(student)
-    root.mainloop()
-
-    for option in root.sv.options:
-        if option.start_is_clicked:
-            app = math_screen.Math_Screen_Settings(option.ID)
-            app.mainloop()
-
-            results_screen = results.ResultsScreen(app.math_screen, student_id)
-            results_screen.mainloop()
-
-
-if __name__ == '__main__':
-    student = {'child_grade': 1,
-               'username': 'TestUser'}
-    run_problem_selection('testuser', student)
