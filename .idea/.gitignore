@@ -2,4 +2,6 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-/.idea/
+
+/csv-plugin.xml
+/MathFacts.iml
