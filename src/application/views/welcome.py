@@ -56,10 +56,10 @@ class DescriptionFrame(tk.Frame):
                       "randomly generated problems. Math Facts includes exercises for addition, subtraction, " \
                       "multiplication, division, and more, based on the user's age and grade level. Problems are " \
                       "shown one at a time, and the user may enter a response using either a keyboard or mouse. After" \
-                      " completing a test, the program shows all the problems and displays which ones the user " \
-                      "answered correctly or incorrectly. You will have the ability to print the results or save them" \
-                      " for future reference. You may view all completed tests as well as helpful tips on the reports" \
-                      " screen.\n" \
+                      " completing a test, the program records the results, shows all the problems, and displays " \
+                      "which ones the user answered correctly or incorrectly. You will have the ability to print the " \
+                      "results or continue practicing. You may view all completed tests as well as helpful tips on " \
+                      "the dashboard and statistics pages.\n" \
                       "To get started, click 'Register'."
 
         desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 11))
