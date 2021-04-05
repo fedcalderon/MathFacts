@@ -3,7 +3,7 @@ import random
 import time
 import tkinter as tk
 from tkinter import ttk
-from src.application.objects.question import Question
+from src.application.models.question import Question
 from src.application.views import results
 
 
@@ -182,18 +182,17 @@ class Math_Screen(tk.Frame):
         self.columnconfigure(1, weight=1)
 
         # Number button grid
-        self.number_button0.grid(row=11, column=2, sticky=(tk.E))
-        self.number_button1.grid(row=10, column=2, sticky=(tk.E))
-        self.number_button2.grid(row=10, column=3, sticky=(tk.E))
-        self.number_button3.grid(row=10, column=4, sticky=(tk.W))
-        self.number_button4.grid(row=9, column=2, sticky=(tk.E))
-        self.number_button5.grid(row=9, column=3, sticky=(tk.E))
-        self.number_button6.grid(row=9, column=4, sticky=(tk.W))
-        self.number_button7.grid(row=8, column=2, sticky=(tk.E))
-        self.number_button8.grid(row=8, column=3, sticky=(tk.E))
-        self.number_button9.grid(row=8, column=4, sticky=(tk.W))
-        self.decimal_button.grid(row=11, column=4, sticky=(tk.W))
-
+        self.number_button0.grid(row=11, column=2, sticky=tk.E)
+        self.number_button1.grid(row=10, column=2, sticky=tk.E)
+        self.number_button2.grid(row=10, column=3, sticky=tk.E)
+        self.number_button3.grid(row=10, column=4, sticky=tk.W)
+        self.number_button4.grid(row=9, column=2, sticky=tk.E)
+        self.number_button5.grid(row=9, column=3, sticky=tk.E)
+        self.number_button6.grid(row=9, column=4, sticky=tk.W)
+        self.number_button7.grid(row=8, column=2, sticky=tk.E)
+        self.number_button8.grid(row=8, column=3, sticky=tk.E)
+        self.number_button9.grid(row=8, column=4, sticky=tk.W)
+        self.decimal_button.grid(row=11, column=4, sticky=tk.W)
 
         self.results_screen = results.LinksFrame(parent, self, 'test')
 

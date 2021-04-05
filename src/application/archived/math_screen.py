@@ -4,7 +4,7 @@ import time
 import tkinter as tk
 from tkinter import ttk
 
-from src.application.objects.question import Question
+from src.application.models.question import Question
 from src.application.archived import results
 
 
