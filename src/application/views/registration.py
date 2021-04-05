@@ -187,13 +187,6 @@ class MyApplication(tk.Tk):
             "password": self.l.Password.get(),
         }
 
-        # Make sure the username is unique
-        for user in self.users_dict.values():
-            if self.all_information['username'] == user['username']:
-                self.field = ttk.Label(self, text=f"Username '{user['username']}' is already taken",
-                                       font=("TkDefaultFont", 10), wraplength=600)
-                self.field.grid(row=1400, column=0, sticky=tk.W)
-                return
         for key in self.all_information:
             if key == "guardian_2_first_name" or key == "guardian_2_last_name":
                 pass
