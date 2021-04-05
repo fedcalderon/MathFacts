@@ -101,10 +101,16 @@ def add_user(user_info):
 
 
 def login(username, password):
-    """Retrieves the user's data and returns a dictionary, or an error message if unsuccessful."""
+    """Retrieves the user's data and returns it in a dictionary (not including the password).
+    Message returns an error message if unsuccessful, or 'Success'.
+
+    :param username: Case insensitive username.
+    :param password: Case sensitive password.
+    :returns: (user_dict, message)"""
     message = 'User could not be retrieved'
 
     username = username.strip()
+    user_dict = {}
 
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -117,42 +123,37 @@ def login(username, password):
         cur.execute(sql, (username, password))
     except sqlite3.DatabaseError:
         message = sys.exc_info()[1]
-        con.close()
         if message.args[0] == 'no such table: users':
             message = 'No users are registered'
         else:
             message = str(message)
-        return message
-    data = cur.fetchall()
-
-    # Convert to dictionary
-    user_dict = {}
-    if len(data) == 1:
-        user_raw = data[0]
-        user_dict = {
-            "username": user_raw[0],
-            "child_first_name": user_raw[1],
-            "child_last_name": user_raw[2],
-            "child_grade": user_raw[3],
-            "child_age": user_raw[4],
-            "guardian_1_first_name": user_raw[5],
-            "guardian_1_last_name": user_raw[6],
-            "guardian_2_first_name": user_raw[7],
-            "guardian_2_last_name": user_raw[8]}
-        message = 'Success'
-    elif len(data) == 0:
-        if _user_exists(cur, username):
-            message = 'Incorrect password'
-        else:
-            message = 'User does not exist'
     else:
-        message = 'Duplicate users found'
+        data = cur.fetchall()
+
+        # Convert to dictionary
+        if len(data) == 1:
+            user_raw = data[0]
+            user_dict = {
+                "username": user_raw[0],
+                "child_first_name": user_raw[1],
+                "child_last_name": user_raw[2],
+                "child_grade": user_raw[3],
+                "child_age": user_raw[4],
+                "guardian_1_first_name": user_raw[5],
+                "guardian_1_last_name": user_raw[6],
+                "guardian_2_first_name": user_raw[7],
+                "guardian_2_last_name": user_raw[8]}
+            message = 'Success'
+        elif len(data) == 0:
+            if _user_exists(cur, username):
+                message = 'Incorrect password'
+            else:
+                message = 'User does not exist'
+        else:
+            message = 'Duplicate users found'
 
     con.close()
-    if user_dict != {}:
-        return user_dict
-    else:
-        return message
+    return user_dict, message
 
 
 def _create_results_table(cur):
@@ -217,7 +218,9 @@ def _get_every_question_row(cur, username):
 
 def get_every_quiz(username):
     """Returns every quiz for the given user in a dict with the form {datetime: [question, question,...],...}.
-    Returns an error message if unsuccessful."""
+    Message returns an error message if unsuccessful, or 'Success'.
+
+    :returns: (quizzes, message)"""
     message = 'Could not retrieve results'
 
     con = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
@@ -230,41 +233,39 @@ def get_every_quiz(username):
         data = _get_every_question_row(cur, username)
         if type(data) == str:
             # If it returns a string, it is an error message
-            con.close()
-            return data
+            message = data
+        else:
+            for question_raw in data:
+                # Make a new question object for each question retrieved
+                question = Question()
+                dt = question_raw[0]
+                question.type = question_raw[1]
+                question.first_number = question_raw[2]
+                question.second_number = question_raw[3]
+                question.symbol = question_raw[4]
+                question.correct_answer = question_raw[5]
+                question.student_answer = question_raw[6]
+                question.text = question_raw[7]
 
-        for question_raw in data:
-            # Make a new question object for each question retrieved
-            question = Question()
-            dt = question_raw[0]
-            question.type = question_raw[1]
-            question.first_number = question_raw[2]
-            question.second_number = question_raw[3]
-            question.symbol = question_raw[4]
-            question.correct_answer = question_raw[5]
-            question.student_answer = question_raw[6]
-            question.text = question_raw[7]
-
-            if dt in quizzes:
-                # Add to existing quiz
-                quizzes[dt].append(question)
-            else:
-                # Make a new question list
-                quizzes[dt] = [question]
-        message = 'Success'
+                if dt in quizzes:
+                    # Add to existing quiz
+                    quizzes[dt].append(question)
+                else:
+                    # Make a new question list
+                    quizzes[dt] = [question]
+            message = 'Success'
     else:
         message = 'User does not exist'
     con.close()
 
-    if message == 'Success':
-        return quizzes
-    else:
-        return message
+    return quizzes, message
 
 
 def get_every_question(username):
     """Returns a list of every question for the given user, regardless of which quiz the questions were a part of.
-    Returns an error message if unsuccessful."""
+    Message returns an error message if unsuccessful, or 'Success'.
+
+    :returns: (questions, message)"""
     message = 'Could not retrieve questions'
 
     con = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
@@ -277,29 +278,81 @@ def get_every_question(username):
         data = _get_every_question_row(cur, username)
         if type(data) == str:
             # If it returns a string, it is an error message
-            con.close()
-            return data
+            message = data
+        else:
+            # Parse the data into the list of questions
+            for question_raw in data:
+                question = Question()
+                question.type = question_raw[1]
+                question.first_number = question_raw[2]
+                question.second_number = question_raw[3]
+                question.symbol = question_raw[4]
+                question.correct_answer = question_raw[5]
+                question.student_answer = question_raw[6]
+                question.text = question_raw[7]
 
-        for question_raw in data:
-            question = Question()
-            question.type = question_raw[1]
-            question.first_number = question_raw[2]
-            question.second_number = question_raw[3]
-            question.symbol = question_raw[4]
-            question.correct_answer = question_raw[5]
-            question.student_answer = question_raw[6]
-            question.text = question_raw[7]
-
-            questions.append(question)
-        message = 'Success'
+                questions.append(question)
+            message = 'Success'
     else:
         message = 'User does not exist'
     con.close()
 
-    if message == 'Success':
-        return questions
+    return questions, message
+
+
+def get_latest_quiz(username):
+    """Gets the questions from the user's most recent quiz.
+    Message returns an error message if unsuccessful, or 'Success'.
+
+    :returns: (test_time, questions, message)"""
+    message = 'Could not retrieve questions'
+
+    con = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
+    cur = con.cursor()
+
+    test_time = None
+    questions = []
+    # Make sure the user exists
+    if _user_exists(cur, username):
+        # Find question from the user's most recent quiz
+        sql = 'SELECT datetime, type, first_number, second_number, ' \
+              'symbol, correct_answer, student_answer, question_text ' \
+              'FROM results ' \
+              'WHERE username=? and datetime=(SELECT MAX(datetime) FROM results WHERE username=?)'
+        try:
+            cur.execute(sql, (username, username))
+        except sqlite3.DatabaseError:
+            message = sys.exc_info()[1]
+            if message.args[0] == 'no such table: results':
+                message = 'User has not taken a quiz'
+            else:
+                message = str(message)
+        else:
+            # Parse the data into a list of questions
+            data = cur.fetchall()
+
+            test_time = data[0][0]
+            for question_raw in data:
+                question = Question()
+                question.type = question_raw[1]
+                question.first_number = question_raw[2]
+                question.second_number = question_raw[3]
+                question.symbol = question_raw[4]
+                question.correct_answer = question_raw[5]
+                question.student_answer = question_raw[6]
+                question.text = question_raw[7]
+
+                questions.append(question)
+            if len(questions) != 0:
+                message = 'Success'
+            else:
+                message = 'User has not taken a quiz'
     else:
-        return message
+        message = 'User does not exist'
+    con.close()
+
+    return test_time, questions, message
+
 
 # TODO: Add more methods to retrieve quiz results
 
@@ -323,8 +376,9 @@ if __name__ == '__main__':
         "password": 'secret',
     }
 
+    username = 'genericusername'
     print(add_user(all_information))
-    print(login('genericusername ', 'secret'))
+    print(login(username, 'secret'))
 
     # Sample math questions
     question1 = Question(question_type='TEST',
@@ -344,5 +398,6 @@ if __name__ == '__main__':
     question_list = [question1, question2]
 
     print(save_results('genericusername', question_list))
-    print(get_every_quiz('genericusername'))
-    print(get_every_question('genericusername'))
+    print(get_every_quiz(username))
+    print(get_every_question(username))
+    print(get_latest_quiz(username))
