@@ -4,7 +4,8 @@
 
 import tkinter as tk
 from tkinter import ttk
-from src.application.views import math_screen, results
+from src.application.new_views import math_screen
+from src.application.new_views import results
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
 # 1-ADD: Single digit addition
@@ -70,7 +71,6 @@ class OptionFrame(tk.Frame):
         #               command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
 
         if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
-            print('4')
             tk.Button(master_screen, text="Show Grades",
                       command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
         #########################################################################################################
