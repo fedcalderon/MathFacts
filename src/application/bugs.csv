@@ -9,3 +9,6 @@ b007,Login,If student_data.json is empty or does not exist the program throws an
 b008,Registration,Registration allows multiple users with the same username,Fixed
 b009,Results,"If the math screen is closed before all questions are finished, it counts as if all questions were answered.",Fixed
 b010,Results,Division activity marks all answers wrong on the results screen,Fixed
+b011,Math Screen,Math screen shows too many problems if the user gets some wrong,Fixed
+b012,Login,Login screen not working,Not Fixed
+b013,Math Screen,Math screen shows wrong problem number if the user answers incorrectly,Fixed

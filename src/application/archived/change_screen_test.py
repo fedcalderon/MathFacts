@@ -11,8 +11,8 @@ class LoginInformation(tk.LabelFrame):
         self.Username = tk.StringVar()
         username_label = ttk.Label(self, text="Enter Username")
         username_button = ttk.Entry(self, textvariable=self.Username)
-        username_label.grid(row=0, column=0, sticky=tk.W)
-        username_button.grid(row=100, column=0, sticky=tk.W)
+        username_label.grid(row=0, column=0, sticky=(tk.W))
+        username_button.grid(row=100, column=0, sticky=(tk.W))
 
         self.Password = tk.StringVar()
         password_label = ttk.Label(self, text="Enter Password")
