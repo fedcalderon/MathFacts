@@ -1,7 +1,6 @@
 # Showing all problems worked on by user
 # Milton
 from tkinter import *
-import time
 from src.application.archived import math_screen
 from pathlib import Path
 import json
@@ -89,9 +88,6 @@ class LinksFrame(Frame):
                   wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
 
-        # desc_label.grid()
-
-
 # Results screen
 class ResultsScreen(Tk):
     def __init__(self, ms, student_id, *args, **kwargs):
@@ -103,7 +99,7 @@ class ResultsScreen(Tk):
 
 
 if __name__ == "__main__":
-    ms_window_id = '1-SUB'
+    ms_window_id = '1-ADD'
     ms_window = math_screen.Math_Screen_Settings(ms_window_id)
     # ms_window.geometry("600x500")
     ms_window.resizable(width=False, height=False)

@@ -4,7 +4,8 @@
 
 class Question:
     """Pass either a dictionary or the individual variables, not both."""
-    def __init__(self, question_dict=None, question_type=None, first_num=None, second_num=None, symbol=None, correct_ans=None, student_ans=None, text=None):
+    def __init__(self, question_dict=None, question_type=None, first_num=None, second_num=None, symbol=None,
+                 correct_ans=None, student_ans=None, text=None):
         if question_dict is None or question_dict == {}:
             # Base the properties off the given variables
             self.type = question_type
@@ -42,3 +43,6 @@ class Question:
                          'student_answer': self.student_answer,
                          'text': self.text}
         return question_dict
+
+    def __str__(self):
+        return f"{self.text} Correct: {self.correct_answer} | Student: {self.student_answer}"
