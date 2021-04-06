@@ -4,7 +4,7 @@ import time
 import tkinter as tk
 from tkinter import ttk
 from src.application.models.question import Question
-from src.application.views import results
+from src.application.new_views import results
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -200,6 +200,9 @@ class Math_Screen(tk.Frame):
         # Set focus on text box
         self.UserInsert_entry.focus()
 
+        self.back_button = tk.Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
+            parent.math_problems_screen, parent.problem_selection_screen))
+
     def enable_buttons(self, enable=True):
         if enable:
             set_state = 'normal'
@@ -293,6 +296,8 @@ class Math_Screen(tk.Frame):
                                             command=lambda: results.ResultsScreen(self, 'test').mainloop())
 
             self.results_button.grid()
+            self.back_button.grid()
+
             self.reset_exercise(self.parent)
 
         # Set the focus back to the entry

@@ -1,18 +1,16 @@
 from tkinter import *
-import os
 import tkinter as tk
-from src.application.views import registration
-import src.application
+from src.application.new_views import registration
 import json
 from pathlib import Path
-from src.application.views import problem_selection as ps
+from src.application.new_views import problem_selection as ps
 
 
 # Designing window for login
-class problem_set:
-    def __init__(self, parent):
-        self.login_manager = Login(parent)
-        self.selection_view = self.login_manager.generate_problem_set()
+# class problem_set:
+#     def __init__(self, parent):
+#         self.login_manager = Login(parent)
+#         self.selection_view = self.login_manager.generate_problem_set()
 
 
 class Login(tk.Frame):
@@ -29,8 +27,6 @@ class Login(tk.Frame):
         self.username1 = self.username_verify.get()
         self.password1 = self.password_verify.get()
 
-        self.selection_view = self.generate_problem_set()
-
         tk.Label(self, text='Please enter details below to login').grid()
         tk.Label(self, text='').grid()
         tk.Label(self, text="Username * ").grid()
@@ -46,7 +42,7 @@ class Login(tk.Frame):
         tk.Button(self, text="Back to Welcome Screen", command=lambda: parent.change_screen(
             parent.login_screen, parent.welcome_screen)).grid()
 
-    def generate_problem_set(self):
+    def generate_problem_set(self, parent):
         with open(f'{Path(__file__).parent.parent}\\student_data.json') as jsonfile:
             self.users_data = json.load(jsonfile)
             for key in self.users_data:
@@ -54,11 +50,11 @@ class Login(tk.Frame):
                     if self.password1 == self.users_data[key]['password']:
                         self.student = self.users_data[key]
                         self.student_id = key
-                        selection_view = ps.SelectionView(self, self,
+                        self.selection_view = ps.SelectionView(parent, self,
                                                {'child_grade': int(self.users_data[f'user 0']['child_grade']),
                                                 'username': self.users_data[f'user 0']['username']}, self)
 
-                        return selection_view
+                        return self.selection_view
 
     def login_verify(self, parent):
         # TODO: FOR LOGIN VERIFY
@@ -80,7 +76,7 @@ class Login(tk.Frame):
                     if self.password1 == self.users_data[key]['password']:
                         self.student = self.users_data[key]
                         self.student_id = key
-                        # print(self.student_id)
+                        print(self.student_id)
                         self.result_message = "Successfully logged in."
 
                         # problem selection screen

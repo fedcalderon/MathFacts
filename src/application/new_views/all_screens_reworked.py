@@ -4,11 +4,11 @@
 
 import tkinter as tk
 from tkinter import ttk
-import src.application.views.welcome as welcome
-import src.application.views.registration as registration
-import src.application.views.login as login
-import src.application.views.problem_selection as ps
-import src.application.views.math_screen as ms
+import src.application.new_views.welcome as welcome
+import src.application.new_views.registration as registration
+import src.application.new_views.login as new_login
+import src.application.new_views.problem_selection as ps
+import src.application.new_views.math_screen as ms
 from pathlib import Path
 import json
 
@@ -30,7 +30,7 @@ class MyApplication(tk.Tk):
         # Welcome_screen
         self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
 
-        # Bridge buttons (buttons that connect the welcome view to other views)
+        # Bridge buttons(buttons that connect the welcome view to other archived)
         self.registration_button = ttk.Button(self, text="Register",
                                               command=lambda: self.change_screen(
                                                   self.welcome_screen, self.registration_screen))
@@ -79,7 +79,7 @@ class MyApplication(tk.Tk):
 
         # Login screen
         ####################################################################################
-        self.Login_Manager = login.Login(self)
+        self.Login_Manager = new_login.Login(self)
         self.login_screen = [self.Login_Manager]
 
         with open(self.users_data_file) as jsonfile:
@@ -90,18 +90,18 @@ class MyApplication(tk.Tk):
 
         # Problem selection screen
         self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data[f'user 0']['child_grade']), 'username': self.users_data[f'user 0']['username']}, self)
+        # self.selection_view = self.Login_Manager.generate_problem_set(self)
+
         self.problem_selection_screen = [self.selection_view,
                                          tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
                                              self.problem_selection_screen, self.welcome_screen))
                                          ]
-
-        # Math screen
+        # The math screen.
         self.m_s = ms.Math_Screen(self, '1-ADD')
-        self.math_problems_screen = [self.m_s, tk.Button(self, text="Start a new exercise", command=lambda: self.change_screen(
-                                             self.math_problems_screen, self.problem_selection_screen))]
+        self.math_problems_screen = [self.m_s]
 
     def change_screen(self, current_screen, new_screen):
-        # This method runs when a bridging button (buttons that connect two views) is clicked.
+        # This method runs when a bridging button(buttons that connect two archived) is clicked.
         # It deletes all frames in the current view, and replaces them with all the frames in the new view.
         for item in current_screen:
             item.grid_forget()
