@@ -1,13 +1,11 @@
 # Select which problem set to work on
 # Andrew
-#This is task #4 and it works
+# This is task #4 and it works
 
 import tkinter as tk
 from tkinter import ttk
-from src.application.views import math_screen
-from src.application.views import results
+from src.application.views import math_screen, results
 
-#
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
 # 1-ADD: Single digit addition
 # 2-ADD: Double digit addition
@@ -26,6 +24,7 @@ class OptionFrame(tk.Frame):
 
     def __init__(self, parent, name, detail, ID, screen_to_destroy, master_screen, *args, **kwargs):
         """Initializes an OptionFrame widget.
+
         :param parent: the parent widget
         :param name: the name of the option
         :param detail: optional additional detail about the option"""
@@ -139,13 +138,11 @@ class SelectionView(tk.Frame):
             # TODO: Create a linear equations problem set for math_screen.py
             # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
-
         # Place the options in the grid automatically
         max_columns = 2
 
         row = 0
         column = 0
-
         for option in self.options:
             # Add the option to the grid
             option.grid(row=row, column=column, sticky=(tk.E + tk.W))
