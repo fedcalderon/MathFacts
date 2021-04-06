@@ -54,18 +54,7 @@ class LinksFrame(Frame):
                            f"Incorrect! " \
                            f"Correct Answer: {question.correct_answer}"
                 Label(self, text=self.text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
-                """
-                if len(problems.math_screen.all_questions_list[x]) >= problems.math_screen.Total_Questions:
-                    Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
-                                     f"Student Answer: {problems.math_screen.all_questions_list[x][1]}. "
-                                     f"{problems.math_screen.all_questions_list[x][2]}.",
-                          wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
-                else:
-                    Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
-                                     f"Student Answer: {problems.math_screen.all_questions_list[x][1]}. "
-                                     f"CORRECT.",
-                          wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
-                """
+
             # Look for uncompleted questions
             self.total_questions = self.problems.Total_Questions
             self.incomplete_questions = self.total_questions - (self.correct_answers + self.incorrect_answers)

@@ -16,14 +16,14 @@ class LoginInformation(tk.LabelFrame):
         self.Username = tk.StringVar()
         self.username_label = ttk.Label(self, text="Enter Username")
         self.username_button = ttk.Entry(self, textvariable=self.Username)
-        self.username_label.grid(row=0, column=0, sticky=(tk.W))
-        self.username_button.grid(row=100, column=0, sticky=(tk.W))
+        self.username_label.grid(row=0, column=0, sticky=tk.W)
+        self.username_button.grid(row=100, column=0, sticky=tk.W)
 
         self.Password = tk.StringVar()
         self.password_label = ttk.Label(self, text="Enter Password")
         self.password_button = ttk.Entry(self, textvariable=self.Password, show='*')
-        self.password_label.grid(row=0, column=100, sticky=(tk.W))
-        self.password_button.grid(row=100, column=100, sticky=(tk.W))
+        self.password_label.grid(row=0, column=100, sticky=tk.W)
+        self.password_button.grid(row=100, column=100, sticky=tk.W)
 
 
 class Guardian1Info(tk.LabelFrame):
@@ -34,14 +34,14 @@ class Guardian1Info(tk.LabelFrame):
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
         self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
-        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
+        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
+        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
         self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
-        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
+        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
+        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
 
 
 class Guardian2Info(tk.LabelFrame):
@@ -52,14 +52,14 @@ class Guardian2Info(tk.LabelFrame):
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
         self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
-        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
+        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
+        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
         self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
-        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
+        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
+        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
 
 
 class ChildInformation(tk.LabelFrame):
@@ -70,14 +70,14 @@ class ChildInformation(tk.LabelFrame):
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
         self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=(tk.W))
-        self.first_name_button.grid(row=100, column=0, sticky=(tk.W))
+        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
+        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
         self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=(tk.W))
-        self.last_name_button.grid(row=100, column=100, sticky=(tk.W))
+        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
+        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
 
         self.Grade = tk.StringVar()
         self.grade_label = ttk.Label(self, text="Grade of Child")
@@ -86,7 +86,7 @@ class ChildInformation(tk.LabelFrame):
         for x in range(1, 8): self.grade_values.append(str(x))
         self.grade_button['values'] = tuple(self.grade_values)
         self.grade_label.grid(row=200, column=00, sticky=tk.W)
-        self.grade_button.grid(row=300, column=00, sticky=(tk.W))
+        self.grade_button.grid(row=300, column=00, sticky=tk.W)
 
         self.Age = tk.StringVar()
         self.age_label = ttk.Label(self, text="Age of Child")
@@ -95,7 +95,7 @@ class ChildInformation(tk.LabelFrame):
         for x in range(5, 19): self.age_values.append(str(x))
         self.age_button['values'] = tuple(self.age_values)
         self.age_label.grid(row=200, column=100, sticky=tk.W)
-        self.age_button.grid(row=300, column=100, sticky=(tk.W))
+        self.age_button.grid(row=300, column=100, sticky=tk.W)
 
 
 class RegistrationView(tk.Frame):
@@ -125,10 +125,10 @@ class RegistrationView(tk.Frame):
                                font=("TkDefaultFont", 11), wraplength=600)
         self.field.grid(row=1400, column=0, sticky=tk.W)
 
+        # Read current users from file and set the correct index
         self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
         self.users_dict = self.get_users()
 
-        # Read current users from file and set the correct index
         if self.users_dict.items() == 0:
             self.user_index = 0
         else:

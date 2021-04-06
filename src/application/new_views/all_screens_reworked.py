@@ -4,11 +4,11 @@
 
 import tkinter as tk
 from tkinter import ttk
-import src.application.views.welcome as welcome
-import src.application.views.registration as registration
-import src.application.views.login as new_login
-import src.application.views.problem_selection as ps
-import src.application.views.math_screen as ms
+import src.application.new_views.welcome as welcome
+import src.application.new_views.registration as registration
+import src.application.new_views.login as new_login
+import src.application.new_views.problem_selection as ps
+import src.application.new_views.math_screen as ms
 from pathlib import Path
 import json
 
@@ -96,11 +96,9 @@ class MyApplication(tk.Tk):
                                          tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
                                              self.problem_selection_screen, self.welcome_screen))
                                          ]
-
         # The math screen.
         self.m_s = ms.Math_Screen(self, '1-ADD')
-        self.math_problems_screen = [self.m_s, tk.Button(self, text="Start a new exercise", command=lambda: self.change_screen(
-                                             self.math_problems_screen, self.problem_selection_screen))]
+        self.math_problems_screen = [self.m_s]
 
     def change_screen(self, current_screen, new_screen):
         # This method runs when a bridging button(buttons that connect two archived) is clicked.
