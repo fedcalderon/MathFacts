@@ -173,8 +173,6 @@ class Math_Screen(tk.Frame):
         self.number_button9 = ttk.Button(self, text="9", command=lambda: self.UserInsert_entry.insert('end', "9"))
         self.decimal_button = ttk.Button(self, text=".", command=lambda: self.UserInsert_entry.insert('end', "."))
 
-
-
         # Grid Layout
         self.UserInsert_entry.grid(row=5, column=2, sticky=(tk.E))
         self.submit_button.grid(row=5, column=3, sticky=tk.E)
@@ -196,13 +194,14 @@ class Math_Screen(tk.Frame):
         self.number_button9.grid(row=8, column=4, sticky=(tk.W))
         self.decimal_button.grid(row=11, column=4, sticky=(tk.W))
 
-
         self.results_screen = results.LinksFrame(parent, self, 'test')
 
         self.reset_fields()
         # Set focus on text box
         self.UserInsert_entry.focus()
 
+        self.back_button = tk.Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
+            parent.math_problems_screen, parent.problem_selection_screen))
 
     def enable_buttons(self, enable=True):
         if enable:
@@ -227,7 +226,6 @@ class Math_Screen(tk.Frame):
         self.number_button8['state'] = set_state
         self.number_button9['state'] = set_state
         self.UserInsert_entry['state'] = set_state
-
 
     def update_time(self, start_time):
         self.time_left = start_time
@@ -318,6 +316,8 @@ class Math_Screen(tk.Frame):
                                             command=lambda: results.ResultsScreen(self, 'test').mainloop())
 
             self.results_button.grid()
+            self.back_button.grid()
+
             self.reset_exercise(self.parent)
 
         # Set the focus back to the entry

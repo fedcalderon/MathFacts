@@ -1,8 +1,6 @@
 from tkinter import *
-import os
 import tkinter as tk
 from src.application.new_views import registration
-import src.application
 import json
 from pathlib import Path
 from src.application.new_views import problem_selection as ps
@@ -52,11 +50,11 @@ class Login(tk.Frame):
                     if self.password1 == self.users_data[key]['password']:
                         self.student = self.users_data[key]
                         self.student_id = key
-                        selection_view = ps.SelectionView(parent, self,
+                        self.selection_view = ps.SelectionView(parent, self,
                                                {'child_grade': int(self.users_data[f'user 0']['child_grade']),
                                                 'username': self.users_data[f'user 0']['username']}, self)
 
-                        return selection_view
+                        return self.selection_view
 
     def login_verify(self, parent):
         # TODO: FOR LOGIN VERIFY
