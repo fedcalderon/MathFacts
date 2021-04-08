@@ -200,8 +200,8 @@ class Math_Screen(tk.Frame):
         # Set focus on text box
         self.UserInsert_entry.focus()
 
-        self.back_button = tk.Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
-            parent.math_problems_screen, parent.problem_selection_screen))
+        self.results_screen = tk.Button(self, text="Show Grades", command=lambda: parent.change_screen(
+            parent.math_problems_screen, [results.LinksFrame(parent, self, 'test')]))
 
     def enable_buttons(self, enable=True):
         if enable:
@@ -292,11 +292,7 @@ class Math_Screen(tk.Frame):
         if self.Question_Count - 1 == self.Total_Questions:
             print('u')
 
-            self.results_button = tk.Button(self, text="Show Grades",
-                                            command=lambda: results.ResultsScreen(self, 'test').mainloop())
-
-            self.results_button.grid()
-            self.back_button.grid()
+            self.results_screen.grid()
 
             self.reset_exercise(self.parent)
 
@@ -312,9 +308,6 @@ class Math_Screen(tk.Frame):
                   font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
         self.Display_Question.set('')
         self.Question_label.set('')
-
-        # tk.Button(self, text="Start Another Task", command=lambda: parent_screen.change_screen(
-        #     parent_screen.math_problems_screen, parent_screen.problem_selection_screen)).grid()
 
     def reset_fields(self):
         self.Display_Question.set(self.questions.toggle_topics())

@@ -62,14 +62,6 @@ class OptionFrame(tk.Frame):
         master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
         print(master_screen.math_problems_screen[0])
 
-        # Results stuff. Delete if nessescary
-        #########################################################################################################
-        # results.ResultsScreen(self.m_s, 'test').mainloop()
-        # if self.m_s.Question_Count - 1 == self.m_s.Total_Questions:
-        #     print('4')
-        #     tk.Button(master_screen, text="Show Grades",
-        #               command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
-
         if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
             tk.Button(master_screen, text="Show Grades",
                       command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
@@ -96,7 +88,7 @@ class SelectionView(tk.Frame):
         toolbar.add_cascade(label=self.username, menu=user_menu)
 
         settings_menu = tk.Menu(toolbar)
-        toolbar.add_cascade(label='Settings', menu=settings_menu)
+        toolbar.add_cascade(label='Settings', menu=settings_menu, command= lambda: print('y'))
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)
