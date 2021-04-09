@@ -35,8 +35,6 @@ class LinksFrame(Frame):
         super().__init__(parent, **kwargs)
         self.problems = problems
         Label(self, text='GRADES:', wraplength=400, font=("TkDefaultFont", 20)).grid(sticky=W)
-        Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
-            [self], parent.problem_selection_screen)).grid()
 
         # List and print all problem set grades.
         if len(self.problems.questions_list) > 0:
@@ -78,6 +76,9 @@ class LinksFrame(Frame):
         else:
             Label(self, text=f"You did no questions. Grade: 0%",
                   wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+
+        Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
+            [self], parent.problem_selection_screen)).grid()
 
 
 # Results screen

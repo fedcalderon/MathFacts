@@ -9,6 +9,7 @@ import src.application.new_views.registration as registration
 import src.application.new_views.login as new_login
 import src.application.new_views.problem_selection as ps
 import src.application.new_views.math_screen as ms
+import src.application.new_views.settings as settings
 from pathlib import Path
 import json
 
@@ -47,12 +48,19 @@ class MyApplication(tk.Tk):
         self.math_problems_button = ttk.Button(self, text="Sample Math Lesson", command=lambda: self.change_screen(
             self.welcome_screen, self.math_problems_screen))
 
-        self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
-                                    self.login_button, self.problem_selection_button])
+        self.settings_button = ttk.Button(self, text="User Settings", command=lambda: self.change_screen(
+            self.welcome_screen, self.settings_screen))
 
-        # Append all frames to the welcome view
+        self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
+                                    self.login_button, self.problem_selection_button, self.settings_button])
+
         for item in self.welcome_screen:
-            item.grid(sticky=(tk.W + tk.E + tk.N + tk.S))
+            item.grid()
+
+        # Settings screen
+        self.settings_screen = [settings.SettingsFrame(self),
+                                tk.Button(self, text="Back", command=lambda: self.change_screen(
+            self.settings_screen, self.welcome_screen))]
 
         # Terms of use screen
         self.terms_of_use_description = "No copying this program or using it illegally. " \
@@ -94,8 +102,7 @@ class MyApplication(tk.Tk):
 
         self.problem_selection_screen = [self.selection_view,
                                          tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
-                                             self.problem_selection_screen, self.welcome_screen))
-                                         ]
+                                             self.problem_selection_screen, self.welcome_screen))]
         # The math screen.
         self.m_s = ms.Math_Screen(self, '1-ADD')
         self.math_problems_screen = [self.m_s]
