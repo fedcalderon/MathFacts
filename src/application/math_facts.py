@@ -1,11 +1,7 @@
 """
 This is the entry to the Math Facts Application
 """
-from src.application.views import registration
-from src.application.welcome import welcome_description
-from src.application.views.welcome import WelcomeView
-import tkinter as tk
+from src.application.new_views.all_screens_reworked import MyApplication
 
-if __name__ == '__main__':
-    app = WelcomeView()
-    app.mainloop()
+app = MyApplication()
+app.mainloop()

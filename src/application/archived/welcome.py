@@ -34,12 +34,8 @@ It is meant to be shown on the welcome screen."""
 # Andrew
 
 import tkinter as tk
-from tkinter import *
 from tkinter import ttk
-from src.application.views import login
-from src.application.views import registration
-import json
-from pathlib import Path
+from src.application.archived import login, registration
 
 
 class TermsOfUseWindow(tk.Frame):
@@ -59,6 +55,8 @@ class IconFrame(tk.Frame):
         super().__init__(parent, **kwargs)
         self.image = tk.PhotoImage(file="icon.ico")
         self.image_label = tk.Label(self, image=self.image)
+        self.grid()
+        self.image_label.grid()
 
 
 class DescriptionFrame(tk.Frame):
@@ -99,7 +97,6 @@ class LinksFrame(tk.Frame):
         # Popup Windows
         self.screen_to_destroy = screen_to_destroy
 
-
     def terms_of_use_open(self):
         # Terms of use window
         self.root = tk.Tk()
@@ -136,14 +133,9 @@ class WelcomeView(tk.Tk):
         self.resizable(width=True, height=True)
 
         # FRAMES
-
         self.icon_frame = IconFrame(self)
-        self.icon_frame.grid()
-        self.icon_frame.image_label.grid()
-
         self.description = DescriptionFrame(self)
         self.description.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-
         self.links = LinksFrame(self, self)
         self.links.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 

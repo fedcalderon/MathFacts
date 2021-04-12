@@ -3,10 +3,8 @@ import random
 import time
 import tkinter as tk
 from tkinter import ttk
-
-from src.application.objects.question import Question
-from src.application.views import results
-from src.application.views import continue_screen
+from src.application.models.question import Question
+from src.application.new_views import results
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -27,7 +25,7 @@ class Questions:
         self.ID = ID
         self.all_questions_taken = []
         # self.all_questions_taken.append([f"What is {self.first_number} + {self.second_number}?",  f"{self.answer}"])
-        print(self.all_questions_taken)
+        # print(self.all_questions_taken)
 
     def toggle_topics(self):
         # Addition
@@ -92,27 +90,34 @@ class Questions:
         # Division
         elif self.ID == '1-DIV':
             self.first_number = random.randint(1, 100)
-            self.divisors = [x for x in range(1, 10) if self.first_number % x == 0]
-            self.second_number = self.divisors[random.randint(0, len(self.divisors) - 1)]
+            divisors = [x for x in range(1, self.first_number + 1) if self.first_number % x == 0]
+            self.second_number = divisors[random.randint(0, len(divisors) - 1)]
             self.symbol = '/'
-            self.answer = self.first_number / self.second_number
+            self.answer = int(self.first_number / self.second_number)
             return f"What is {self.first_number} / {self.second_number}?"
 
         elif self.ID == '2-DIV':
-            self.first_number = random.randint(1, 9999)
-            self.divisors = [x for x in range(10, 99) if self.first_number % x == 0]
-            self.second_number = self.divisors[random.randint(1, len(self.divisors) - 1)]
+            self.first_number = random.randint(50, 999)
+            # hard_divisors excludes 1 and the first number
+            hard_divisors = [x for x in range(2, self.first_number) if self.first_number % x == 0]
+            if len(hard_divisors) == 0:
+                # Use 1 and the first number as possible divisors if there are no hard_divisors
+                divisors = [1, self.first_number]
+            else:
+                # Use hard_divisors as possible divisors
+                divisors = hard_divisors
+            self.second_number = divisors[random.randint(0, len(divisors) - 1)]
             self.symbol = '/'
-            self.answer = self.first_number / self.second_number
+            self.answer = int(self.first_number / self.second_number)
             return f"What is {self.first_number} / {self.second_number}?"
 
+
 # TODO: Prevent same question from appearing multiple times
-
-
 class Math_Screen(tk.Frame):
     def __init__(self, parent, ID, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
+        self.parent = parent
         self.answer_verification = tk.StringVar()
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
@@ -120,6 +125,8 @@ class Math_Screen(tk.Frame):
         self.Total_Questions = 3
         self.questions_list = []
         self.finished = False
+
+        self.Correct_Answers = 0
 
         self.Question_label = tk.StringVar()
         self.Question_label.set(f"Question # of {self.Total_Questions}")
@@ -148,7 +155,6 @@ class Math_Screen(tk.Frame):
 
         # Display Questions
         self.Display_Question = tk.StringVar()
-        self.Display_Question.set(self.questions.toggle_topics())
         self.addition_question = ttk.Label(self, textvariable=self.Display_Question,
                                            font=("TkDefaultFont", 10), wraplength=600)
 
@@ -176,21 +182,26 @@ class Math_Screen(tk.Frame):
         self.columnconfigure(1, weight=1)
 
         # Number button grid
-        self.number_button0.grid(row=11, column=2, sticky=(tk.E))
-        self.number_button1.grid(row=10, column=2, sticky=(tk.E))
-        self.number_button2.grid(row=10, column=3, sticky=(tk.E))
-        self.number_button3.grid(row=10, column=4, sticky=(tk.W))
-        self.number_button4.grid(row=9, column=2, sticky=(tk.E))
-        self.number_button5.grid(row=9, column=3, sticky=(tk.E))
-        self.number_button6.grid(row=9, column=4, sticky=(tk.W))
-        self.number_button7.grid(row=8, column=2, sticky=(tk.E))
-        self.number_button8.grid(row=8, column=3, sticky=(tk.E))
-        self.number_button9.grid(row=8, column=4, sticky=(tk.W))
-        self.decimal_button.grid(row=11, column=4, sticky=(tk.W))
+        self.number_button0.grid(row=11, column=2, sticky=tk.E)
+        self.number_button1.grid(row=10, column=2, sticky=tk.E)
+        self.number_button2.grid(row=10, column=3, sticky=tk.E)
+        self.number_button3.grid(row=10, column=4, sticky=tk.W)
+        self.number_button4.grid(row=9, column=2, sticky=tk.E)
+        self.number_button5.grid(row=9, column=3, sticky=tk.E)
+        self.number_button6.grid(row=9, column=4, sticky=tk.W)
+        self.number_button7.grid(row=8, column=2, sticky=tk.E)
+        self.number_button8.grid(row=8, column=3, sticky=tk.E)
+        self.number_button9.grid(row=8, column=4, sticky=tk.W)
+        self.decimal_button.grid(row=11, column=4, sticky=tk.W)
+
+        self.results_screen = results.LinksFrame(parent, self, 'test')
 
         self.reset_fields()
         # Set focus on text box
         self.UserInsert_entry.focus()
+
+        self.back_button = tk.Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
+            parent.math_problems_screen, parent.problem_selection_screen))
 
     def enable_buttons(self, enable=True):
         if enable:
@@ -260,30 +271,14 @@ class Math_Screen(tk.Frame):
                                     text=text)
                 self.questions_list.append(question)
 
-                """
-                for x in range(0, len(self.questions_list)):
-                    if len(self.questions_list) >= 2:
-
-                        if len(self.questions_list) == 2:
-                            if self.questions_list[x][0] == self.questions_list[x - 1][0]:
-                                self.questions_list[x].append("INCORRECT")
-                                self.questions_list.remove(self.questions_list[x - 1])
-                                self.incorrect_questions += 1
-
-                        if len(self.questions_list) > 2:
-                            if self.questions_list[x][0] == self.questions_list[x - 1][0]:
-                                self.questions_list[x - 1].append("INCORRECT")
-                                self.questions_list.remove(self.questions_list[x])
-                                self.incorrect_questions += 1
-                """
-
                 # Check if the student's answer is correct
                 if student_answer == self.questions.answer:
-                    self.Question_Count = self.Question_Count + 1
-                    self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
+                    self.Question_Count += 1
+                    self.Correct_Answers += 1
                     self.reset_fields()
                 else:
                     print(f"Your answer is wrong.")
+                    self.Question_Count += 1
                     self.answer_verification.set(f"\nYour answer is wrong.")
                     ttk.Label(self, textvariable=self.answer_verification,
                               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
@@ -295,65 +290,34 @@ class Math_Screen(tk.Frame):
                           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
 
         if self.Question_Count - 1 == self.Total_Questions:
-            self.finished = True
-            self.reset_fields()
-            self.enable_buttons(False)
-            self.submit_button['state'] = 'disabled'
-            ttk.Label(self, text="You have completed all questions. Close the window to view your answers and grade.",
-                      font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
-            self.Display_Question.set('')
-            self.Question_label.set('')
+            print('u')
+
+            self.results_button = tk.Button(self, text="Show Grades",
+                                            command=lambda: results.ResultsScreen(self, 'test').mainloop())
+
+            self.results_button.grid()
+            self.back_button.grid()
+
+            self.reset_exercise(self.parent)
+
         # Set the focus back to the entry
         self.UserInsert_entry.focus()
+
+    def reset_exercise(self, parent_screen):
+        self.finished = True
+        self.reset_fields()
+        self.enable_buttons(False)
+        self.submit_button['state'] = 'disabled'
+        ttk.Label(self, text="You have completed this task.",
+                  font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+        self.Display_Question.set('')
+        self.Question_label.set('')
+
+        # tk.Button(self, text="Start Another Task", command=lambda: parent_screen.change_screen(
+        #     parent_screen.math_problems_screen, parent_screen.problem_selection_screen)).grid()
 
     def reset_fields(self):
         self.Display_Question.set(self.questions.toggle_topics())
         self.answer_verification.set('')
         self.ans_insert.set('')
-
-
-class Math_Screen_Settings(tk.Tk):
-    """Screen settings"""
-
-    def __init__(self, ID, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.geometry("600x500")
-        self.resizable(width=False, height=False)
-        self.ID = ID
-        self.math_screen = Math_Screen(self, ID)
-
-        self.math_screen.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        # self.math_screen.update_time(10)
-
-        # self.t1 = threading.Thread(target=lambda : self.math_screen.grid(sticky=(tk.E + tk.W + tk.N + tk.S)), args=[])
-        # self.t2 = threading.Thread(target=lambda : self.math_screen.update_time(10), args=[])
-        #
-        # self.t1.start()
-        # self.t2.start()
-
-        self.protocol("WM_DELETE_WINDOW", self.close_down_app)
-        self.columnconfigure(0, weight=1)
-
-    # def close_down_app(self):
-    #     if self.math_screen.time_left > 0:
-    #         print("The timer must stop before the app is closed. ")
-    #
-    #     else:
-    #         self.destroy()
-
-    def close_down_app(self):
-        # if self.math_screen.Question_Count < self.math_screen.Total_Questions + 1:
-        #     print(f"You must complete at least {self.math_screen.Total_Questions} questions. ")
-        #     ttk.Label(self, text=f"You must complete at least {self.math_screen.Total_Questions} questions. ",
-        #               font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
-        #
-        # else:
-        self.destroy()
-
-
-if __name__ == '__main__':
-    test_ID = '1-ADD'
-    app = Math_Screen_Settings(test_ID)
-    # while len(app.math_screen.all_questions_list) < 3:
-    app.mainloop()
-    results.ResultsScreen(app, 'test').mainloop()
+        self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
