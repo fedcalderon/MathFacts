@@ -59,8 +59,10 @@ class MyApplication(tk.Tk):
 
         # Settings screen
         self.settings_screen = [settings.SettingsFrame(self),
+                                tk.Button(self, text="To Topics List", command=lambda: self.change_screen(
+                                    self.settings_screen, self.problem_selection_screen)),
                                 tk.Button(self, text="Back", command=lambda: self.change_screen(
-            self.settings_screen, self.welcome_screen))]
+                                self.settings_screen, self.welcome_screen))]
 
         # Terms of use screen
         self.terms_of_use_description = "No copying this program or using it illegally. " \

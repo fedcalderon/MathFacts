@@ -4,9 +4,11 @@ import json
 from pathlib import Path
 from src.application.new_views import registration as r
 
+"""This frame allows the user to change various user settings such as their name, grade, age, and guardian
+information. They cannot(for now) change their username or password."""
+
 
 class SettingsFrame(tk.Frame):
-    """Contains and displays the description of the Math Facts Practice application."""
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
 
@@ -36,11 +38,10 @@ class SettingsFrame(tk.Frame):
         self.g2.first_name_button.insert(0, self.users_data['user 0']['guardian_2_first_name'])
         self.g2.last_name_button.insert(0, self.users_data['user 0']['guardian_2_last_name'])
 
-        self.Save = ttk.Button(self, text="Save", command=self.save)
+        self.Save = ttk.Button(self, text="Save and Reload", command= lambda: self.save(parent))
         self.Save.grid(row=1200, column=0, sticky=tk.W)
 
-    def save(self):
-
+    def save(self, parent):
         self.all_information = {
             "child_first_name": self.c.FirstName.get(),
             "child_last_name": self.c.LastName.get(),
@@ -60,5 +61,12 @@ class SettingsFrame(tk.Frame):
         self.users_data['user 0'] = self.all_information
         print(self.users_data)
 
+        tk.Label(self, text=f"Changes saved. Reload the program to apply the changes.",
+              wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=tk.W)
+
         with open(self.users_data_file, 'w') as jsonfile:
             json.dump(self.users_data, jsonfile)
+
+        parent.destroy()
+        parent.__init__()
+
