@@ -12,7 +12,7 @@ def _create_user_table(cur):
     """Returns None if successful, returns error message if not."""
     try:
         cur.execute('CREATE TABLE IF NOT EXISTS users'
-                    '(username text COLLATE NOCASE, password text, child_first_name text, child_last_name text, '
+                    '(username text UNIQUE COLLATE NOCASE, password text, child_first_name text, child_last_name text, '
                     'child_grade int, child_age int, '
                     'guardian_1_first_name text, guardian_1_last_name text, '
                     'guardian_2_first_name text, guardian_2_last_name text)')
@@ -52,7 +52,8 @@ def is_valid_password(password):
 
 
 def add_user(user_info):
-    """Adds a user to the database. Returns 'Success' if user was saved, or an error message if not.
+    """Adds a user to the database, and saves default settings for the user.
+    Returns 'Success' if user was saved, or an error message if not.
     Checks to make sure username is not already taken."""
     message = 'User could not be saved.'
 
@@ -67,7 +68,12 @@ def add_user(user_info):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
+    # Create tables
     e = _create_user_table(cur)
+    if e is not None:
+        con.close()
+        return str(e)
+    e = _create_settings_table(cur)
     if e is not None:
         con.close()
         return str(e)
@@ -92,6 +98,14 @@ def add_user(user_info):
             message = 'Success'
         except sqlite3.DatabaseError:
             message = str(sys.exc_info()[1])
+        else:
+            # Set default settings for the new user
+            default_num_problems = 20
+            try:
+                cur.execute('INSERT INTO settings VALUES(?, ?)', (
+                    username, default_num_problems))
+            except sqlite3.DatabaseError:
+                message = str(sys.exc_info()[1])
     else:
         message = 'Username taken'
 
@@ -101,7 +115,7 @@ def add_user(user_info):
 
 
 def login(username, password):
-    """Retrieves the user's data and returns it in a dictionary (not including the password).
+    """Retrieves the user's data and returns it in a dictionary.
     Message returns an error message if unsuccessful, or 'Success'.
 
     :param username: Case insensitive username.
@@ -115,12 +129,8 @@ def login(username, password):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
-    sql = 'SELECT username, child_first_name, child_last_name, child_grade, child_age, ' \
-          'guardian_1_first_name, guardian_1_last_name, ' \
-          'guardian_2_first_name, guardian_2_last_name ' \
-          'FROM users WHERE username=? and password=?'
     try:
-        cur.execute(sql, (username, password))
+        cur.execute('SELECT * FROM users WHERE username=? and password=?', (username, password))
     except sqlite3.DatabaseError:
         message = sys.exc_info()[1]
         if message.args[0] == 'no such table: users':
@@ -135,14 +145,15 @@ def login(username, password):
             user_raw = data[0]
             user_dict = {
                 "username": user_raw[0],
-                "child_first_name": user_raw[1],
-                "child_last_name": user_raw[2],
-                "child_grade": user_raw[3],
-                "child_age": user_raw[4],
-                "guardian_1_first_name": user_raw[5],
-                "guardian_1_last_name": user_raw[6],
-                "guardian_2_first_name": user_raw[7],
-                "guardian_2_last_name": user_raw[8]}
+                "password": user_raw[1],
+                "child_first_name": user_raw[2],
+                "child_last_name": user_raw[3],
+                "child_grade": user_raw[4],
+                "child_age": user_raw[5],
+                "guardian_1_first_name": user_raw[6],
+                "guardian_1_last_name": user_raw[7],
+                "guardian_2_first_name": user_raw[8],
+                "guardian_2_last_name": user_raw[9]}
             message = 'Success'
         elif len(data) == 0:
             if _user_exists(cur, username):
@@ -156,12 +167,16 @@ def login(username, password):
     return user_dict, message
 
 
+# TODO: Add a method to edit user data, change username, and change password
+
+
 def _create_results_table(cur):
     """Returns None if successful, returns error message if not."""
     try:
         cur.execute('CREATE TABLE IF NOT EXISTS results('
-                    'username text COLLATE NOCASE, datetime timestamp, type text, first_number int, second_number int,'
-                    ' symbol text, correct_answer int, student_answer int, question_text text)')
+                    'username text COLLATE NOCASE, datetime timestamp, type text, '
+                    'first_number int, second_number int, symbol text, '
+                    'correct_answer int, student_answer int, question_text text)')
     except sqlite3.DatabaseError:
         return sys.exc_info()[1]
 
@@ -354,7 +369,73 @@ def get_latest_quiz(username):
     return test_time, questions, message
 
 
-# TODO: Add more methods to retrieve quiz results
+def _create_settings_table(cur):
+    """Returns None if successful, returns error message if not."""
+    try:
+        cur.execute('CREATE TABLE IF NOT EXISTS settings('
+                    'username text UNIQUE COLLATE NOCASE, num_problems int)')
+    except sqlite3.DatabaseError:
+        return sys.exc_info()[1]
+
+
+def save_user_settings(username, settings_dict):
+    """Updates a user's settings. Returns 'Success' if settings were saved, or an error message if not."""
+    message = 'Settings could not be saved.'
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    e = _create_settings_table(cur)
+    if e is not None:
+        con.close()
+        return str(e)
+
+    try:
+        # Replace statement: https://www.sqlitetutorial.net/sqlite-replace-statement/
+        cur.execute('REPLACE INTO settings VALUES(?, ?)', (
+            username, settings_dict['num_problems']))
+        message = 'Success'
+    except sqlite3.DatabaseError:
+        message = str(sys.exc_info()[1])
+
+    con.commit()
+    con.close()
+    return message
+
+
+def get_user_settings(username):
+    """Gets the user's settings in the form of a dictionary.
+    Message returns an error message if unsuccessful, or 'Success'.
+
+    :returns: (settings_dict, message)"""
+    message = 'Could not retrieve settings'
+    settings_dict = {}
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    try:
+        cur.execute('SELECT * FROM settings WHERE username=?', [username])
+    except sqlite3.DatabaseError:
+        message = sys.exc_info()[1]
+        if message.args[0] == 'no such table: settings':
+            message = 'No users have saved settings'
+        else:
+            message = str(message)
+    else:
+        data = cur.fetchall()
+
+        # Convert to dictionary
+        if len(data) == 1:
+            settings_raw = data[0]
+            settings_dict = {
+                "num_problems": settings_raw[1]}
+            message = 'Success'
+        elif len(data) == 0:
+            message = 'User not found'
+        else:
+            message = 'Duplicate users found'
+
+    con.close()
+    return settings_dict, message
 
 
 # This is used for testing/demo purposes
@@ -377,7 +458,9 @@ if __name__ == '__main__':
     }
 
     username = 'genericusername'
+    print("add_user:")
     print(add_user(all_information))
+    print('login:')
     print(login(username, 'secret'))
 
     # Sample math questions
@@ -397,7 +480,22 @@ if __name__ == '__main__':
                          text='What is 8 + 3?')
     question_list = [question1, question2]
 
+    print('save_results:')
     print(save_results('genericusername', question_list))
+    print('get_every_quiz:')
     print(get_every_quiz(username))
+    print('get_every_question:')
     print(get_every_question(username))
+    print('get_latest_quiz:')
     print(get_latest_quiz(username))
+
+    settings = {
+        'num_problems': 50,
+    }
+
+    print('get_user_settings:')
+    print(get_user_settings(username))
+    print('save_user_settings:')
+    print(save_user_settings(username, settings))
+    print('get_user_settings:')
+    print(get_user_settings(username))
