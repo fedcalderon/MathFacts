@@ -88,7 +88,9 @@ class SelectionView(tk.Frame):
         toolbar.add_cascade(label=self.username, menu=user_menu)
 
         settings_menu = tk.Menu(toolbar)
-        toolbar.add_cascade(label='Settings', menu=settings_menu, command= lambda: print('y'))
+        toolbar.add_cascade(label='Settings', menu=settings_menu)
+        settings_menu.add_command(label='Settings', command=lambda: parent.change_screen(
+            parent.current_screen, parent.settings_screen))
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)

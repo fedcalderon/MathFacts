@@ -20,6 +20,10 @@ class MyApplication(tk.Tk):
         self.title("MathFacts")
         self.geometry("1000x650")
         self.resizable(width=True, height=True)
+
+        self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
+        self.current_screen = self.welcome_screen
+
         self.display_welcome_screen()
         self.columnconfigure(0, weight=1)
 
@@ -27,9 +31,6 @@ class MyApplication(tk.Tk):
         # Under the new system, there is only one window.
         # Each view is a list of frames.
         # For now, buttons are stored separately from other frames and have to be appended to the list.
-
-        # Welcome_screen
-        self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
 
         # Bridge buttons(buttons that connect the welcome view to other archived)
         self.registration_button = ttk.Button(self, text="Register",
@@ -48,11 +49,8 @@ class MyApplication(tk.Tk):
         self.math_problems_button = ttk.Button(self, text="Sample Math Lesson", command=lambda: self.change_screen(
             self.welcome_screen, self.math_problems_screen))
 
-        self.settings_button = ttk.Button(self, text="User Settings", command=lambda: self.change_screen(
-            self.welcome_screen, self.settings_screen))
-
         self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
-                                    self.login_button, self.problem_selection_button, self.settings_button])
+                                    self.login_button, self.problem_selection_button])
 
         for item in self.welcome_screen:
             item.grid()
@@ -116,6 +114,8 @@ class MyApplication(tk.Tk):
             item.grid_forget()
         for item in new_screen:
             item.grid()
+        self.current_screen = new_screen
+        print(self.current_screen)
 
 
 if __name__ == '__main__':

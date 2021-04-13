@@ -27,6 +27,8 @@ class Login(tk.Frame):
         self.username1 = self.username_verify.get()
         self.password1 = self.password_verify.get()
 
+        self.logged_in = False
+
         tk.Label(self, text='Please enter details below to login').grid()
         tk.Label(self, text='').grid()
         tk.Label(self, text="Username * ").grid()
@@ -78,6 +80,8 @@ class Login(tk.Frame):
                         self.student_id = key
                         print(self.student_id)
                         self.result_message = "Successfully logged in."
+                        self.logged_in = True
+                        print(self.logged_in)
 
                         # problem selection screen
                         break
