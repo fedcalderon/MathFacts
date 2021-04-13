@@ -20,9 +20,13 @@ def _create_user_table(cur):
         return sys.exc_info()[1]
 
 
-def _user_exists(cur, username):
+def _user_exists(cur, username, password=None):
+    """Tells if the specified user exists. Optional password parameter."""
     try:
-        cur.execute('SELECT EXISTS(SELECT 1 FROM users WHERE username=?)', [username])
+        if password is None:
+            cur.execute('SELECT EXISTS(SELECT 1 FROM users WHERE username=?)', [username])
+        else:
+            cur.execute('SELECT EXISTS(SELECT 1 FROM users WHERE username=? and password=?)', (username, password))
     except sqlite3.DatabaseError:
         return False
     if cur.fetchone()[0] == 0:
@@ -115,7 +119,7 @@ def add_user(user_info):
 
 
 def login(username, password):
-    """Retrieves the user's data and returns it in a dictionary.
+    """Retrieves the user's data and returns it in a dictionary. The user's password is omitted from the dictionary.
     Message returns an error message if unsuccessful, or 'Success'.
 
     :param username: Case insensitive username.
@@ -145,7 +149,6 @@ def login(username, password):
             user_raw = data[0]
             user_dict = {
                 "username": user_raw[0],
-                "password": user_raw[1],
                 "child_first_name": user_raw[2],
                 "child_last_name": user_raw[3],
                 "child_grade": user_raw[4],
@@ -167,7 +170,76 @@ def login(username, password):
     return user_dict, message
 
 
-# TODO: Add a method to edit user data, change username, and change password
+def update_user_data(username, password, new_user_info):
+    """Updates the user's data. Changes username and/or password if changed in the dictionary.
+    Returns an error message if unsuccessful, or 'Success'.
+
+    :param username: Current username (before update).
+    :param password: Current password (before update).
+    :param new_user_info: Dictionary containing the new user info. Does not need to include username or password.
+    :returns: message"""
+    message = 'User data could not be updated'
+
+    new_username = new_user_info['username']
+    new_password = new_user_info['password']
+
+    # Make sure the new username and password values are valid
+    if not is_valid_username(new_username):
+        message = 'Invalid username'
+        return message
+    if not is_valid_password(new_password):
+        message = 'Invalid password'
+        return message
+
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    if _user_exists(cur, username, password):
+        child_fn = new_user_info['child_first_name']
+        child_ln = new_user_info['child_last_name']
+        child_grade = new_user_info['child_grade']
+        child_age = new_user_info['child_age']
+        g1_fn = new_user_info['guardian_1_first_name']
+        g1_ln = new_user_info['guardian_1_last_name']
+        g2_fn = new_user_info['guardian_2_first_name']
+        g2_ln = new_user_info['guardian_2_last_name']
+        # SQLite update statement: https://www.sqlitetutorial.net/sqlite-update/
+        sql = 'UPDATE users SET username=?, password=?, child_first_name=?, child_last_name=?, ' \
+              'child_grade=?, child_age=?, ' \
+              'guardian_1_first_name=?, guardian_1_last_name=?, ' \
+              'guardian_2_first_name=?, guardian_2_last_name=? WHERE username=? and password=?'
+        try:
+            cur.execute(sql, (new_username, new_password, child_fn, child_ln,
+                              child_grade, child_age,
+                              g1_fn, g1_ln, g2_fn, g2_ln, username, password))
+            message = 'Success'
+        except sqlite3.DatabaseError:
+            message = str(sys.exc_info()[1])
+        else:
+            # If the username changed, update the username in all the other tables
+            if new_username != username:
+                try:
+                    cur.execute('UPDATE results SET username=? WHERE username=?', (new_username, username))
+                except sqlite3.DatabaseError:
+                    e = str(sys.exc_info()[1])
+                    # If the table doesn't exist, just keep going
+                    if e != 'no such table: results':
+                        message = e
+                try:
+                    cur.execute('UPDATE settings SET username=? WHERE username=?', (new_username, username))
+                except sqlite3.DatabaseError:
+                    e = str(sys.exc_info()[1])
+                    # If the table doesn't exist, just keep going
+                    if e != 'no such table: settings':
+                        message = e
+    elif _user_exists(cur, username):
+        message = 'Incorrect password'
+    else:
+        message = 'User does not exist'
+
+    con.commit()
+    con.close()
+    return message
 
 
 def _create_results_table(cur):
@@ -389,13 +461,16 @@ def save_user_settings(username, settings_dict):
         con.close()
         return str(e)
 
-    try:
-        # Replace statement: https://www.sqlitetutorial.net/sqlite-replace-statement/
-        cur.execute('REPLACE INTO settings VALUES(?, ?)', (
-            username, settings_dict['num_problems']))
-        message = 'Success'
-    except sqlite3.DatabaseError:
-        message = str(sys.exc_info()[1])
+    if _user_exists(cur, username):
+        try:
+            # SQLite replace statement: https://www.sqlitetutorial.net/sqlite-replace-statement/
+            cur.execute('REPLACE INTO settings VALUES(?, ?)', (
+                username, settings_dict['num_problems']))
+            message = 'Success'
+        except sqlite3.DatabaseError:
+            message = str(sys.exc_info()[1])
+    else:
+        message = 'User does not exist'
 
     con.commit()
     con.close()
@@ -430,7 +505,7 @@ def get_user_settings(username):
                 "num_problems": settings_raw[1]}
             message = 'Success'
         elif len(data) == 0:
-            message = 'User not found'
+            message = 'User settings not found'
         else:
             message = 'Duplicate users found'
 
@@ -441,7 +516,7 @@ def get_user_settings(username):
 # This is used for testing/demo purposes
 if __name__ == '__main__':
     # Sample user
-    all_information = {
+    user_info = {
         "child_first_name": 'Generic',
         "child_last_name": 'Student',
         "child_grade": 3,
@@ -456,12 +531,29 @@ if __name__ == '__main__':
         "username": 'GenericUsername',
         "password": 'secret',
     }
+    username = 'GeneriCUsernamE'
 
-    username = 'genericusername'
     print("add_user:")
-    print(add_user(all_information))
+    print(add_user(user_info))
     print('login:')
     print(login(username, 'secret'))
+
+    new_user_info = {
+        "child_first_name": 'New',
+        "child_last_name": 'Name',
+        "child_grade": 4,
+        "child_age": 10,
+
+        "guardian_1_first_name": 'Another',
+        "guardian_1_last_name": 'Guardian',
+
+        "guardian_2_first_name": '',
+        "guardian_2_last_name": '',
+
+        "username": 'DifferentUsername',
+        "password": 'Secret',
+    }
+    new_username = 'diFFerentuserNAME'
 
     # Sample math questions
     question1 = Question(question_type='TEST',
@@ -481,13 +573,13 @@ if __name__ == '__main__':
     question_list = [question1, question2]
 
     print('save_results:')
-    print(save_results('genericusername', question_list))
+    print(save_results(username, question_list))
     print('get_every_quiz:')
     print(get_every_quiz(username))
-    print('get_every_question:')
-    print(get_every_question(username))
-    print('get_latest_quiz:')
-    print(get_latest_quiz(username))
+    # print('get_every_question:')
+    # print(get_every_question(username))
+    # print('get_latest_quiz:')
+    # print(get_latest_quiz(username))
 
     settings = {
         'num_problems': 50,
@@ -497,5 +589,19 @@ if __name__ == '__main__':
     print(get_user_settings(username))
     print('save_user_settings:')
     print(save_user_settings(username, settings))
-    print('get_user_settings:')
+
+    print('update_user_data:')
+    print(update_user_data(username, 'secret', new_user_info))
+
+    print('login (old username):')
+    print(login(username, 'secret'))
+    print('login (new username):')
+    print(login(new_username, 'Secret'))
+    print('get_every_quiz (old username):')
+    print(get_every_quiz(username))
+    print('get_every_quiz (new username):')
+    print(get_every_quiz(new_username))
+    print('get_user_settings (old username):')
     print(get_user_settings(username))
+    print('get_user_settings (new username):')
+    print(get_user_settings(new_username))
