@@ -4,8 +4,7 @@ from datetime import datetime
 from src.application.models.question import Question
 import os
 
-
-db_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'test.db'))
+db_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'MathFactsData.db'))
 
 
 def _create_user_table(cur):
