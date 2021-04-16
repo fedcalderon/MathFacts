@@ -94,6 +94,8 @@ class SelectionView(tk.Frame):
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)
+        reports_menu.add_command(label='Reports', command=lambda: parent.change_screen(
+            parent.current_screen, parent.reports_screen))
 
         # Make a list to hold all the options
         self.options = []

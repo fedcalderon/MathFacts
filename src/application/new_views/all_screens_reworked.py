@@ -10,6 +10,7 @@ import src.application.new_views.login as new_login
 import src.application.new_views.problem_selection as ps
 import src.application.new_views.math_screen as ms
 import src.application.new_views.settings as settings
+import src.application.new_views.reports as reports
 from pathlib import Path
 import json
 
@@ -61,6 +62,11 @@ class MyApplication(tk.Tk):
                                     self.settings_screen, self.problem_selection_screen)),
                                 tk.Button(self, text="Back", command=lambda: self.change_screen(
                                 self.settings_screen, self.welcome_screen))]
+
+        # Reports screen
+        self.reports_screen = [reports.ReportsFrame(self),
+                                tk.Button(self, text="Back", command=lambda: self.change_screen(
+                                    self.reports_screen, self.welcome_screen))]
 
         # Terms of use screen
         self.terms_of_use_description = "No copying this program or using it illegally. " \
@@ -115,7 +121,6 @@ class MyApplication(tk.Tk):
         for item in new_screen:
             item.grid()
         self.current_screen = new_screen
-        print(self.current_screen)
 
 
 if __name__ == '__main__':

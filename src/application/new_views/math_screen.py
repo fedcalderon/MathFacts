@@ -92,9 +92,9 @@ class Questions:
             self.first_number = random.randint(1, 100)
             divisors = [x for x in range(1, self.first_number + 1) if self.first_number % x == 0]
             self.second_number = divisors[random.randint(0, len(divisors) - 1)]
-            self.symbol = '/'
+            self.symbol = '÷'
             self.answer = int(self.first_number / self.second_number)
-            return f"What is {self.first_number} / {self.second_number}?"
+            return f"What is {self.first_number} ÷ {self.second_number}?"
 
         elif self.ID == '2-DIV':
             self.first_number = random.randint(50, 999)
@@ -107,9 +107,9 @@ class Questions:
                 # Use hard_divisors as possible divisors
                 divisors = hard_divisors
             self.second_number = divisors[random.randint(0, len(divisors) - 1)]
-            self.symbol = '/'
+            self.symbol = '÷'
             self.answer = int(self.first_number / self.second_number)
-            return f"What is {self.first_number} / {self.second_number}?"
+            return f"What is {self.first_number} ÷ {self.second_number}?"
 
 
 # TODO: Prevent same question from appearing multiple times
