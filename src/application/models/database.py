@@ -241,6 +241,40 @@ def update_user_data(username, password, new_user_info):
     return message
 
 
+def remove_user(username, password):
+    """Removes the user from the database, including their quiz results and settings.
+    Returns 'Success' if user was removed, or an error message if not."""
+    message = 'User could not be removed.'
+
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    # Make sure the username and password are correct. We don't want to let anyone go around deleting all the accounts!
+    if _user_exists(cur, username, password):
+        message = 'Success'
+        try:
+            cur.execute('DELETE FROM results WHERE username=?', [username])
+        except sqlite3.DatabaseError:
+            pass
+        try:
+            cur.execute('DELETE FROM settings WHERE username=?', [username])
+        except sqlite3.DatabaseError:
+            pass
+        try:
+            cur.execute('DELETE FROM users WHERE username=?', [username])
+        except sqlite3.DatabaseError:
+            message = str(sys.exc_info()[1])
+    else:
+        if _user_exists(cur, username):
+            message = 'Incorrect password'
+        else:
+            message = 'User does not exist'
+
+    con.commit()
+    con.close()
+    return message
+
+
 def _create_results_table(cur):
     """Returns None if successful, returns error message if not."""
     try:
