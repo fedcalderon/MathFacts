@@ -9,8 +9,9 @@ import src.application.new_views.registration as registration
 import src.application.new_views.login as new_login
 import src.application.new_views.problem_selection as ps
 import src.application.new_views.math_screen as ms
-import src.application.new_views.settings as settings
+import src.application.new_views.user_settings as user_settings
 import src.application.new_views.reports as reports
+import src.application.tests.modified_logger as logger
 from pathlib import Path
 import json
 
