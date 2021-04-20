@@ -1,6 +1,7 @@
 # Stats graph page
 # More things can be added to the file to show their progress on each problem
 import matplotlib.pyplot as plt
+import json
 
 
 class ReportsGraph:
