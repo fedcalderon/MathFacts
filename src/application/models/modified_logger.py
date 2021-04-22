@@ -9,15 +9,14 @@ from datetime import datetime
 from pathlib import Path
 import src.application.new_views.results as results
 
-
 # This is a modified version of Mr. Fed's original logger program in the 'common' directory.
-# This program works with the results.py program. It logs the grades shown in results.
+# It is able to log the state of any view or variable.
 
 
 class Logger:
     """This class configures the logger for the Math Facts program."""
 
-    def __init__(self, log_file, message):
+    def __init__(self, log_file):
         """ Logger constructor. """
         # String constants
         self.app_log = logging.getLogger('root')
@@ -51,6 +50,8 @@ class Logger:
         # If the log directory does not exist, create it
         if not os.path.exists(self.log_dir):
             os.makedirs(self.log_dir)
+
+    def write_to_log(self, message):
         # If log file does not exist, create it
         mode = 'a' if os.path.exists(self.log_dir + self.log_file) else 'w'
         with open(self.log_dir + self.log_file, mode) as f:
