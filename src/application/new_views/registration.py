@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 import json
 from pathlib import Path
+import src.application.models.modified_logger as logger
 
 
 class LoginInformation(tk.LabelFrame):
@@ -125,6 +126,8 @@ class RegistrationView(tk.Frame):
                                font=("TkDefaultFont", 11), wraplength=600)
         self.field.grid(row=1400, column=0, sticky=tk.W)
 
+        self.logger = logger.Logger('registration_attempts.log')
+
         # Read current users from file and set the correct index
         self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
         self.users_dict = self.get_users()
@@ -185,10 +188,15 @@ class RegistrationView(tk.Frame):
             "password": self.l.Password.get(),
         }
 
+
+
         # Make sure the username is unique
         for user in self.users_dict.values():
             if self.all_information['username'] == user['username']:
                 self.field_text.set(f"Username '{user['username']}' is already taken")
+                self.logger.write_to_log(f"Registration for {self.all_information['username']} has failed. "
+                                         f"Cause: Username '{user['username']}' is already taken. - "
+                                         f"{self.logger.get_datetime_string()}.")
                 return
 
         for key in self.all_information:
@@ -197,6 +205,9 @@ class RegistrationView(tk.Frame):
             else:
                 if self.all_information.get(key) == "":
                     self.field_text.set("Not all required fields have been answered")
+                    self.logger.write_to_log(f"Registration for {self.all_information['username']} has failed. "
+                                             f"Cause: Not all required fields have been answered. "
+                                             f"{self.logger.get_datetime_string()}.")
                     break
             if key == "password":
                 # Add new data to the users dictionary and save it all to the file
@@ -205,6 +216,9 @@ class RegistrationView(tk.Frame):
                     json.dump(self.users_dict, jsonfile)
 
                 self.user_index += 1
+
+                self.logger.write_to_log(f"User '{self.all_information['username']}' has successfully registered - "
+                                         f"{self.logger.get_datetime_string()}")
 
                 self.field_text.set(f"User '{self.all_information['username']}' has been registered.")
                 self.reset_fields()
