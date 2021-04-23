@@ -122,7 +122,7 @@ class Math_Screen(tk.Frame):
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
         self.Question_Count = 1
-        self.Total_Questions = 3
+        self.Total_Questions = 20
         self.questions_list = []
         self.finished = False
 
