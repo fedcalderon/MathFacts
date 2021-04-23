@@ -4,6 +4,7 @@ from src.application.new_views import registration
 import json
 from pathlib import Path
 from src.application.new_views import problem_selection as ps
+from src.application.models import modified_logger as logger
 
 
 # Designing window for login
@@ -28,6 +29,7 @@ class Login(tk.Frame):
         self.password1 = self.password_verify.get()
 
         self.logged_in = False
+        self.program_logger = logger.Logger('login_attempts.log')
 
         tk.Label(self, text='Please enter details below to login').grid()
         tk.Label(self, text='').grid()
@@ -75,11 +77,14 @@ class Login(tk.Frame):
                 # print(f"Username: {self.username1}")
                 # print(f"Password: {self.password1}")
                 if self.username1 == self.users_data[key]['username']:
+
                     if self.password1 == self.users_data[key]['password']:
                         self.student = self.users_data[key]
                         self.student_id = key
                         print(self.student_id)
                         self.result_message = "Successfully logged in."
+                        self.program_logger.write_to_log(f"{self.username1}: LOGIN SUCCESSFUL"
+                                                         f" - {self.program_logger.get_datetime_string()}")
                         self.logged_in = True
                         print(self.logged_in)
 
@@ -88,10 +93,15 @@ class Login(tk.Frame):
 
                     else:
                         self.result_message = "Password not recognized."
+                        self.program_logger.write_to_log(f"{self.username1}: {self.result_message} LOGIN FAILED"
+                                                         f" - {self.program_logger.get_datetime_string()}")
                         break
 
                 else:
                     self.result_message = "User not found."
+                    self.program_logger.write_to_log(f"{self.username1}: {self.result_message} LOGIN FAILED"
+                                                     f" - {self.program_logger.get_datetime_string()}")
+
 
         self.result_of_verification(self.result_message, parent)
 

@@ -120,7 +120,6 @@ def add_user(user_info):
 def login(username, password):
     """Retrieves the user's data and returns it in a dictionary. The user's password is omitted from the dictionary.
     Message returns an error message if unsuccessful, or 'Success'.
-
     :param username: Case insensitive username.
     :param password: Case sensitive password.
     :returns: (user_dict, message)"""
@@ -339,7 +338,6 @@ def _get_every_question_row(cur, username):
 def get_every_quiz(username):
     """Returns every quiz for the given user in a dict with the form {datetime: [question, question,...],...}.
     Message returns an error message if unsuccessful, or 'Success'.
-
     :returns: (quizzes, message)"""
     message = 'Could not retrieve results'
 
@@ -384,7 +382,6 @@ def get_every_quiz(username):
 def get_every_question(username):
     """Returns a list of every question for the given user, regardless of which quiz the questions were a part of.
     Message returns an error message if unsuccessful, or 'Success'.
-
     :returns: (questions, message)"""
     message = 'Could not retrieve questions'
 
@@ -423,7 +420,6 @@ def get_every_question(username):
 def get_latest_quiz(username):
     """Gets the questions from the user's most recent quiz.
     Message returns an error message if unsuccessful, or 'Success'.
-
     :returns: (test_time, questions, message)"""
     message = 'Could not retrieve questions'
 

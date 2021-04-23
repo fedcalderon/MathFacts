@@ -290,10 +290,7 @@ class Math_Screen(tk.Frame):
                           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
 
         if self.Question_Count - 1 == self.Total_Questions:
-            print('u')
-
             self.results_screen.grid()
-
             self.reset_exercise(self.parent)
 
         # Set the focus back to the entry

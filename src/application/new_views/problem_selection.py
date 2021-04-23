@@ -57,10 +57,8 @@ class OptionFrame(tk.Frame):
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
         self.start_is_clicked = True
-        print(self.m_s)
         master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID)
         master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
-        print(master_screen.math_problems_screen[0])
 
         if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
             tk.Button(master_screen, text="Show Grades",

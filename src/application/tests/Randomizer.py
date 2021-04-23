@@ -22,10 +22,10 @@ def randomize_list(a_list):
     #print(f"Before: {before}")
     #print(f"After: {after}")
 
-    if(before[-1] == after[0]):
+    if before[-1] == after[0]:
         after[0] = before[0]
 
-    if(before[-2] == after[0]):
+    if before[-2] == after[0]:
         after[0] = before[0]
     ##################################################################################
 
@@ -41,8 +41,8 @@ def randomize_list(a_list):
 while True:
 
     continueQuestions = input("Continue with another a_list of questions? (Y or N)")
-    if(continueQuestions == "Y"):
+    if continueQuestions == "Y":
         continue
-    elif(continueQuestions == "N"):
+    elif continueQuestions == "N":
         break
 
