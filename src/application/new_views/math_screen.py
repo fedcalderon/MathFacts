@@ -92,9 +92,9 @@ class Questions:
             self.first_number = random.randint(1, 100)
             divisors = [x for x in range(1, self.first_number + 1) if self.first_number % x == 0]
             self.second_number = divisors[random.randint(0, len(divisors) - 1)]
-            self.symbol = '/'
+            self.symbol = '÷'
             self.answer = int(self.first_number / self.second_number)
-            return f"What is {self.first_number} / {self.second_number}?"
+            return f"What is {self.first_number} ÷ {self.second_number}?"
 
         elif self.ID == '2-DIV':
             self.first_number = random.randint(50, 999)
@@ -107,9 +107,9 @@ class Questions:
                 # Use hard_divisors as possible divisors
                 divisors = hard_divisors
             self.second_number = divisors[random.randint(0, len(divisors) - 1)]
-            self.symbol = '/'
+            self.symbol = '÷'
             self.answer = int(self.first_number / self.second_number)
-            return f"What is {self.first_number} / {self.second_number}?"
+            return f"What is {self.first_number} ÷ {self.second_number}?"
 
 
 # TODO: Prevent same question from appearing multiple times
@@ -200,8 +200,8 @@ class Math_Screen(tk.Frame):
         # Set focus on text box
         self.UserInsert_entry.focus()
 
-        self.back_button = tk.Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
-            parent.math_problems_screen, parent.problem_selection_screen))
+        self.results_screen = tk.Button(self, text="Show Grades", command=lambda: parent.change_screen(
+            parent.math_problems_screen, [results.LinksFrame(parent, self, 'test')]))
 
     def enable_buttons(self, enable=True):
         if enable:
@@ -290,14 +290,7 @@ class Math_Screen(tk.Frame):
                           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
 
         if self.Question_Count - 1 == self.Total_Questions:
-            print('u')
-
-            self.results_button = tk.Button(self, text="Show Grades",
-                                            command=lambda: results.ResultsScreen(self, 'test').mainloop())
-
-            self.results_button.grid()
-            self.back_button.grid()
-
+            self.results_screen.grid()
             self.reset_exercise(self.parent)
 
         # Set the focus back to the entry
@@ -312,9 +305,6 @@ class Math_Screen(tk.Frame):
                   font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
         self.Display_Question.set('')
         self.Question_label.set('')
-
-        # tk.Button(self, text="Start Another Task", command=lambda: parent_screen.change_screen(
-        #     parent_screen.math_problems_screen, parent_screen.problem_selection_screen)).grid()
 
     def reset_fields(self):
         self.Display_Question.set(self.questions.toggle_topics())

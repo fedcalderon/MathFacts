@@ -9,8 +9,12 @@ import src.application.new_views.registration as registration
 import src.application.new_views.login as new_login
 import src.application.new_views.problem_selection as ps
 import src.application.new_views.math_screen as ms
+import src.application.new_views.user_settings as user_settings
+import src.application.new_views.reports as reports
+import src.application.tests.modified_logger as logger
 from pathlib import Path
 import json
+from datetime import datetime
 
 
 class MyApplication(tk.Tk):
@@ -19,6 +23,10 @@ class MyApplication(tk.Tk):
         self.title("MathFacts")
         self.geometry("1000x650")
         self.resizable(width=True, height=True)
+
+        self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
+        self.current_screen = self.welcome_screen
+
         self.display_welcome_screen()
         self.columnconfigure(0, weight=1)
 
@@ -26,9 +34,6 @@ class MyApplication(tk.Tk):
         # Under the new system, there is only one window.
         # Each view is a list of frames.
         # For now, buttons are stored separately from other frames and have to be appended to the list.
-
-        # Welcome_screen
-        self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
 
         # Bridge buttons(buttons that connect the welcome view to other archived)
         self.registration_button = ttk.Button(self, text="Register",
@@ -50,9 +55,20 @@ class MyApplication(tk.Tk):
         self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
                                     self.login_button, self.problem_selection_button])
 
-        # Append all frames to the welcome view
         for item in self.welcome_screen:
-            item.grid(sticky=(tk.W + tk.E + tk.N + tk.S))
+            item.grid()
+
+        # Settings screen
+        self.settings_screen = [user_settings.SettingsFrame(self),
+                                tk.Button(self, text="To Topics List", command=lambda: self.change_screen(
+                                    self.settings_screen, self.problem_selection_screen)),
+                                tk.Button(self, text="Back", command=lambda: self.change_screen(
+                                self.settings_screen, self.welcome_screen))]
+
+        # Reports screen
+        self.reports_screen = [reports.ReportsFrame(self),
+                                tk.Button(self, text="Back", command=lambda: self.change_screen(
+                                    self.reports_screen, self.welcome_screen))]
 
         # Terms of use screen
         self.terms_of_use_description = "No copying this program or using it illegally. " \
@@ -94,8 +110,7 @@ class MyApplication(tk.Tk):
 
         self.problem_selection_screen = [self.selection_view,
                                          tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
-                                             self.problem_selection_screen, self.welcome_screen))
-                                         ]
+                                             self.problem_selection_screen, self.welcome_screen))]
         # The math screen.
         self.m_s = ms.Math_Screen(self, '1-ADD')
         self.math_problems_screen = [self.m_s]
@@ -107,6 +122,7 @@ class MyApplication(tk.Tk):
             item.grid_forget()
         for item in new_screen:
             item.grid()
+        self.current_screen = new_screen
 
 
 if __name__ == '__main__':

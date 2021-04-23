@@ -1,7 +1,3 @@
-# **************************************************************************
-#  This file is to serve as an example.
-# **************************************************************************
-
 # Imports
 import os
 import getpass
@@ -11,10 +7,17 @@ import logging
 from logging.handlers import RotatingFileHandler
 from datetime import datetime
 from pathlib import Path
+import src.application.new_views.results as results
+
+
+# This is a modified version of Mr. Fed's original logger program in the 'common' directory.
+# This program works with the results.py program. It logs the grades shown in results.
+
 
 class Logger:
     """This class configures the logger for the Math Facts program."""
-    def __init__(self):
+
+    def __init__(self, log_file, message):
         """ Logger constructor. """
         # String constants
         self.app_log = logging.getLogger('root')
@@ -30,7 +33,7 @@ class Logger:
         # Program's root directory reference to locate files in the /common/ subdirectory
         self.properties_path = self.root_dir + "/src/common/properties/"
         self.log_dir = self.root_dir + "/scratch/logs/"
-        self.log_file = "math_facts.log"
+        self.log_file = log_file
         # Properties file name
         self.prop_file_name = "math_facts.properties"
         # Default properties file
@@ -51,11 +54,11 @@ class Logger:
         # If log file does not exist, create it
         mode = 'a' if os.path.exists(self.log_dir + self.log_file) else 'w'
         with open(self.log_dir + self.log_file, mode) as f:
+            # Code for writing to the log file.
+            #f.write(f"Program started on {datetime.now()}\n")
+            f.write(message)
 
-        # Code for writing to the log file.
-            f.write(f"Program started on {datetime.now()}\n")
-
-        #self.config_logger()
+        # self.config_logger()
 
     def get_datetime_string(self):
         """
@@ -127,11 +130,12 @@ class Logger:
     def get_log_file(self):
         return self.log_dir + self.log_file
 
-    def printlog(self, type, msg):
+    def print_log(self, type, msg):
         self.app_log.type(msg)
 
+
 if __name__ == '__main__':
-    logger = Logger()
+    logger = Logger('math_facts.log', f"Program started on {datetime.now()}\n")
     # Announce start of program
     logger.announce_run("start")
     # Announce end of program
