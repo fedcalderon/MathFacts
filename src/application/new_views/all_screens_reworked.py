@@ -1,22 +1,20 @@
 # This is a work in progress. This keeps all the screens in a single window.
 # The major difference between this and the current program is that all the screens are contained in lists rather than
 #   tk windows.
-#
-#
-#
-#
-#
-#
+
 import tkinter as tk
 from tkinter import ttk
-import csv
-import src.application.tests.welcome as welcome
-import src.application.tests.registration as registration
-import src.application.tests.login as login
-import src.application.tests.problem_selection as ps
-import src.application.tests.math_screen as ms
+import src.application.new_views.welcome as welcome
+import src.application.new_views.registration as registration
+import src.application.new_views.login as new_login
+import src.application.new_views.problem_selection as ps
+import src.application.new_views.math_screen as ms
+import src.application.new_views.user_settings as user_settings
+import src.application.new_views.reports as reports
+import src.application.tests.modified_logger as logger
 from pathlib import Path
 import json
+from datetime import datetime
 
 
 class MyApplication(tk.Tk):
@@ -25,6 +23,10 @@ class MyApplication(tk.Tk):
         self.title("MathFacts")
         self.geometry("1000x650")
         self.resizable(width=True, height=True)
+
+        self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
+        self.current_screen = self.welcome_screen
+
         self.display_welcome_screen()
         self.columnconfigure(0, weight=1)
 
@@ -33,10 +35,7 @@ class MyApplication(tk.Tk):
         # Each view is a list of frames.
         # For now, buttons are stored separately from other frames and have to be appended to the list.
 
-        # Welcome_screen
-        self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
-
-        # Bridge buttons(buttons that connect the welcome view to other views)
+        # Bridge buttons(buttons that connect the welcome view to other archived)
         self.registration_button = ttk.Button(self, text="Register",
                                               command=lambda: self.change_screen(
                                                   self.welcome_screen, self.registration_screen))
@@ -54,11 +53,22 @@ class MyApplication(tk.Tk):
             self.welcome_screen, self.math_problems_screen))
 
         self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
-                                    self.login_button, self.problem_selection_button, self.math_problems_button])
+                                    self.login_button, self.problem_selection_button])
 
-        # Append all frames to the welcome view
         for item in self.welcome_screen:
-            item.grid(sticky=(tk.W + tk.E + tk.N + tk.S))
+            item.grid()
+
+        # Settings screen
+        self.settings_screen = [user_settings.SettingsFrame(self),
+                                tk.Button(self, text="To Topics List", command=lambda: self.change_screen(
+                                    self.settings_screen, self.problem_selection_screen)),
+                                tk.Button(self, text="Back", command=lambda: self.change_screen(
+                                self.settings_screen, self.welcome_screen))]
+
+        # Reports screen
+        self.reports_screen = [reports.ReportsFrame(self),
+                                tk.Button(self, text="Back", command=lambda: self.change_screen(
+                                    self.reports_screen, self.welcome_screen))]
 
         # Terms of use screen
         self.terms_of_use_description = "No copying this program or using it illegally. " \
@@ -84,68 +94,35 @@ class MyApplication(tk.Tk):
         self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
 
         # Login screen
-        self.username_verify = tk.StringVar()
-        self.password_verify = tk.StringVar()
-        self.username_login_entry = tk.Entry(self, textvariable=self.username_verify)
-        self.password_login_entry = tk.Entry(self, textvariable=self.password_verify, show='*')
-        self.result_message = ""
-        self.student = {}
+        ####################################################################################
+        self.Login_Manager = new_login.Login(self)
+        self.login_screen = [self.Login_Manager]
 
-        self.username1 = self.username_verify.get()
-        self.password1 = self.password_verify.get()
-        # self.login_success_screen = tk.Toplevel(self)
-        self.login_screen = [tk.Label(self, text='Please enter details below to login'),
-                             tk.Label(self, text=''),
-                             tk.Label(self, text="Username * "),
-                             self.username_login_entry,
-                             tk.Label(self, text=""),
-                             tk.Label(self, text="Password * "),
-                             self.password_login_entry,
-                             tk.Label(self, text=""),
-                             tk.Button(self, text="Login", width=10, height=1, command=
-                             lambda: login.login_verify(self)),
-                             tk.Label(self, text=""),
-                             tk.Label(self, text=""),
-                             tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
-                                 self.login_screen, self.welcome_screen))
-                             ]
-
-        # print(self.student_id)
-
-        # Problem selection screen
         with open(self.users_data_file) as jsonfile:
             users_data = json.load(jsonfile)
 
         self.users_data = users_data
-        #print(self.username_verify.)
+        ####################################################################################
 
-        for key in self.users_data:
-            # print(users_data[key]['username'])
-            # print(users_data[key]['password'])
-            # print(f"Username: {self.username1}")
-            # print(f"Password: {self.password1}")
-            if self.username1 == self.users_data[key]['username']:
-                if self.password1 == self.users_data[key]['password']:
-                    self.student = self.users_data[key]
-                    self.student_id = key
-                    print(self.student_id)
-
+        # Problem selection screen
         self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data[f'user 0']['child_grade']), 'username': self.users_data[f'user 0']['username']}, self)
+        # self.selection_view = self.Login_Manager.generate_problem_set(self)
+
         self.problem_selection_screen = [self.selection_view,
                                          tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
-                                             self.problem_selection_screen, self.welcome_screen))
-                                         ]
-
+                                             self.problem_selection_screen, self.welcome_screen))]
+        # The math screen.
         self.m_s = ms.Math_Screen(self, '1-ADD')
         self.math_problems_screen = [self.m_s]
 
     def change_screen(self, current_screen, new_screen):
-        # This method runs when a bridging button(buttons that connect two views) is clicked.
+        # This method runs when a bridging button(buttons that connect two archived) is clicked.
         # It deletes all frames in the current view, and replaces them with all the frames in the new view.
         for item in current_screen:
             item.grid_forget()
         for item in new_screen:
             item.grid()
+        self.current_screen = new_screen
 
 
 if __name__ == '__main__':

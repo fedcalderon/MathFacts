@@ -34,12 +34,8 @@ It is meant to be shown on the welcome screen."""
 # Andrew
 
 import tkinter as tk
-from tkinter import *
 from tkinter import ttk
-from src.application.views import login
-from src.application.views import registration
-import json
-from pathlib import Path
+from src.application.archived import login, registration
 
 
 class TermsOfUseWindow(tk.Frame):
@@ -100,7 +96,6 @@ class LinksFrame(tk.Frame):
 
         # Popup Windows
         self.screen_to_destroy = screen_to_destroy
-
 
     def terms_of_use_open(self):
         # Terms of use window

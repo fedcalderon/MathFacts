@@ -4,8 +4,8 @@ import time
 import tkinter as tk
 from tkinter import ttk
 
-from src.application.objects.question import Question
-from src.application.views import results
+from src.application.models.question import Question
+from src.application.archived import results
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -265,27 +265,9 @@ class Math_Screen(tk.Frame):
                                     text=text)
                 self.questions_list.append(question)
 
-                """
-                for x in range(0, len(self.questions_list)):
-                    if len(self.questions_list) >= 2:
-
-                        if len(self.questions_list) == 2:
-                            if self.questions_list[x][0] == self.questions_list[x - 1][0]:
-                                self.questions_list[x].append("INCORRECT")
-                                self.questions_list.remove(self.questions_list[x - 1])
-                                self.incorrect_questions += 1
-
-                        if len(self.questions_list) > 2:
-                            if self.questions_list[x][0] == self.questions_list[x - 1][0]:
-                                self.questions_list[x - 1].append("INCORRECT")
-                                self.questions_list.remove(self.questions_list[x])
-                                self.incorrect_questions += 1
-                """
-
                 # Check if the student's answer is correct
                 if student_answer == self.questions.answer:
                     self.Question_Count += 1
-                    self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
                     self.reset_fields()
                 else:
                     print(f"Your answer is wrong.")
@@ -316,10 +298,11 @@ class Math_Screen(tk.Frame):
         self.Display_Question.set(self.questions.toggle_topics())
         self.answer_verification.set('')
         self.ans_insert.set('')
+        self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
 
 
 class Math_Screen_Settings(tk.Tk):
-    """Screen settings"""
+    """Screen user_settings"""
 
     def __init__(self, ID, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -328,7 +311,6 @@ class Math_Screen_Settings(tk.Tk):
         self.resizable(width=False, height=False)
         self.ID = ID
         self.math_screen = Math_Screen(self, ID)
-
         self.math_screen.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
         # self.math_screen.update_time(10)
 
@@ -359,7 +341,7 @@ class Math_Screen_Settings(tk.Tk):
 
 
 if __name__ == '__main__':
-    test_ID = '1-DIV'
+    test_ID = '1-ADD'
     app = Math_Screen_Settings(test_ID)
     # while len(app.math_screen.all_questions_list) < 3:
     app.mainloop()

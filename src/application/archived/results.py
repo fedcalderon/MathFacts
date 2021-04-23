@@ -1,8 +1,7 @@
 # Showing all problems worked on by user
 # Milton
 from tkinter import *
-import time
-from src.application.views import math_screen
+from src.application.archived import math_screen
 from pathlib import Path
 import json
 from datetime import datetime
@@ -35,27 +34,26 @@ def save_results(questions_list, student_id):
 class LinksFrame(Frame):
     def __init__(self, parent, problems, student_id, **kwargs):
         super().__init__(parent, **kwargs)
-        self.problems = problems
 
         # List and print all problem set grades.
-        if len(self.problems.questions_list) > 0:
-            self.index = 0
-            self.incorrect_answers = 0
-            self.correct_answers = 0
-            for question in self.problems.questions_list:
-                self.index += 1
+        if len(problems.math_screen.questions_list) > 0:
+            index = 0
+            incorrect_answers = 0
+            correct_answers = 0
+            for question in problems.math_screen.questions_list:
+                index += 1
                 if question.student_correct():
-                    self.text = f"Question {self.index}: {question.text} --- " \
+                    text = f"Question {index}: {question.text} --- " \
                            f"Student Answer: {question.student_answer}. " \
                            f"Correct!"
-                    self.correct_answers += 1
+                    correct_answers += 1
                 else:
-                    self.incorrect_answers += 1
-                    self.text = f"Question {self.index}: {question.text} --- " \
+                    incorrect_answers += 1
+                    text = f"Question {index}: {question.text} --- " \
                            f"Student Answer: {question.student_answer}. " \
                            f"Incorrect! " \
                            f"Correct Answer: {question.correct_answer}"
-                Label(self, text=self.text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+                Label(self, text=text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
                 """
                 if len(problems.math_screen.all_questions_list[x]) >= problems.math_screen.Total_Questions:
                     Label(self, text=f"Question {x + 1}: {problems.math_screen.all_questions_list[x][0]} --- "
@@ -69,21 +67,21 @@ class LinksFrame(Frame):
                           wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
                 """
             # Look for uncompleted questions
-            self.total_questions = self.problems.Total_Questions
-            self.incomplete_questions = self.total_questions - (self.correct_answers + self.incorrect_answers)
-            if self.incomplete_questions != 0:
-                if self.incomplete_questions == 1:
-                    self.text = "1 question was not answered."
+            total_questions = problems.math_screen.Total_Questions
+            incomplete_questions = total_questions - (correct_answers + incorrect_answers)
+            if incomplete_questions != 0:
+                if incomplete_questions == 1:
+                    text = "1 question was not answered."
                 else:
-                    self.text = f"{self.incomplete_questions} questions were not answered."
-                Label(self, text=self.text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+                    text = f"{incomplete_questions} questions were not answered."
+                Label(self, text=text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
             # Give the score
-            self.score = round((self.correct_answers / self.total_questions) * 100, 1)
-            self.score_text = f"Assignment grade is {self.score:g}%"
-            Label(self, text=self.score_text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
+            score = round((correct_answers / total_questions) * 100, 1)
+            score_text = f"Assignment grade is {score:g}%"
+            Label(self, text=score_text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
-            save_results(self.problems.questions_list, student_id)
+            save_results(problems.math_screen.questions_list, student_id)
 
         else:
             Label(self, text=f"You did no questions. Grade: 0%",

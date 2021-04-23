@@ -2,10 +2,11 @@
 # Asher
 # ask for name, last name, age, grade, parents names, username, password
 
-import json
 import tkinter as tk
-from pathlib import Path
 from tkinter import ttk
+import json
+from pathlib import Path
+import src.application.models.modified_logger as logger
 
 
 class LoginInformation(tk.LabelFrame):
@@ -83,8 +84,7 @@ class ChildInformation(tk.LabelFrame):
         self.grade_label = ttk.Label(self, text="Grade of Child")
         self.grade_button = ttk.Combobox(self, width=27, textvariable=self.Grade)
         self.grade_values = []
-        for x in range(1, 8):
-            self.grade_values.append(str(x))
+        for x in range(1, 8): self.grade_values.append(str(x))
         self.grade_button['values'] = tuple(self.grade_values)
         self.grade_label.grid(row=200, column=00, sticky=tk.W)
         self.grade_button.grid(row=300, column=00, sticky=tk.W)
@@ -93,26 +93,16 @@ class ChildInformation(tk.LabelFrame):
         self.age_label = ttk.Label(self, text="Age of Child")
         self.age_button = ttk.Combobox(self, width=27, textvariable=self.Age)
         self.age_values = ["Under 5"]
-        for x in range(5, 19):
-            self.age_values.append(str(x))
+        for x in range(5, 19): self.age_values.append(str(x))
         self.age_button['values'] = tuple(self.age_values)
         self.age_label.grid(row=200, column=100, sticky=tk.W)
         self.age_button.grid(row=300, column=100, sticky=tk.W)
 
 
-class MyApplication(tk.Tk):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.title("Math Facts Registration")
-        self.geometry("800x650")
-        # self.configure(bg="gold")
+class RegistrationView(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, *kwargs)
 
-        # background_image = tk.PhotoImage('Pizza.png')
-        # background_label = tk.Label(self, image=background_image)
-        # background_label.image = background_image
-        # background_label.place(x=0, y=0, relwidth=2, relheight=2)
-
-        self.resizable(width=True, height=True)
         self.Main_Label = ttk.Label(self, text="Signup for MathFacts", font=("TkDefaultFont", 27), wraplength=600)
         self.Main_Label.grid(row=0, column=0, sticky=tk.W)
 
@@ -131,17 +121,17 @@ class MyApplication(tk.Tk):
         self.Save = ttk.Button(self, text="Save", command=self.save)
         self.Save.grid(row=1200, column=0, sticky=tk.W)
 
-        self.is_saved = False
+        self.field_text = tk.StringVar()
+        self.field = ttk.Label(self, textvariable=self.field_text,
+                               font=("TkDefaultFont", 11), wraplength=600)
+        self.field.grid(row=1400, column=0, sticky=tk.W)
 
-        self.columnconfigure(0, weight=1)
-
-        # self.users_data_file = registration'views_data\users.json'
-        # self.users_data_file = f'{Path().absolute()}\student_data.json'
-        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
-        # self.users_data_file = f'{os.path.normpath(os.path.join(os.path.dirname( __file__ ), os.pardir))}\student_data.json'
+        self.logger = logger.Logger('registration_attempts.log')
 
         # Read current users from file and set the correct index
+        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
         self.users_dict = self.get_users()
+
         if self.users_dict.items() == 0:
             self.user_index = 0
         else:
@@ -152,7 +142,7 @@ class MyApplication(tk.Tk):
             # Load user data from the json file
             with open(self.users_data_file) as jsonfile:
                 users_data = json.load(jsonfile)
-            # print(users_data)
+
             return users_data
         except (FileNotFoundError, json.decoder.JSONDecodeError):
             # No users have been saved yet, so return an empty dictionary
@@ -168,6 +158,17 @@ class MyApplication(tk.Tk):
 
         # The next user index will be 1 more than the previous highest index
         return highest_index + 1
+
+    def reset_fields(self):
+        # Clear the fields that likely wouldn't be the same for multiple users
+
+        self.c.FirstName.set('')
+        # Last name is not cleared
+        self.c.Grade.set('')
+        self.c.Age.set('')
+        # Guardian details are not cleared
+        self.l.Username.set('')
+        self.l.Password.set('')
 
     def save(self):
         # self.user_count = self.user_count
@@ -190,9 +191,10 @@ class MyApplication(tk.Tk):
         # Make sure the username is unique
         for user in self.users_dict.values():
             if self.all_information['username'] == user['username']:
-                self.field = ttk.Label(self, text=f"Username '{user['username']}' is already taken",
-                                       font=("TkDefaultFont", 10), wraplength=600)
-                self.field.grid(row=1400, column=0, sticky=tk.W)
+                self.field_text.set(f"Username '{user['username']}' is already taken")
+                self.logger.write_to_log(f"Registration for {self.all_information['username']} has failed. "
+                                         f"Cause: Username '{user['username']}' is already taken. - "
+                                         f"{self.logger.get_datetime_string()}.")
                 return
 
         for key in self.all_information:
@@ -200,47 +202,21 @@ class MyApplication(tk.Tk):
                 pass
             else:
                 if self.all_information.get(key) == "":
-                    self.field = ttk.Label(self, text="Not all required fields have been answered"
-                                           , font=("TkDefaultFont", 10), wraplength=600)
-                    self.field.grid(row=1400, column=0, sticky=tk.W)
+                    self.field_text.set("Not all required fields have been answered")
+                    self.logger.write_to_log(f"Registration for user '{self.all_information['username']}' has failed. "
+                                             f"Cause: Not all required fields have been answered. "
+                                             f"{self.logger.get_datetime_string()}.")
                     break
             if key == "password":
-                # print(self.user_count)
-                self.field = ttk.Label(self, text="          "
-                                                  "                   "
-                                                  "                   "
-                                                  "                   "
-                                                  "                   ", font=("TkDefaultFont", 10), wraplength=600)
-                self.field.grid(row=1400, column=0, sticky=tk.W)
-
-                # with open(registration'users.json', 'w') as jsonfile:
-                #     json.dump({f"user {self.user_count}": all_information}, jsonfile)
-
                 # Add new data to the users dictionary and save it all to the file
                 self.users_dict[f'user {self.user_index}'] = self.all_information
                 with open(self.users_data_file, 'w') as jsonfile:
                     json.dump(self.users_dict, jsonfile)
 
-                # with open(self.users_data_file) as jsonfile:
-                #    users_data = json.load(jsonfile)
-
                 self.user_index += 1
-                # self.users_list.append(users_data)
 
-                # self.all_users = {}
-                # for user in self.users_list:
-                #    for key in user:
-                #        self.all_users.update({key : user[key]})
+                self.logger.write_to_log(f"User '{self.all_information['username']}' has successfully registered - "
+                                         f"{self.logger.get_datetime_string()}")
 
-                # print({list(self.all_users)[-1]: list(self.all_users.keys())[-1]})
-
-                # with open(self.users_data_file, 'a') as jsonfile:
-                #     json.dump(list(self.all_users)[-1], jsonfile)
-
-                self.destroy()
-                self.is_saved = True
-
-
-if __name__ == "__main__":
-    app = MyApplication()
-    app.mainloop()
+                self.field_text.set(f"User '{self.all_information['username']}' has been registered.")
+                self.reset_fields()
