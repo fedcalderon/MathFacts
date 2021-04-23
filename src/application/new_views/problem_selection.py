@@ -65,7 +65,6 @@ class OptionFrame(tk.Frame):
                       command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
         #########################################################################################################
 
-
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
 
@@ -78,7 +77,7 @@ class SelectionView(tk.Frame):
 
         # Create users_list toolbar with menus
         # Source: http://zetcode.com/tkinter/menustoolbars/
-        toolbar = tk.Menu(self)
+        toolbar = tk.Menu(self.master)
         self.master.config(menu=toolbar)
 
         user_menu = tk.Menu(toolbar)
@@ -87,8 +86,14 @@ class SelectionView(tk.Frame):
 
         settings_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Settings', menu=settings_menu)
+
         settings_menu.add_command(label='Settings', command=lambda: parent.change_screen(
             parent.current_screen, parent.settings_screen))
+        settings_menu.add_cascade(label='Number of Questions', menu='Settings')
+        settings_menu.add_cascade(label='20', menu='Number of Questions')
+        settings_menu.add_cascade(label='50', menu='Number of Questions')
+        settings_menu.add_cascade(label='100', menu='Number of Questions')
+
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)
