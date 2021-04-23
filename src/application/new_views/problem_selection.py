@@ -57,18 +57,8 @@ class OptionFrame(tk.Frame):
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
         self.start_is_clicked = True
-        print(self.m_s)
         master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID)
         master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
-        print(master_screen.math_problems_screen[0])
-
-        # Results stuff. Delete if nessescary
-        #########################################################################################################
-        # results.ResultsScreen(self.m_s, 'test').mainloop()
-        # if self.m_s.Question_Count - 1 == self.m_s.Total_Questions:
-        #     print('4')
-        #     tk.Button(master_screen, text="Show Grades",
-        #               command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
 
         if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
             tk.Button(master_screen, text="Show Grades",
@@ -96,6 +86,9 @@ class SelectionView(tk.Frame):
 
         settings_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Settings', menu=settings_menu)
+
+        settings_menu.add_command(label='Settings', command=lambda: parent.change_screen(
+            parent.current_screen, parent.settings_screen))
         settings_menu.add_cascade(label='Number of Questions', menu='Settings')
         settings_menu.add_cascade(label='20', menu='Number of Questions')
         settings_menu.add_cascade(label='50', menu='Number of Questions')
@@ -104,6 +97,8 @@ class SelectionView(tk.Frame):
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)
+        reports_menu.add_command(label='Reports', command=lambda: parent.change_screen(
+            parent.current_screen, parent.reports_screen))
 
         # Make a list to hold all the options
         self.options = []
