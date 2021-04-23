@@ -3,13 +3,15 @@ import os
 import unittest
 import src.application.models.database as database
 
-# WARNING: If the username of 'user 0' in student_data.json is also in the database,
-# the user's data in the database will be removed!
+# NOTE: the tests must be run in order for the tests to work since they depend on the state of the database
+# This test uses data from 'user 0' in student_data.json
+
+
+student_data_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'student_data.json'))
+database.db_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'unittest.db'))
+
 
 # Use self.assertEqual(Expected, Actual) or other assert methods
-student_data_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'student_data.json'))
-
-
 class DatabaseTest(unittest.TestCase):
     def __init__(self, *args):
         """Extract user data from existing student_data.json and prepare it for the tests."""
@@ -27,8 +29,7 @@ class DatabaseTest(unittest.TestCase):
         self.user['child_grade'] = int(self.user['child_grade'])
 
     def test_add_user(self):
-        """Add the user to the database. NOTE: The database must not contain a user with the same username as
-        in student_data.json, or else the test will fail."""
+        """Add the user to the database."""
         # Add the user to the database
         message = database.add_user(self.user)
         self.assertEqual('Success', message)
