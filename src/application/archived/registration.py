@@ -150,8 +150,8 @@ class MyApplication(tk.Tk):
     def get_users(self):
         try:
             # Load user data from the json file
-            with open(self.users_data_file) as jsonfile:
-                users_data = json.load(jsonfile)
+            with open(self.users_data_file) as json_file:
+                users_data = json.load(json_file)
             # print(users_data)
             return users_data
         except (FileNotFoundError, json.decoder.JSONDecodeError):

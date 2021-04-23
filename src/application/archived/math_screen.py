@@ -302,7 +302,7 @@ class Math_Screen(tk.Frame):
 
 
 class Math_Screen_Settings(tk.Tk):
-    """Screen settings"""
+    """Screen user_settings"""
 
     def __init__(self, ID, *args, **kwargs):
         super().__init__(*args, **kwargs)
