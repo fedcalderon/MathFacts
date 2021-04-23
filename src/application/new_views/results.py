@@ -4,7 +4,9 @@ from tkinter import *
 from pathlib import Path
 import json
 from datetime import datetime
+
 import src.application.models.modified_logger as logger
+
 
 
 def save_results(questions_list, student_id):

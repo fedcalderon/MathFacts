@@ -171,6 +171,7 @@ def login(username, password):
 def update_user_data(username, password, new_user_info):
     """Updates the user's data. Changes username and/or password if changed in the dictionary.
     Returns an error message if unsuccessful, or 'Success'.
+
     :param username: Current username (before update).
     :param password: Current password (before update).
     :param new_user_info: Dictionary containing the new user info. Does not need to include username or password.
@@ -508,6 +509,7 @@ def save_user_settings(username, settings_dict):
 def get_user_settings(username):
     """Gets the user's settings in the form of a dictionary.
     Message returns an error message if unsuccessful, or 'Success'.
+
     :returns: (settings_dict, message)"""
     message = 'Could not retrieve settings'
     settings_dict = {}
