@@ -75,7 +75,7 @@ class LinksFrame(Frame):
             # Log the task name and the score
             self.logger = logger.Logger('user_grades.log')
             self.logger.write_to_log(f"Completed task {self.problems.questions.ID} on {datetime.now()}. "
-                                        f"Score is {self.score:g}\n")
+                                        f"Score is {self.score:g}")
 
             Label(self, text=self.score_text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
             save_results(self.problems.questions_list, student_id)

@@ -142,7 +142,7 @@ class RegistrationView(tk.Frame):
             # Load user data from the json file
             with open(self.users_data_file) as jsonfile:
                 users_data = json.load(jsonfile)
-            # print(users_data)
+
             return users_data
         except (FileNotFoundError, json.decoder.JSONDecodeError):
             # No users have been saved yet, so return an empty dictionary
@@ -188,8 +188,6 @@ class RegistrationView(tk.Frame):
             "password": self.l.Password.get(),
         }
 
-
-
         # Make sure the username is unique
         for user in self.users_dict.values():
             if self.all_information['username'] == user['username']:
@@ -205,7 +203,7 @@ class RegistrationView(tk.Frame):
             else:
                 if self.all_information.get(key) == "":
                     self.field_text.set("Not all required fields have been answered")
-                    self.logger.write_to_log(f"Registration for {self.all_information['username']} has failed. "
+                    self.logger.write_to_log(f"Registration for user '{self.all_information['username']}' has failed. "
                                              f"Cause: Not all required fields have been answered. "
                                              f"{self.logger.get_datetime_string()}.")
                     break

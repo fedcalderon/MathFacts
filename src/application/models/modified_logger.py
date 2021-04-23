@@ -9,6 +9,7 @@ from datetime import datetime
 from pathlib import Path
 import src.application.new_views.results as results
 
+
 # This is a modified version of Mr. Fed's original logger program in the 'common' directory.
 # It is able to log the state of any view or variable.
 
@@ -56,8 +57,8 @@ class Logger:
         mode = 'a' if os.path.exists(self.log_dir + self.log_file) else 'w'
         with open(self.log_dir + self.log_file, mode) as f:
             # Code for writing to the log file.
-            #f.write(f"Program started on {datetime.now()}\n")
-            f.write(message)
+            # f.write(f"Program started on {datetime.now()}\n")
+            f.write(f"{message}\n")
 
         # self.config_logger()
 
@@ -136,7 +137,8 @@ class Logger:
 
 
 if __name__ == '__main__':
-    logger = Logger('math_facts.log', f"Program started on {datetime.now()}\n")
+    logger = Logger('math_facts.log')
+    logger.write_to_log(f"Program started on {datetime.now()}\n")
     # Announce start of program
     logger.announce_run("start")
     # Announce end of program
