@@ -136,7 +136,7 @@ def login(username, password):
     except sqlite3.DatabaseError:
         message = sys.exc_info()[1]
         if message.args[0] == 'no such table: users':
-            message = 'No users are registered'
+            message = 'User not found'
         else:
             message = str(message)
     else:
@@ -160,7 +160,7 @@ def login(username, password):
             if _user_exists(cur, username):
                 message = 'Incorrect password'
             else:
-                message = 'User does not exist'
+                message = 'User not found'
         else:
             message = 'Duplicate users found'
 

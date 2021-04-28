@@ -8,7 +8,6 @@ from datetime import datetime
 import src.application.models.modified_logger as logger
 
 
-
 def save_results(questions_list, student_id):
     path = f'{Path().absolute()}\\{student_id}_results.json'
 
@@ -49,15 +48,15 @@ class LinksFrame(Frame):
                 self.index += 1
                 if question.student_correct():
                     self.text = f"Question {self.index}: {question.text} --- " \
-                           f"Student Answer: {question.student_answer}. " \
-                           f"Correct!"
+                                f"Student Answer: {question.student_answer}. " \
+                                f"Correct!"
                     self.correct_answers += 1
                 else:
                     self.incorrect_answers += 1
                     self.text = f"Question {self.index}: {question.text} --- " \
-                           f"Student Answer: {question.student_answer}. " \
-                           f"Incorrect! " \
-                           f"Correct Answer: {question.correct_answer}"
+                                f"Student Answer: {question.student_answer}. " \
+                                f"Incorrect! " \
+                                f"Correct Answer: {question.correct_answer}"
                 Label(self, text=self.text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
             # Look for uncompleted questions
@@ -77,7 +76,7 @@ class LinksFrame(Frame):
             # Log the task name and the score
             self.logger = logger.Logger('user_grades.log')
             self.logger.write_to_log(f"Completed task {self.problems.questions.ID} on {datetime.now()}. "
-                                        f"Score is {self.score:g}")
+                                     f"Score is {self.score:g}")
 
             Label(self, text=self.score_text, wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
             save_results(self.problems.questions_list, student_id)
@@ -87,7 +86,7 @@ class LinksFrame(Frame):
                   wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=W)
 
         Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
-        [self], parent.problem_selection_screen)).grid()
+            [self], parent.problem_selection_screen)).grid()
 
 
 # Results screen

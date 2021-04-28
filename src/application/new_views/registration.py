@@ -4,9 +4,9 @@
 
 import tkinter as tk
 from tkinter import ttk
-import json
-from pathlib import Path
+
 import src.application.models.modified_logger as logger
+from src.application.models import database
 
 
 class LoginInformation(tk.LabelFrame):
@@ -128,37 +128,6 @@ class RegistrationView(tk.Frame):
 
         self.logger = logger.Logger('registration_attempts.log')
 
-        # Read current users from file and set the correct index
-        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
-        self.users_dict = self.get_users()
-
-        if self.users_dict.items() == 0:
-            self.user_index = 0
-        else:
-            self.user_index = self.find_next_user_index()
-
-    def get_users(self):
-        try:
-            # Load user data from the json file
-            with open(self.users_data_file) as jsonfile:
-                users_data = json.load(jsonfile)
-
-            return users_data
-        except (FileNotFoundError, json.decoder.JSONDecodeError):
-            # No users have been saved yet, so return an empty dictionary
-            return {}
-
-    def find_next_user_index(self):
-        # Find the highest user index so far
-        highest_index = -1
-        for key in self.users_dict.keys():
-            user_index = int(key[5:])  # Substring just the number from "user ##"
-            if user_index > highest_index:
-                highest_index = user_index
-
-        # The next user index will be 1 more than the previous highest index
-        return highest_index + 1
-
     def reset_fields(self):
         # Clear the fields that likely wouldn't be the same for multiple users
 
@@ -172,7 +141,7 @@ class RegistrationView(tk.Frame):
 
     def save(self):
         # self.user_count = self.user_count
-        self.all_information = {
+        all_information = {
             "child_first_name": self.c.FirstName.get(),
             "child_last_name": self.c.LastName.get(),
             "child_grade": self.c.Grade.get(),
@@ -188,35 +157,27 @@ class RegistrationView(tk.Frame):
             "password": self.l.Password.get(),
         }
 
-        # Make sure the username is unique
-        for user in self.users_dict.values():
-            if self.all_information['username'] == user['username']:
-                self.field_text.set(f"Username '{user['username']}' is already taken")
-                self.logger.write_to_log(f"Registration for {self.all_information['username']} has failed. "
-                                         f"Cause: Username '{user['username']}' is already taken. - "
-                                         f"{self.logger.get_datetime_string()}.")
-                return
-
-        for key in self.all_information:
+        for key in all_information:
             if key == "guardian_2_first_name" or key == "guardian_2_last_name":
                 pass
             else:
-                if self.all_information.get(key) == "":
+                if all_information.get(key) == "":
                     self.field_text.set("Not all required fields have been answered")
-                    self.logger.write_to_log(f"Registration for user '{self.all_information['username']}' has failed. "
+                    self.logger.write_to_log(f"Registration for user '{all_information['username']}' has failed. "
                                              f"Cause: Not all required fields have been answered. "
-                                             f"{self.logger.get_datetime_string()}.")
+                                             f"{self.logger.get_datetime_string()}")
                     break
             if key == "password":
-                # Add new data to the users dictionary and save it all to the file
-                self.users_dict[f'user {self.user_index}'] = self.all_information
-                with open(self.users_data_file, 'w') as jsonfile:
-                    json.dump(self.users_dict, jsonfile)
+                # Add the new user to the database
+                message = database.add_user(all_information)
+                if message == 'Success':
+                    self.logger.write_to_log(f"User '{all_information['username']}' has successfully registered - "
+                                             f"{self.logger.get_datetime_string()}")
 
-                self.user_index += 1
-
-                self.logger.write_to_log(f"User '{self.all_information['username']}' has successfully registered - "
-                                         f"{self.logger.get_datetime_string()}")
-
-                self.field_text.set(f"User '{self.all_information['username']}' has been registered.")
-                self.reset_fields()
+                    self.field_text.set(f"User '{all_information['username']}' has been registered.")
+                    self.reset_fields()
+                else:
+                    self.field_text.set(message)
+                    self.logger.write_to_log(f"Registration for {all_information['username']} has failed. "
+                                             f"Cause: {message}. - "
+                                             f"{self.logger.get_datetime_string()}")

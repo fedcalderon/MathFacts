@@ -66,9 +66,9 @@ class MyApplication(tk.Tk):
                                 self.settings_screen, self.welcome_screen))]
 
         # Reports screen
-        self.reports_screen = [reports.ReportsFrame(self),
-                                tk.Button(self, text="Back", command=lambda: self.change_screen(
-                                    self.reports_screen, self.welcome_screen))]
+        # self.reports_screen = [reports.ReportsFrame(self),
+        #                        tk.Button(self, text="Back", command=lambda: self.change_screen(
+        #                            self.reports_screen, self.welcome_screen))]
 
         # Terms of use screen
         self.terms_of_use_description = "No copying this program or using it illegally. " \
