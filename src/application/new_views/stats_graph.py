@@ -15,14 +15,18 @@ class ReportsGraph:
         self.ax.set_xlim(0, 10)
         plt.savefig('view_images/user_graph.png')
 
-    def generate_graph(self, parent):
+    def display_graph(self, parent):
         plt.show()
         parent.destroy()
         parent.__init__()
         parent.change_screen(parent.current_screen, parent.reports_screen)
 
+    # def generate_graph(self):
+
 
 if __name__ == "__main__":
+
+    # A test for connecting the stats_graph to the results screen and test_results.json
     with open('test_results.json', 'r') as jsonfile:
         percentage_score = 0
         iterator = 0
@@ -34,7 +38,9 @@ if __name__ == "__main__":
             # for element in users_data[key]:
             while iterator < 3:
                 if users_data[key][0]['correct_answer'] == users_data[key][0]['student_answer']:
-                    percentage_score += (100/3)
+                    percentage_score += (100 / 3)
+                else:
+                    percentage_score += 0
                 if iterator == 3:
                     iterator = 0
                 iterator += 1
@@ -46,7 +52,7 @@ if __name__ == "__main__":
 
         fig = plt.figure()
         plt.plot(key_list, key_score_avg)
+        plt.savefig('view_images/results_graph.png')
         plt.show()
-        print(users_data[key][0]['correct_answer'])
-
+        #print(users_data[key][0]['correct_answer'])
 

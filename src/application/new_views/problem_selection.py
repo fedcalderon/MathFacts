@@ -89,11 +89,10 @@ class SelectionView(tk.Frame):
 
         settings_menu.add_command(label='Settings', command=lambda: parent.change_screen(
             parent.current_screen, parent.settings_screen))
-        settings_menu.add_cascade(label='Number of Questions', menu='Settings')
-        settings_menu.add_cascade(label='20', menu='Number of Questions')
-        settings_menu.add_cascade(label='50', menu='Number of Questions')
-        settings_menu.add_cascade(label='100', menu='Number of Questions')
-
+        # settings_menu.add_cascade(label='Number of Questions', menu='Settings')
+        # settings_menu.add_cascade(label='20', menu='Number of Questions')
+        # settings_menu.add_cascade(label='50', menu='Number of Questions')
+        # settings_menu.add_cascade(label='100', menu='Number of Questions')
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)

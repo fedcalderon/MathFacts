@@ -2,7 +2,6 @@ import json
 import os
 import unittest
 import src.application.models.database as database
-
 import src.application.models.modified_logger as logger
 
 

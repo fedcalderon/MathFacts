@@ -18,7 +18,7 @@ class ReportsFrame(tk.Frame):
         self.Main_Label.grid(row=0, column=0, sticky=tk.W)
 
         self.Save = ttk.Button(self, text="Click to show Reports Graph",
-                               command=lambda: self.report_graph.generate_graph(parent))
+                               command=lambda: self.report_graph.display_graph(parent))
 
         self.Save = ttk.Button(self, text="Click to show Reports Graph",
                                command=lambda: self.show_icon(parent))

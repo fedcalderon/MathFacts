@@ -106,6 +106,7 @@ class MyApplication(tk.Tk):
 
         # Problem selection screen
         self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data[f'user 0']['child_grade']), 'username': self.users_data[f'user 0']['username']}, self)
+        # self.selection_view = ps.Selec
         # self.selection_view = self.Login_Manager.generate_problem_set(self)
 
         self.problem_selection_screen = [self.selection_view,
