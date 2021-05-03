@@ -297,7 +297,7 @@ def save_results(username, questions):
     e = _create_results_table(cur)
     if e is not None:
         con.close()
-        return e
+        return str(e)
 
     # Make sure the username exists
     if _user_exists(cur, username):

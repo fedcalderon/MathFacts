@@ -50,12 +50,13 @@ class OptionFrame(tk.Frame):
         self.start_button.place(relx=1, rely=1,
                                 anchor='se')  # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
 
-        self.m_s = math_screen.Math_Screen(master_screen, self.ID)
+        # self.m_s = math_screen.Math_Screen(master_screen, self.ID)
 
     def on_start(self, master_screen):
         """Handle the start button pressed event."""
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
+        # TODO: add a log message
         self.start_is_clicked = True
         master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID)
         master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)

@@ -98,10 +98,12 @@ class MyApplication(tk.Tk):
         self.Login_Manager = new_login.Login(self)
         self.login_screen = [self.Login_Manager]
 
+        # TODO: stop using the json file
         with open(self.users_data_file) as jsonfile:
             users_data = json.load(jsonfile)
 
         self.users_data = users_data
+        self.student_id = users_data['user 0']['username']
         ####################################################################################
 
         # Problem selection screen
