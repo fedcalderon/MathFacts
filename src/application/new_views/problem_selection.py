@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from src.application.new_views import math_screen
 from src.application.new_views import results
+from src.application.models import database
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
 # 1-ADD: Single digit addition
@@ -82,7 +83,7 @@ class SelectionView(tk.Frame):
         self.master.config(menu=toolbar)
 
         user_menu = tk.Menu(toolbar)
-        user_menu.add_command(label='Log Out')
+        user_menu.add_command(label='Log Out', command=log_out)
         toolbar.add_cascade(label=self.username, menu=user_menu)
 
         settings_menu = tk.Menu(toolbar)
@@ -154,3 +155,8 @@ class SelectionView(tk.Frame):
                 column = 0
                 row += 1
 
+
+def log_out(*args):
+    database.forget_remembered_user()
+    print("Sorry, log out is not yet fully working.")
+    # TODO: create a working log out function

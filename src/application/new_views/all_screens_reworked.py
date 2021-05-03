@@ -12,6 +12,7 @@ import src.application.new_views.math_screen as ms
 import src.application.new_views.user_settings as user_settings
 import src.application.new_views.reports as reports
 import src.application.tests.modified_logger as logger
+from src.application.models import database
 from pathlib import Path
 import json
 from datetime import datetime
@@ -91,23 +92,31 @@ class MyApplication(tk.Tk):
                                         self.registration_screen, self.welcome_screen))
                                     ]
 
-        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
-
         # Login screen
         ####################################################################################
+        # TODO: after logging in, make the program switch to the new user
         self.Login_Manager = new_login.Login(self)
         self.login_screen = [self.Login_Manager]
 
-        # TODO: stop using the json file
-        with open(self.users_data_file) as jsonfile:
-            users_data = json.load(jsonfile)
+        # Try to find a remembered user in the database. Otherwise, fall back to the json file.
+        username, password, message = database.get_remembered_user()
+        user_dict, message = database.login(username, password)
+        if message == 'Success':
+            self.student_data = user_dict
+            self.student_id = self.student_data['username']
+        else:
+            # TODO: stop using the json file
+            self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
+            with open(self.users_data_file) as jsonfile:
+                users_data = json.load(jsonfile)
 
-        self.users_data = users_data
-        self.student_id = users_data['user 0']['username']
+            self.student_data = users_data['user 0']
+            self.student_id = self.student_data['username']
         ####################################################################################
 
         # Problem selection screen
-        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.users_data[f'user 0']['child_grade']), 'username': self.users_data[f'user 0']['username']}, self)
+        self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.student_data['child_grade']),
+                                                            'username': self.student_data['username']}, self)
         # self.selection_view = self.Login_Manager.generate_problem_set(self)
 
         self.problem_selection_screen = [self.selection_view,

@@ -246,11 +246,11 @@ class Math_Screen(tk.Frame):
         if self.finished:
             # Don't do anything
             return
-        if self.form_enabled is not True:
-            self.enable_buttons(True)
-            self.answer_verification.set('')
-            self.reset_fields()
-            return
+        # if self.form_enabled is not True:
+        #     self.enable_buttons(True)
+        #     self.answer_verification.set('')
+        #     self.reset_fields()
+        #     return
         if self.Question_Count - 1 < self.Total_Questions:
             if len(self.ans_insert.get()) > 0:
                 # Make sure the user's input can be represented as an int
@@ -281,10 +281,11 @@ class Math_Screen(tk.Frame):
                 else:
                     print(f"Your answer is wrong.")
                     self.Question_Count += 1
-                    self.answer_verification.set(f"\nYour answer is wrong.")
-                    ttk.Label(self, textvariable=self.answer_verification,
-                              font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
-                    self.enable_buttons(False)
+                    self.reset_fields()
+                    # self.answer_verification.set(f"\nYour answer is wrong.")
+                    # ttk.Label(self, textvariable=self.answer_verification,
+                    #           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+                    # self.enable_buttons(False)
             else:
                 print("Your answer is blank.")
                 self.answer_verification.set("\nYour answer is blank")

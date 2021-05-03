@@ -22,6 +22,8 @@ class Login(tk.Frame):
         self.password_verify = tk.StringVar()
         self.username_login_entry = tk.Entry(self, textvariable=self.username_verify)
         self.password_login_entry = tk.Entry(self, textvariable=self.password_verify, show='*')
+        self.remember_me = tk.BooleanVar()
+        self.remember_checkbox = tk.Checkbutton(self, text="Remember Me", variable=self.remember_me)
         self.result_message = ""
         self.student = {}
         self.student_id = None
@@ -34,11 +36,13 @@ class Login(tk.Frame):
 
         tk.Label(self, text='Please enter details below to login').grid()
         tk.Label(self, text='').grid()
-        tk.Label(self, text="Username * ").grid()
+        tk.Label(self, text="Username").grid()
         self.username_login_entry.grid()
         tk.Label(self, text="").grid()
-        tk.Label(self, text="Password * ").grid()
+        tk.Label(self, text="Password").grid()
         self.password_login_entry.grid()
+        tk.Label(self, text="").grid()
+        self.remember_checkbox.grid()
         tk.Label(self, text="").grid()
         tk.Button(self, text="Login", width=10, height=1, command=lambda: self.login_verify(parent)).grid()
         tk.Label(self, text="").grid()
@@ -76,6 +80,12 @@ class Login(tk.Frame):
             self.program_logger.write_to_log(f"{self.username1}: Login Successful"
                                              f" - {self.program_logger.get_datetime_string()}")
             self.logged_in = True
+            # Forget any user who might have been remembered
+            database.forget_remembered_user()
+
+            # If the user selected Remember Me, save them as the remembered user
+            if self.remember_me.get():
+                database.set_remembered_user(student['username'], self.password1)
         else:
             self.result_message = message
             self.program_logger.write_to_log(f"{self.username1}: Login Failed. "
