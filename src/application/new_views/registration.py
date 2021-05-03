@@ -16,15 +16,15 @@ class LoginInformation(tk.LabelFrame):
 
         self.Username = tk.StringVar()
         self.username_label = ttk.Label(self, text="Enter Username")
-        self.username_button = ttk.Entry(self, textvariable=self.Username)
-        self.username_label.grid(row=0, column=0, sticky=tk.W)
-        self.username_button.grid(row=100, column=0, sticky=tk.W)
+        self.username_entry = ttk.Entry(self, textvariable=self.Username)
+        self.username_label.grid(row=0, column=0, padx=10, sticky=tk.W)
+        self.username_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
 
         self.Password = tk.StringVar()
         self.password_label = ttk.Label(self, text="Enter Password")
-        self.password_button = ttk.Entry(self, textvariable=self.Password, show='*')
-        self.password_label.grid(row=0, column=100, sticky=tk.W)
-        self.password_button.grid(row=100, column=100, sticky=tk.W)
+        self.password_entry = ttk.Entry(self, textvariable=self.Password, show='*')
+        self.password_label.grid(row=0, column=100, padx=10, sticky=tk.W)
+        self.password_entry.grid(row=100, column=100, padx=10, sticky=tk.W)
 
 
 class Guardian1Info(tk.LabelFrame):
@@ -34,15 +34,15 @@ class Guardian1Info(tk.LabelFrame):
 
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
-        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_entry = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, padx=10, sticky=tk.W)
+        self.first_name_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
-        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_entry = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, padx=10, sticky=tk.W)
+        self.last_name_entry.grid(row=100, column=100, padx=10, sticky=tk.W)
 
 
 class Guardian2Info(tk.LabelFrame):
@@ -52,15 +52,15 @@ class Guardian2Info(tk.LabelFrame):
 
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
-        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_entry = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, padx=10, sticky=tk.W)
+        self.first_name_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
-        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_entry = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, padx=10, sticky=tk.W)
+        self.last_name_entry.grid(row=100, column=100, padx=10, sticky=tk.W)
 
 
 class ChildInformation(tk.LabelFrame):
@@ -70,33 +70,34 @@ class ChildInformation(tk.LabelFrame):
 
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
-        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_entry = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, padx=10, sticky=tk.W)
+        self.first_name_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
-        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_entry = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, padx=10, sticky=tk.W)
+        self.last_name_entry.grid(row=100, column=100, padx=10, sticky=tk.W)
 
         self.Grade = tk.StringVar()
         self.grade_label = ttk.Label(self, text="Grade of Child")
-        self.grade_button = ttk.Combobox(self, width=27, textvariable=self.Grade)
+        self.grade_entry = ttk.Combobox(self, width=10, textvariable=self.Grade)
         self.grade_values = []
         for x in range(1, 8): self.grade_values.append(str(x))
-        self.grade_button['values'] = tuple(self.grade_values)
-        self.grade_label.grid(row=200, column=00, sticky=tk.W)
-        self.grade_button.grid(row=300, column=00, sticky=tk.W)
+        self.grade_entry['values'] = tuple(self.grade_values)
+        self.grade_label.grid(row=200, column=00, padx=10, sticky=tk.W)
+        self.grade_entry.grid(row=300, column=00, padx=10, sticky=tk.W)
 
         self.Age = tk.StringVar()
         self.age_label = ttk.Label(self, text="Age of Child")
-        self.age_button = ttk.Combobox(self, width=27, textvariable=self.Age)
-        self.age_values = ["Under 5"]
-        for x in range(5, 19): self.age_values.append(str(x))
-        self.age_button['values'] = tuple(self.age_values)
-        self.age_label.grid(row=200, column=100, sticky=tk.W)
-        self.age_button.grid(row=300, column=100, sticky=tk.W)
+        self.age_entry = ttk.Combobox(self, width=10, textvariable=self.Age)
+        # self.age_values = ["Under 5"]
+        self.age_values = []
+        for x in range(4, 19): self.age_values.append(str(x))
+        self.age_entry['values'] = tuple(self.age_values)
+        self.age_label.grid(row=200, column=100, padx=10, sticky=tk.W)
+        self.age_entry.grid(row=300, column=100, padx=10, sticky=tk.W)
 
 
 class RegistrationView(tk.Frame):
