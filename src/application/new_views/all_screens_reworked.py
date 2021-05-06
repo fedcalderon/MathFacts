@@ -64,7 +64,7 @@ class MyApplication(tk.Tk):
                                 tk.Button(self, text="To Topics List", command=lambda: self.change_screen(
                                     self.settings_screen, self.problem_selection_screen)),
                                 tk.Button(self, text="Back", command=lambda: self.change_screen(
-                                self.settings_screen, self.welcome_screen))]
+                                    self.settings_screen, self.welcome_screen))]
 
         # Reports screen
         # self.reports_screen = [reports.ReportsFrame(self),
@@ -88,6 +88,8 @@ class MyApplication(tk.Tk):
         # Registration screen
         self.registration_view = registration.RegistrationView(self)
         self.registration_screen = [self.registration_view,
+                                    tk.Button(self, text="Go to Login", command=lambda: self.change_screen(
+                                        self.registration_screen, self.login_screen)),
                                     tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
                                         self.registration_screen, self.welcome_screen))
                                     ]
