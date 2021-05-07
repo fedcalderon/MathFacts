@@ -36,12 +36,12 @@ if __name__ == "__main__":
         for key in users_data:
             # print(users_data[key])
             # for element in users_data[key]:
-            while iterator < 3:
+            while iterator < 20:
                 if users_data[key][0]['correct_answer'] == users_data[key][0]['student_answer']:
-                    percentage_score += (100 / 3)
+                    percentage_score += (100 / 20)
                 else:
                     percentage_score += 0
-                if iterator == 3:
+                if iterator == 20:
                     iterator = 0
                 iterator += 1
 

@@ -19,7 +19,7 @@ class ProblemSetInformation(tk.LabelFrame):
         self.problem_count_values = ['3', '20', '50', '100']
 
         self.problem_count_button['values'] = tuple(self.problem_count_values)
-        # print(self.problem_count_label.get())
+
         self.problem_count_label.grid(row=200, column=100, sticky=tk.W)
         self.problem_count_button.grid(row=300, column=100, sticky=tk.W)
 
