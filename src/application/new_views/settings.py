@@ -12,6 +12,7 @@ class SettingsFrame(tk.Frame):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
 
+        # TODO: use database rather than json file
         self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
         with open(self.users_data_file) as jsonfile:
             users_data = json.load(jsonfile)

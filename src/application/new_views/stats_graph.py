@@ -19,7 +19,7 @@ class ReportsGraph:
         plt.show()
         parent.destroy()
         parent.__init__()
-        parent.change_screen(parent.current_screen, parent.reports_screen)
+        parent.change_screen(parent.reports_screen)
 
 
 if __name__ == "__main__":

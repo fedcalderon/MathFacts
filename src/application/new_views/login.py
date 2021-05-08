@@ -1,11 +1,8 @@
-import json
 import tkinter as tk
-from pathlib import Path
 from tkinter import *
 
 from src.application.models import database
 from src.application.models import modified_logger as logger
-from src.application.new_views import problem_selection as ps
 
 
 # class problem_set:
@@ -18,6 +15,7 @@ class Login(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
+        self.main_app = parent
         self.username_verify = tk.StringVar()
         self.password_verify = tk.StringVar()
         self.username_login_entry = tk.Entry(self, textvariable=self.username_verify)
@@ -48,7 +46,7 @@ class Login(tk.Frame):
         tk.Label(self, text="").grid()
         tk.Label(self, text="").grid()
         tk.Button(self, text="Back to Welcome Screen", command=lambda: parent.change_screen(
-            parent.login_screen, parent.welcome_screen)).grid()
+            parent.welcome_screen)).grid()
 
     # def generate_problem_set(self, parent):
     #     with open(f'{Path(__file__).parent.parent}\\student_data.json') as jsonfile:
@@ -86,6 +84,9 @@ class Login(tk.Frame):
             # If the user selected Remember Me, save them as the remembered user
             if self.remember_me.get():
                 database.set_remembered_user(student['username'], self.password1)
+
+            # Let the main app know about the user
+            self.main_app.set_user(self.student)
         else:
             self.result_message = message
             self.program_logger.write_to_log(f"{self.username1}: Login Failed. "
@@ -95,7 +96,7 @@ class Login(tk.Frame):
 
     def kill_everything(self, parent):
         self.login_success_screen.destroy()
-        parent.change_screen(parent.login_screen, parent.problem_selection_screen)
+        parent.change_screen(parent.problem_selection_screen)
 
     # Popup for login success/failure
     def result_of_verification(self, result_message, parent):
@@ -113,7 +114,7 @@ class Login(tk.Frame):
             Label(self.login_success_screen, text="Do you want to register?").grid()
             Label(self.login_success_screen, text="").grid()
             ok = Button(self.login_success_screen, text="Register", height="1", width="15",
-                        command=lambda: parent.change_screen(parent.login_screen, parent.registration_screen))
+                        command=lambda: parent.change_screen(parent.registration_screen))
             ok.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
         elif result_message == "Successfully logged in":

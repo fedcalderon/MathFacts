@@ -1,9 +1,7 @@
 # Showing all problems worked on by user
 # Milton
-from tkinter import *
-from pathlib import Path
-import json
 from datetime import datetime
+from tkinter import *
 
 import src.application.models.modified_logger as logger
 
@@ -63,7 +61,7 @@ class LinksFrame(Frame):
                   wraplength=600, font=("TkDefaultFont", 11)).grid(sticky=W)
 
         Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
-            [self], parent.problem_selection_screen)).grid()
+            parent.problem_selection_screen)).grid()
 
 
 # Results screen
