@@ -4,7 +4,7 @@ from tkinter import *
 from pathlib import Path
 import json
 from datetime import datetime
-
+import src.application.models.database as db
 import src.application.models.modified_logger as logger
 
 

@@ -38,5 +38,5 @@ class IconFrame(tk.Frame):
     """Contains and displays the description of the Math Facts Practice application."""
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
-        self.image = tk.PhotoImage(file="view_images/user_graph.png")
+        self.image = tk.PhotoImage(file="view_images/results_graph.png")
         self.image_label = tk.Label(self, image=self.image)
