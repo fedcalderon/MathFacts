@@ -11,6 +11,7 @@ import src.application.new_views.registration as registration
 import src.application.new_views.math_screen as ms
 import src.application.new_views.user_settings as user_settings
 import src.application.new_views.welcome as welcome
+import src.application.new_views.reports as reports
 from src.application.models import database
 
 
@@ -65,13 +66,13 @@ class MyApplication(tk.Tk):
                                     self.welcome_screen))]
 
         # Reports screen
-        # self.reports_screen = [reports.ReportsFrame(self),
-        #                        tk.Button(self, text="Back", command=lambda: self.change_screen(
-        #                            self.welcome_screen))]
+        self.reports_screen = [reports.ReportsFrame(self),
+                               tk.Button(self, text="Back", command=lambda: self.change_screen(self.welcome_screen))]
 
         # Terms of use screen
         self.terms_of_use_description = "No copying this program or using it illegally. " \
                                         "It is strictly for the use of Math Facts purposes only. \n"
+
         self.desc_label = ttk.Label(
             self, text=self.terms_of_use_description, wraplength=400, font=("TkDefaultFont", 11))
 
