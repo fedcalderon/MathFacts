@@ -11,6 +11,7 @@ import src.application.new_views.problem_selection as ps
 import src.application.new_views.math_screen as ms
 import src.application.new_views.user_settings as user_settings
 import src.application.new_views.reports as reports
+import src.application.new_views.dashboard as dashboard
 import src.application.tests.modified_logger as logger
 from pathlib import Path
 import json
@@ -53,11 +54,14 @@ class MyApplication(tk.Tk):
             self.welcome_screen, self.math_problems_screen))
 
         self.welcome_screen.extend([self.terms_of_use_button, self.registration_button,
-                                    self.login_button, self.problem_selection_button])
+                                    self.login_button, self.problem_selection_button, self.dashboard_button])
 
         for item in self.welcome_screen:
             item.grid()
-
+        #Dashboard Screen
+        self.dashboard_screen = [dashboard.Dashboard(self)]
+        self.dashboard_button = ttk.Button(self, text="Go to Dashboard", command=lambda: self.change_screen(
+            self.welcome_screen, self.dashboard_screen))
         # Settings screen
         self.settings_screen = [user_settings.SettingsFrame(self),
                                 tk.Button(self, text="To Topics List", command=lambda: self.change_screen(
