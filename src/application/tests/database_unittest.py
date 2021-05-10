@@ -1,7 +1,7 @@
 import json
 import os
 import unittest
-import src.application.models.database as database
+from src.application.models import database
 import src.application.models.modified_logger as logger
 
 
@@ -44,7 +44,6 @@ class DatabaseTest(unittest.TestCase):
 
         self.assertEqual('Success', message)
 
-
     def test_login(self):
         """Retrieve the user's data from the database and make sure it matches the data that was added."""
         # Login and make sure the user's data is retrieved correctly
@@ -55,7 +54,6 @@ class DatabaseTest(unittest.TestCase):
             f"desired output: Success")
 
         self.assertEqual('Success', message)
-
 
         # Remove the password from the dictionary since database.login doesn't return it
         del self.user['password']

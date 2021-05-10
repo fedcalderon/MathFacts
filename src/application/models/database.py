@@ -582,6 +582,7 @@ def set_remembered_user(username, password):
 def get_remembered_user():
     """Gets the remembered user's username and password.
     Message returns an error message if unsuccessful, or 'Success'.
+
     :returns: (remembered_username, remembered_password, message)"""
     message = 'Could not retrieve settings'
     remembered_username = None
