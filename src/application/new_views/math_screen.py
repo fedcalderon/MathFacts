@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 from src.application.models.question import Question
 from src.application.new_views import results
+from src.application.models import database
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -21,29 +22,29 @@ from src.application.new_views import results
 
 
 class Questions:
-    def __init__(self, ID):
-        self.ID = ID
+    def __init__(self, id):
+        self.questions_type = id
         self.all_questions_taken = []
         # self.all_questions_taken.append([f"What is {self.first_number} + {self.second_number}?",  f"{self.answer}"])
         # print(self.all_questions_taken)
 
     def toggle_topics(self):
         # Addition
-        if self.ID == '1-ADD':
+        if self.questions_type == '1-ADD':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, 10)
             self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
 
-        elif self.ID == '2-ADD':
+        elif self.questions_type == '2-ADD':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(0, 99)
             self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
 
-        elif self.ID == '3-ADD':
+        elif self.questions_type == '3-ADD':
             self.first_number = random.randint(12, 9999)
             self.second_number = random.randint(10, self.first_number)
             self.symbol = '+'
@@ -51,21 +52,21 @@ class Questions:
             return f"What is {self.first_number} + {self.second_number}?"
 
         # Subtraction
-        elif self.ID == '1-SUB':
+        elif self.questions_type == '1-SUB':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, self.first_number)
             self.symbol = '-'
             self.answer = self.first_number - self.second_number
             return f"What is {self.first_number} - {self.second_number}?"
 
-        elif self.ID == '2-SUB':
+        elif self.questions_type == '2-SUB':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(0, self.first_number - 1)
             self.symbol = '-'
             self.answer = self.first_number - self.second_number
             return f"What is {self.first_number} - {self.second_number}?"
 
-        elif self.ID == '3_SUB':
+        elif self.questions_type == '3_SUB':
             self.first_number = random.randint(12, 9999)
             self.second_number = random.randint(0, self.first_number)
             self.symbol = '-'
@@ -73,14 +74,14 @@ class Questions:
             return f"What is {self.first_number} - {self.second_number}?"
 
         # Multiplication
-        elif self.ID == '1-MUL':
+        elif self.questions_type == '1-MUL':
             self.first_number = random.randint(0, 10)
             self.second_number = random.randint(0, 10)
             self.symbol = 'x'
             self.answer = self.first_number * self.second_number
             return f"What is {self.first_number} x {self.second_number}?"
 
-        elif self.ID == '2-MUL':
+        elif self.questions_type == '2-MUL':
             self.first_number = random.randint(10, 99)
             self.second_number = random.randint(1, 99)
             self.symbol = 'x'
@@ -88,7 +89,7 @@ class Questions:
             return f"What is {self.first_number} x {self.second_number}?"
 
         # Division
-        elif self.ID == '1-DIV':
+        elif self.questions_type == '1-DIV':
             self.first_number = random.randint(1, 100)
             divisors = [x for x in range(1, self.first_number + 1) if self.first_number % x == 0]
             self.second_number = divisors[random.randint(0, len(divisors) - 1)]
@@ -96,7 +97,7 @@ class Questions:
             self.answer = int(self.first_number / self.second_number)
             return f"What is {self.first_number} ÷ {self.second_number}?"
 
-        elif self.ID == '2-DIV':
+        elif self.questions_type == '2-DIV':
             self.first_number = random.randint(50, 999)
             # hard_divisors excludes 1 and the first number
             hard_divisors = [x for x in range(2, self.first_number) if self.first_number % x == 0]
@@ -114,10 +115,11 @@ class Questions:
 
 # TODO: Prevent same question from appearing multiple times
 class Math_Screen(tk.Frame):
-    def __init__(self, parent, ID, *args, **kwargs):
+    def __init__(self, parent, question_type, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         self.parent = parent
+        self.student_id = parent.student_id
         self.answer_verification = tk.StringVar()
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
@@ -133,8 +135,8 @@ class Math_Screen(tk.Frame):
         self.Time_label = tk.StringVar()
         self.time_left = 0
 
-        self.ID = ID
-        self.questions = Questions(self.ID)
+        self.question_type = question_type
+        self.questions = Questions(self.question_type)
         self.is_Question_Correct = False
 
         self.student_answer = 0
@@ -194,14 +196,14 @@ class Math_Screen(tk.Frame):
         self.number_button9.grid(row=8, column=4, sticky=tk.W)
         self.decimal_button.grid(row=11, column=4, sticky=tk.W)
 
-        self.results_screen = results.LinksFrame(parent, self, 'test')
+        # self.results_screen = results.LinksFrame(parent, self, 'test')
 
         self.reset_fields()
         # Set focus on text box
         self.UserInsert_entry.focus()
 
         self.results_screen = tk.Button(self, text="Show Grades", command=lambda: parent.change_screen(
-            parent.math_problems_screen, [results.LinksFrame(parent, self, 'test')]))
+            [results.LinksFrame(parent, self, 'test')]))
 
     def enable_buttons(self, enable=True):
         if enable:
@@ -244,11 +246,11 @@ class Math_Screen(tk.Frame):
         if self.finished:
             # Don't do anything
             return
-        if self.form_enabled is not True:
-            self.enable_buttons(True)
-            self.answer_verification.set('')
-            self.reset_fields()
-            return
+        # if self.form_enabled is not True:
+        #     self.enable_buttons(True)
+        #     self.answer_verification.set('')
+        #     self.reset_fields()
+        #     return
         if self.Question_Count - 1 < self.Total_Questions:
             if len(self.ans_insert.get()) > 0:
                 # Make sure the user's input can be represented as an int
@@ -262,7 +264,7 @@ class Math_Screen(tk.Frame):
                     return
 
                 text = f"What is {self.questions.first_number} {self.questions.symbol} {self.questions.second_number}?"
-                question = Question(question_type=self.ID,
+                question = Question(question_type=self.question_type,
                                     first_num=self.questions.first_number,
                                     second_num=self.questions.second_number,
                                     symbol=self.questions.symbol,
@@ -279,10 +281,11 @@ class Math_Screen(tk.Frame):
                 else:
                     print(f"Your answer is wrong.")
                     self.Question_Count += 1
-                    self.answer_verification.set(f"\nYour answer is wrong.")
-                    ttk.Label(self, textvariable=self.answer_verification,
-                              font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
-                    self.enable_buttons(False)
+                    self.reset_fields()
+                    # self.answer_verification.set(f"\nYour answer is wrong.")
+                    # ttk.Label(self, textvariable=self.answer_verification,
+                    #           font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
+                    # self.enable_buttons(False)
             else:
                 print("Your answer is blank.")
                 self.answer_verification.set("\nYour answer is blank")
@@ -305,9 +308,17 @@ class Math_Screen(tk.Frame):
                   font=("TkDefaultFont", 10), wraplength=101).grid(row=2, column=0, sticky=tk.W)
         self.Display_Question.set('')
         self.Question_label.set('')
+        save_results(self.questions_list, self.student_id)
 
     def reset_fields(self):
         self.Display_Question.set(self.questions.toggle_topics())
         self.answer_verification.set('')
         self.ans_insert.set('')
         self.Question_label.set(f"Question #{self.Question_Count} of {self.Total_Questions}")
+
+
+def save_results(question_list, student_id):
+    message = database.save_results(student_id, question_list)
+    if message != 'Success':
+        # TODO: add a log message
+        raise RuntimeWarning(f"Failed to save results: {message}")

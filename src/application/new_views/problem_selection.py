@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from src.application.new_views import math_screen
 from src.application.new_views import results
+from src.application.models import database
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
 # 1-ADD: Single digit addition
@@ -25,7 +26,6 @@ class OptionFrame(tk.Frame):
 
     def __init__(self, parent, name, detail, ID, screen_to_destroy, master_screen, *args, **kwargs):
         """Initializes an OptionFrame widget.
-
         :param parent: the parent widget
         :param name: the name of the option
         :param detail: optional additional detail about the option"""
@@ -50,15 +50,16 @@ class OptionFrame(tk.Frame):
         self.start_button.place(relx=1, rely=1,
                                 anchor='se')  # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
 
-        self.m_s = math_screen.Math_Screen(master_screen, self.ID)
+        # self.m_s = math_screen.Math_Screen(master_screen, self.ID)
 
     def on_start(self, master_screen):
         """Handle the start button pressed event."""
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
+        # TODO: add a log message
         self.start_is_clicked = True
         master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID)
-        master_screen.change_screen(master_screen.problem_selection_screen, master_screen.math_problems_screen)
+        master_screen.change_screen(master_screen.math_problems_screen)
 
         if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
             tk.Button(master_screen, text="Show Grades",
@@ -81,23 +82,23 @@ class SelectionView(tk.Frame):
         self.master.config(menu=toolbar)
 
         user_menu = tk.Menu(toolbar)
-        user_menu.add_command(label='Log Out')
+        user_menu.add_command(label='Log Out', command=parent.log_out)
         toolbar.add_cascade(label=self.username, menu=user_menu)
 
         settings_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Settings', menu=settings_menu)
 
         settings_menu.add_command(label='Settings', command=lambda: parent.change_screen(
-            parent.current_screen, parent.settings_screen))
-        # settings_menu.add_cascade(label='Number of Questions', menu='Settings')
-        # settings_menu.add_cascade(label='20', menu='Number of Questions')
-        # settings_menu.add_cascade(label='50', menu='Number of Questions')
-        # settings_menu.add_cascade(label='100', menu='Number of Questions')
+            parent.settings_screen))
+        settings_menu.add_cascade(label='Number of Questions', menu='Settings')
+        settings_menu.add_cascade(label='20', menu='Number of Questions')
+        settings_menu.add_cascade(label='50', menu='Number of Questions')
+        settings_menu.add_cascade(label='100', menu='Number of Questions')
+
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)
-        reports_menu.add_command(label='Reports', command=lambda: parent.change_screen(
-            parent.current_screen, parent.reports_screen))
+        reports_menu.add_command(label='Reports', command=lambda: parent.change_screen(parent.reports_screen))
 
         # Make a list to hold all the options
         self.options = []
@@ -151,4 +152,3 @@ class SelectionView(tk.Frame):
                 # Move to the next row if the row is filled
                 column = 0
                 row += 1
-
