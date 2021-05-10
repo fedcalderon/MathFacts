@@ -23,20 +23,20 @@ class SettingsFrame(tk.Frame):
 
         self.c = r.ChildInformation(self)
         self.c.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        self.c.first_name_button.insert(0, self.users_data['user 0']['child_first_name'])
-        self.c.last_name_button.insert(0, self.users_data['user 0']['child_last_name'])
-        self.c.grade_button.insert(0, self.users_data['user 0']['child_grade'])
-        self.c.age_button.insert(0, self.users_data['user 0']['child_age'])
+        self.c.first_name_entry.insert(0, self.users_data['user 0']['child_first_name'])
+        self.c.last_name_entry.insert(0, self.users_data['user 0']['child_last_name'])
+        self.c.grade_entry.insert(0, self.users_data['user 0']['child_grade'])
+        self.c.age_entry.insert(0, self.users_data['user 0']['child_age'])
 
         self.g1 = r.Guardian1Info(self)
         self.g1.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        self.g1.first_name_button.insert(0, self.users_data['user 0']['guardian_1_first_name'])
-        self.g1.last_name_button.insert(0, self.users_data['user 0']['guardian_1_last_name'])
+        self.g1.first_name_entry.insert(0, self.users_data['user 0']['guardian_1_first_name'])
+        self.g1.last_name_entry.insert(0, self.users_data['user 0']['guardian_1_last_name'])
 
         self.g2 = r.Guardian1Info(self)
         self.g2.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
-        self.g2.first_name_button.insert(0, self.users_data['user 0']['guardian_2_first_name'])
-        self.g2.last_name_button.insert(0, self.users_data['user 0']['guardian_2_last_name'])
+        self.g2.first_name_entry.insert(0, self.users_data['user 0']['guardian_2_first_name'])
+        self.g2.last_name_entry.insert(0, self.users_data['user 0']['guardian_2_last_name'])
 
         self.Save = ttk.Button(self, text="Save and Reload", command= lambda: self.save(parent))
         self.Save.grid(row=1200, column=0, sticky=tk.W)
@@ -69,4 +69,3 @@ class SettingsFrame(tk.Frame):
 
         parent.destroy()
         parent.__init__()
-

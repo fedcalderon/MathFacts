@@ -3,7 +3,7 @@ WARNING: Be careful as to which user you are removing!"""
 import src.application.models.database as database
 
 
-username = 'andy'
-password = 'password'
+username = ''
+password = ''
 
 print(database.remove_user(username, password))

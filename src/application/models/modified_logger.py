@@ -57,7 +57,6 @@ class Logger:
         mode = 'a' if os.path.exists(self.log_dir + self.log_file) else 'w'
         with open(self.log_dir + self.log_file, mode) as f:
             # Code for writing to the log file.
-            # f.write(f"Program started on {datetime.now()}\n")
             f.write(f"{message}\n")
 
         # self.config_logger()
