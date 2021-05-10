@@ -18,7 +18,7 @@ class ReportsFrame(tk.Frame):
         self.Main_Label.grid(row=0, column=0, sticky=tk.W)
 
         self.Save = ttk.Button(self, text="Click to show Reports Graph",
-                               command=lambda: self.report_graph.generate_graph(parent))
+                               command=lambda: self.report_graph.display_graph(parent))
 
         self.Save = ttk.Button(self, text="Click to show Reports Graph",
                                command=lambda: self.show_icon(parent))
@@ -38,5 +38,5 @@ class IconFrame(tk.Frame):
     """Contains and displays the description of the Math Facts Practice application."""
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
-        self.image = tk.PhotoImage(file="view_images/user_graph.png")
+        self.image = tk.PhotoImage(file="view_images/results_graph.png")
         self.image_label = tk.Label(self, image=self.image)

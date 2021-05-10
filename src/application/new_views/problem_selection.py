@@ -26,7 +26,6 @@ class OptionFrame(tk.Frame):
 
     def __init__(self, parent, name, detail, ID, screen_to_destroy, master_screen, *args, **kwargs):
         """Initializes an OptionFrame widget.
-
         :param parent: the parent widget
         :param name: the name of the option
         :param detail: optional additional detail about the option"""

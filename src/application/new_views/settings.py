@@ -70,4 +70,3 @@ class SettingsFrame(tk.Frame):
 
         parent.destroy()
         parent.__init__()
-
