@@ -94,6 +94,7 @@ class ChildInformation(tk.LabelFrame):
         self.first_name_entry = ttk.Entry(self, textvariable=self.FirstName)
         self.first_name_label.grid(row=0, column=0, padx=10, sticky=tk.W)
         self.first_name_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
+        self.first_name_entry.focus()
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
