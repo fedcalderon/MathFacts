@@ -51,6 +51,9 @@ class MyApplication(tk.Tk):
         self.problem_selection_button = ttk.Button(self, text="Problem Selection", state='disabled',
                                                    command=lambda: self.change_screen(self.problem_selection_screen))
 
+        self.dashboard_button = ttk.Button(self, text="Go to Dashboard", command=lambda: self.change_screen(
+            self.dashboard_screen))
+
         # self.math_problems_button = ttk.Button(self, text="Sample Math Lesson", command=lambda: self.change_screen(
         #     self.math_problems_screen))
 
@@ -59,10 +62,10 @@ class MyApplication(tk.Tk):
 
         for item in self.welcome_screen:
             item.grid()
-        #Dashboard Screen
-        self.dashboard_screen = [dashboard.Dashboard(self)]
-        self.dashboard_button = ttk.Button(self, text="Go to Dashboard", command=lambda: self.change_screen(
-            self.welcome_screen, self.dashboard_screen))
+
+        # Dashboard Screen
+        self.dashboard_screen = [tk.Label(self, text="Dashboard", font=("", 25)), dashboard.Dashboard(self), tk.Button(self, text="Exit", command=lambda: self.change_screen(self.welcome_screen))]
+
         # Settings screen
         self.settings_screen = [user_settings.SettingsFrame(self),
                                 tk.Button(self, text="To Topics List", command=lambda: self.change_screen(
