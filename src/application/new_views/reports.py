@@ -29,6 +29,7 @@ class ReportsFrame(tk.Frame):
             #     item.grid()
 
 
+# TODO: Create a graph for each type of problem set
 class GraphFrame(tk.Frame):
     """Contains and displays a graph of the student's quiz grades."""
     def __init__(self, parent, **kwargs):
