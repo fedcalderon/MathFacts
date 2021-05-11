@@ -125,8 +125,10 @@ def login(username, password):
     :returns: (user_dict, message)"""
     message = 'User could not be retrieved'
 
-    username = username.strip()
     user_dict = {}
+    if username is None or password is None:
+        return user_dict, 'User not found'
+    username = username.strip()
 
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -136,7 +138,7 @@ def login(username, password):
     except sqlite3.DatabaseError:
         message = sys.exc_info()[1]
         if message.args[0] == 'no such table: users':
-            message = 'No users are registered'
+            message = 'User not found'
         else:
             message = str(message)
     else:
@@ -160,7 +162,7 @@ def login(username, password):
             if _user_exists(cur, username):
                 message = 'Incorrect password'
             else:
-                message = 'User does not exist'
+                message = 'User not found'
         else:
             message = 'Duplicate users found'
 
@@ -171,7 +173,6 @@ def login(username, password):
 def update_user_data(username, password, new_user_info):
     """Updates the user's data. Changes username and/or password if changed in the dictionary.
     Returns an error message if unsuccessful, or 'Success'.
-
     :param username: Current username (before update).
     :param password: Current password (before update).
     :param new_user_info: Dictionary containing the new user info. Does not need to include username or password.
@@ -297,7 +298,7 @@ def save_results(username, questions):
     e = _create_results_table(cur)
     if e is not None:
         con.close()
-        return e
+        return str(e)
 
     # Make sure the username exists
     if _user_exists(cur, username):
@@ -509,7 +510,6 @@ def save_user_settings(username, settings_dict):
 def get_user_settings(username):
     """Gets the user's settings in the form of a dictionary.
     Message returns an error message if unsuccessful, or 'Success'.
-
     :returns: (settings_dict, message)"""
     message = 'Could not retrieve settings'
     settings_dict = {}
@@ -540,6 +540,104 @@ def get_user_settings(username):
 
     con.close()
     return settings_dict, message
+
+
+def _create_app_vars_table(cur):
+    """Returns None if successful, returns error message if not."""
+    try:
+        cur.execute('CREATE TABLE IF NOT EXISTS app_vars('
+                    'key text UNIQUE COLLATE NOCASE, value text)')
+    except sqlite3.DatabaseError:
+        return sys.exc_info()[1]
+
+
+def set_remembered_user(username, password):
+    """Sets the remembered user to the specified user and removes any previous remembered user.
+    Returns 'Success' if settings were saved, or an error message if not."""
+    message = 'Remembered user could not be saved'
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    e = _create_app_vars_table(cur)
+    if e is not None:
+        con.close()
+        return str(e)
+
+    if _user_exists(cur, username, password):
+        try:
+            # SQLite replace statement: https://www.sqlitetutorial.net/sqlite-replace-statement/
+            cur.execute('REPLACE INTO app_vars VALUES("remembered_username", ?)', [username])
+            cur.execute('REPLACE INTO app_vars VALUES("remembered_password", ?)', [password])
+            message = 'Success'
+        except sqlite3.DatabaseError:
+            message = str(sys.exc_info()[1])
+    else:
+        message = 'User does not exist'
+
+    con.commit()
+    con.close()
+    return message
+
+
+def get_remembered_user():
+    """Gets the remembered user's username and password.
+    Message returns an error message if unsuccessful, or 'Success'.
+
+    :returns: (remembered_username, remembered_password, message)"""
+    message = 'Could not retrieve settings'
+    remembered_username = None
+    remembered_password = None
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    try:
+        cur.execute('SELECT * FROM app_vars WHERE key=? or key=?', ('remembered_username', 'remembered_password'))
+    except sqlite3.DatabaseError:
+        message = sys.exc_info()[1]
+        if message.args[0] == 'no such table: app_vars':
+            message = 'No remembered users'
+        else:
+            message = str(message)
+    else:
+        data = cur.fetchall()
+        message = 'Success'
+
+        # Convert to dictionary
+        if len(data) == 2:
+            for row in data:
+                if row[0] == 'remembered_username':
+                    remembered_username = row[1]
+                    if remembered_username == '':
+                        remembered_username = None
+                        message = 'No remembered user'
+                elif row[0] == 'remembered_password':
+                    remembered_password = row[1]
+                    if remembered_password == '':
+                        remembered_password = None
+                        message = 'No remembered user'
+        else:
+            message = 'No remembered user'
+
+    con.close()
+    return remembered_username, remembered_password, message
+
+
+def forget_remembered_user():
+    """Forgets the remembered user.
+    Returns 'Success' if user was forgotten, or an error message if not."""
+    message = 'Remembered user could not be removed.'
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    try:
+        cur.execute('DELETE FROM app_vars WHERE key="remembered_username" or key="remembered_password"')
+        message = 'Success'
+    except sqlite3.DatabaseError:
+        message = str(sys.exc_info()[1])
+
+    con.commit()
+    con.close()
+    return message
 
 
 # This is used for testing/demo purposes
@@ -619,18 +717,29 @@ if __name__ == '__main__':
     print('save_user_settings:')
     print(save_user_settings(username, settings))
 
-    print('update_user_data:')
-    print(update_user_data(username, 'secret', new_user_info))
+    # print('update_user_data:')
+    # print(update_user_data(username, 'secret', new_user_info))
 
-    print('login (old username):')
-    print(login(username, 'secret'))
-    print('login (new username):')
-    print(login(new_username, 'Secret'))
-    print('get_every_quiz (old username):')
-    print(get_every_quiz(username))
-    print('get_every_quiz (new username):')
-    print(get_every_quiz(new_username))
-    print('get_user_settings (old username):')
-    print(get_user_settings(username))
-    print('get_user_settings (new username):')
-    print(get_user_settings(new_username))
+    # print('login (old username):')
+    # print(login(username, 'secret'))
+    # print('login (new username):')
+    # print(login(new_username, 'Secret'))
+    # print('get_every_quiz (old username):')
+    # print(get_every_quiz(username))
+    # print('get_every_quiz (new username):')
+    # print(get_every_quiz(new_username))
+    # print('get_user_settings (old username):')
+    # print(get_user_settings(username))
+    # print('get_user_settings (new username):')
+    # print(get_user_settings(new_username))
+
+    print('get_remembered_user:')
+    print(get_remembered_user())
+    print('set_remembered_user:')
+    print(set_remembered_user(username, 'secret'))
+    print('get_remembered_user:')
+    print(get_remembered_user())
+    print('remove_remembered_user:')
+    print(forget_remembered_user())
+    print('get_remembered_user:')
+    print(get_remembered_user())
