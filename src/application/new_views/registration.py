@@ -4,9 +4,9 @@
 
 import tkinter as tk
 from tkinter import ttk
-import json
-from pathlib import Path
+
 import src.application.models.modified_logger as logger
+from src.application.models import database
 
 
 class LoginInformation(tk.LabelFrame):
@@ -14,17 +14,38 @@ class LoginInformation(tk.LabelFrame):
         super().__init__(parent, text="Login Information", pady=20)
         # self.configure(bg="gold")
 
+        # Tkinter validation: https://stackoverflow.com/questions/8959815/restricting-the-value-in-tkinter-entry-widget
+        vcmd = (self.register(self.validate_length), '%d', '%P')
+
         self.Username = tk.StringVar()
         self.username_label = ttk.Label(self, text="Enter Username")
-        self.username_button = ttk.Entry(self, textvariable=self.Username)
-        self.username_label.grid(row=0, column=0, sticky=tk.W)
-        self.username_button.grid(row=100, column=0, sticky=tk.W)
+        self.username_entry = ttk.Entry(self, textvariable=self.Username, validate='key', validatecommand=vcmd)
+        self.username_label.grid(row=0, column=0, padx=10, sticky=tk.W)
+        self.username_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
 
         self.Password = tk.StringVar()
         self.password_label = ttk.Label(self, text="Enter Password")
-        self.password_button = ttk.Entry(self, textvariable=self.Password, show='*')
-        self.password_label.grid(row=0, column=100, sticky=tk.W)
-        self.password_button.grid(row=100, column=100, sticky=tk.W)
+        self.password_entry = ttk.Entry(self, textvariable=self.Password, show='*',
+                                        validate='key', validatecommand=vcmd)
+        self.password_label.grid(row=0, column=100, padx=10, sticky=tk.W)
+        self.password_entry.grid(row=100, column=100, padx=10, sticky=tk.W)
+
+        self.ConfirmPassword = tk.StringVar()
+        self.confirm_password_label = ttk.Label(self, text="Confirm Password")
+        self.confirm_password_entry = ttk.Entry(self, textvariable=self.ConfirmPassword, show='*',
+                                                validate='key', validatecommand=vcmd)
+        self.confirm_password_label.grid(row=0, column=200, padx=10, sticky=tk.W)
+        self.confirm_password_entry.grid(row=100, column=200, padx=10, sticky=tk.W)
+
+    def validate_length(self, action, value_if_allowed):
+        # action '1' means text is being inserted
+        if action == '1':
+            if len(value_if_allowed) > 24:
+                return False
+            else:
+                return True
+        else:
+            return True
 
 
 class Guardian1Info(tk.LabelFrame):
@@ -34,15 +55,15 @@ class Guardian1Info(tk.LabelFrame):
 
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
-        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_entry = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, padx=10, sticky=tk.W)
+        self.first_name_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
-        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_entry = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, padx=10, sticky=tk.W)
+        self.last_name_entry.grid(row=100, column=100, padx=10, sticky=tk.W)
 
 
 class Guardian2Info(tk.LabelFrame):
@@ -52,15 +73,15 @@ class Guardian2Info(tk.LabelFrame):
 
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
-        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_entry = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, padx=10, sticky=tk.W)
+        self.first_name_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
-        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_entry = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, padx=10, sticky=tk.W)
+        self.last_name_entry.grid(row=100, column=100, padx=10, sticky=tk.W)
 
 
 class ChildInformation(tk.LabelFrame):
@@ -70,33 +91,49 @@ class ChildInformation(tk.LabelFrame):
 
         self.FirstName = tk.StringVar()
         self.first_name_label = ttk.Label(self, text="First Name")
-        self.first_name_button = ttk.Entry(self, textvariable=self.FirstName)
-        self.first_name_label.grid(row=0, column=0, sticky=tk.W)
-        self.first_name_button.grid(row=100, column=0, sticky=tk.W)
+        self.first_name_entry = ttk.Entry(self, textvariable=self.FirstName)
+        self.first_name_label.grid(row=0, column=0, padx=10, sticky=tk.W)
+        self.first_name_entry.grid(row=100, column=0, padx=10, sticky=tk.W)
 
         self.LastName = tk.StringVar()
         self.last_name_label = ttk.Label(self, text="Last Name")
-        self.last_name_button = ttk.Entry(self, textvariable=self.LastName)
-        self.last_name_label.grid(row=0, column=100, sticky=tk.W)
-        self.last_name_button.grid(row=100, column=100, sticky=tk.W)
+        self.last_name_entry = ttk.Entry(self, textvariable=self.LastName)
+        self.last_name_label.grid(row=0, column=100, padx=10, sticky=tk.W)
+        self.last_name_entry.grid(row=100, column=100, padx=10, sticky=tk.W)
+
+        vcmd = (self.register(self.validate_int), '%d', '%P')
 
         self.Grade = tk.StringVar()
         self.grade_label = ttk.Label(self, text="Grade of Child")
-        self.grade_button = ttk.Combobox(self, width=27, textvariable=self.Grade)
+        self.grade_entry = ttk.Combobox(self, width=10, textvariable=self.Grade, validate='key', validatecommand=vcmd)
         self.grade_values = []
-        for x in range(1, 8): self.grade_values.append(str(x))
-        self.grade_button['values'] = tuple(self.grade_values)
-        self.grade_label.grid(row=200, column=00, sticky=tk.W)
-        self.grade_button.grid(row=300, column=00, sticky=tk.W)
+        for x in range(1, 13): self.grade_values.append(str(x))
+        self.grade_entry['values'] = tuple(self.grade_values)
+        self.grade_label.grid(row=200, column=00, padx=10, sticky=tk.W)
+        self.grade_entry.grid(row=300, column=00, padx=10, sticky=tk.W)
 
         self.Age = tk.StringVar()
         self.age_label = ttk.Label(self, text="Age of Child")
-        self.age_button = ttk.Combobox(self, width=27, textvariable=self.Age)
-        self.age_values = ["Under 5"]
-        for x in range(5, 19): self.age_values.append(str(x))
-        self.age_button['values'] = tuple(self.age_values)
-        self.age_label.grid(row=200, column=100, sticky=tk.W)
-        self.age_button.grid(row=300, column=100, sticky=tk.W)
+        self.age_entry = ttk.Combobox(self, width=10, textvariable=self.Age, validate='key', validatecommand=vcmd)
+        # self.age_values = ["Under 5"]
+        self.age_values = []
+        for x in range(4, 19): self.age_values.append(str(x))
+        self.age_entry['values'] = tuple(self.age_values)
+        self.age_label.grid(row=200, column=100, padx=10, sticky=tk.W)
+        self.age_entry.grid(row=300, column=100, padx=10, sticky=tk.W)
+
+    def validate_int(self, action, value_if_allowed):
+        # action '1' means text is being inserted
+        if action == '1':
+            if str.isdigit(value_if_allowed) or value_if_allowed == '':
+                if len(value_if_allowed) > 3:
+                    return False
+                else:
+                    return True
+            else:
+                return False
+        else:
+            return True
 
 
 class RegistrationView(tk.Frame):
@@ -104,7 +141,7 @@ class RegistrationView(tk.Frame):
         super().__init__(parent, *args, *kwargs)
 
         self.Main_Label = ttk.Label(self, text="Signup for MathFacts", font=("TkDefaultFont", 27), wraplength=600)
-        self.Main_Label.grid(row=0, column=0, sticky=tk.W)
+        self.Main_Label.grid(row=0, column=0)
 
         self.c = ChildInformation(self)
         self.c.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
@@ -128,37 +165,6 @@ class RegistrationView(tk.Frame):
 
         self.logger = logger.Logger('registration_attempts.log')
 
-        # Read current users from file and set the correct index
-        self.users_data_file = f'{Path(__file__).parent.parent}\\student_data.json'
-        self.users_dict = self.get_users()
-
-        if self.users_dict.items() == 0:
-            self.user_index = 0
-        else:
-            self.user_index = self.find_next_user_index()
-
-    def get_users(self):
-        try:
-            # Load user data from the json file
-            with open(self.users_data_file) as jsonfile:
-                users_data = json.load(jsonfile)
-
-            return users_data
-        except (FileNotFoundError, json.decoder.JSONDecodeError):
-            # No users have been saved yet, so return an empty dictionary
-            return {}
-
-    def find_next_user_index(self):
-        # Find the highest user index so far
-        highest_index = -1
-        for key in self.users_dict.keys():
-            user_index = int(key[5:])  # Substring just the number from "user ##"
-            if user_index > highest_index:
-                highest_index = user_index
-
-        # The next user index will be 1 more than the previous highest index
-        return highest_index + 1
-
     def reset_fields(self):
         # Clear the fields that likely wouldn't be the same for multiple users
 
@@ -169,54 +175,70 @@ class RegistrationView(tk.Frame):
         # Guardian details are not cleared
         self.l.Username.set('')
         self.l.Password.set('')
+        self.l.ConfirmPassword.set('')
 
     def save(self):
         # self.user_count = self.user_count
-        self.all_information = {
-            "child_first_name": self.c.FirstName.get(),
-            "child_last_name": self.c.LastName.get(),
-            "child_grade": self.c.Grade.get(),
-            "child_age": self.c.Age.get(),
+        password = self.l.Password.get()
+        confirm_password = self.l.ConfirmPassword.get()
 
-            "guardian_1_first_name": self.g1.FirstName.get(),
-            "guardian_1_last_name": self.g1.LastName.get(),
+        try:
+            child_grade = int(self.c.Grade.get())
+            child_age = int(self.c.Age.get())
+            if child_grade > 999 or child_grade < 0:
+                self.field_text.set("Child grade out of range")
+                return
+            if child_age > 999 or child_age < 0:
+                self.field_text.set("Child age out of range")
+                return
+        except ValueError:
+            self.field_text.set("Invalid grade or age")
+            return
 
-            "guardian_2_first_name": self.g2.FirstName.get(),
-            "guardian_2_last_name": self.g2.LastName.get(),
+        all_information = {
+            "child_first_name": self.c.FirstName.get().strip(),
+            "child_last_name": self.c.LastName.get().strip(),
+            "child_grade": child_grade,
+            "child_age": child_age,
 
-            "username": self.l.Username.get(),
-            "password": self.l.Password.get(),
+            "guardian_1_first_name": self.g1.FirstName.get().strip(),
+            "guardian_1_last_name": self.g1.LastName.get().strip(),
+
+            "guardian_2_first_name": self.g2.FirstName.get().strip(),
+            "guardian_2_last_name": self.g2.LastName.get().strip(),
+
+            "username": self.l.Username.get().strip(),
+            "password": password,
         }
 
-        # Make sure the username is unique
-        for user in self.users_dict.values():
-            if self.all_information['username'] == user['username']:
-                self.field_text.set(f"Username '{user['username']}' is already taken")
-                self.logger.write_to_log(f"Registration for {self.all_information['username']} has failed. "
-                                         f"Cause: Username '{user['username']}' is already taken. - "
-                                         f"{self.logger.get_datetime_string()}.")
-                return
+        if password != confirm_password:
+            self.field_text.set("Passwords do not match")
+            self.logger.write_to_log(f"Registration for user '{all_information['username']}' has failed. "
+                                     f"Cause: Passwords do not match. "
+                                     f"{self.logger.get_datetime_string()}")
+            return
 
-        for key in self.all_information:
+        for key in all_information:
             if key == "guardian_2_first_name" or key == "guardian_2_last_name":
                 pass
             else:
-                if self.all_information.get(key) == "":
+                if all_information.get(key) == "":
                     self.field_text.set("Not all required fields have been answered")
-                    self.logger.write_to_log(f"Registration for user '{self.all_information['username']}' has failed. "
+                    self.logger.write_to_log(f"Registration for user '{all_information['username']}' has failed. "
                                              f"Cause: Not all required fields have been answered. "
-                                             f"{self.logger.get_datetime_string()}.")
+                                             f"{self.logger.get_datetime_string()}")
                     break
             if key == "password":
-                # Add new data to the users dictionary and save it all to the file
-                self.users_dict[f'user {self.user_index}'] = self.all_information
-                with open(self.users_data_file, 'w') as jsonfile:
-                    json.dump(self.users_dict, jsonfile)
+                # Add the new user to the database
+                message = database.add_user(all_information)
+                if message == 'Success':
+                    self.logger.write_to_log(f"User '{all_information['username']}' has successfully registered - "
+                                             f"{self.logger.get_datetime_string()}")
 
-                self.user_index += 1
-
-                self.logger.write_to_log(f"User '{self.all_information['username']}' has successfully registered - "
-                                         f"{self.logger.get_datetime_string()}")
-
-                self.field_text.set(f"User '{self.all_information['username']}' has been registered.")
-                self.reset_fields()
+                    self.field_text.set(f"User '{all_information['username']}' has been registered.")
+                    self.reset_fields()
+                else:
+                    self.field_text.set(message)
+                    self.logger.write_to_log(f"Registration for {all_information['username']} has failed. "
+                                             f"Cause: {message}. - "
+                                             f"{self.logger.get_datetime_string()}")

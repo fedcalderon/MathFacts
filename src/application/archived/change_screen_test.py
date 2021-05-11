@@ -95,7 +95,7 @@ class ChildInformation(tk.LabelFrame):
         grade_button.grid(row=300, column=00, sticky=(tk.W))
 
         self.Age = tk.StringVar()
-        age_label = ttk.Label(self, text="Age of Child")
+        age_label = ttk.Label(self, text="problem_count of Child")
         age_button = ttk.Combobox(self, width=27, textvariable=self.Age)
         age_values = ["Under 5"]
         for x in range(5, 19): age_values.append(str(x))
