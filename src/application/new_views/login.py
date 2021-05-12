@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
 
 from src.application.models import database
 from src.application.models import modified_logger as logger
@@ -18,10 +19,10 @@ class Login(tk.Frame):
         self.main_app = parent
         self.username_verify = tk.StringVar()
         self.password_verify = tk.StringVar()
-        self.username_login_entry = tk.Entry(self, textvariable=self.username_verify)
-        self.password_login_entry = tk.Entry(self, textvariable=self.password_verify, show='*')
+        self.username_login_entry = ttk.Entry(self, textvariable=self.username_verify)
+        self.password_login_entry = ttk.Entry(self, textvariable=self.password_verify, show='*')
         self.remember_me = tk.BooleanVar()
-        self.remember_checkbox = tk.Checkbutton(self, text="Remember Me", variable=self.remember_me)
+        self.remember_checkbox = ttk.Checkbutton(self, text="Remember Me", variable=self.remember_me)
         self.result_message = ""
         self.student = {}
         self.student_id = None
@@ -32,21 +33,23 @@ class Login(tk.Frame):
         self.logged_in = False
         self.program_logger = logger.Logger('login_attempts.log')
 
-        tk.Label(self, text='Please enter details below to login').grid()
-        tk.Label(self, text='').grid()
-        tk.Label(self, text="Username").grid()
+        ttk.Label(self, text='Please enter details below to login').grid()
+        ttk.Label(self, text='').grid()
+        ttk.Label(self, text="Username").grid()
         self.username_login_entry.grid()
-        tk.Label(self, text="").grid()
-        tk.Label(self, text="Password").grid()
+        ttk.Label(self, text="").grid()
+        ttk.Label(self, text="Password").grid()
         self.password_login_entry.grid()
-        tk.Label(self, text="").grid()
+        ttk.Label(self, text="").grid()
         self.remember_checkbox.grid()
-        tk.Label(self, text="").grid()
-        tk.Button(self, text="Login", width=10, height=1, command=lambda: self.login_verify(parent)).grid()
-        tk.Label(self, text="").grid()
-        tk.Label(self, text="").grid()
+        ttk.Label(self, text="").grid()
+        ttk.Button(self, text="Login", command=lambda: self.login_verify(parent)).grid()
+        ttk.Label(self, text="").grid()
+        ttk.Label(self, text="").grid()
         tk.Button(self, text="Back to Welcome Screen", command=lambda: parent.change_screen(
             parent.welcome_screen)).grid()
+
+        self.username_login_entry.focus()
 
     # def generate_problem_set(self, parent):
     #     with open(f'{Path(__file__).parent.parent}\\student_data.json') as jsonfile:
