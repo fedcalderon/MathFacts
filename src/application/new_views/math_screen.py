@@ -31,7 +31,7 @@ class Questions:
     def toggle_topics(self):
         # Addition
         if self.questions_type == '1-ADD':
-            self.first_number = random.randint(0, 10)
+            self.first_number = random.randint(0, 9)
             self.second_number = random.randint(0, 10)
             self.symbol = '+'
             self.answer = self.first_number + self.second_number
@@ -45,8 +45,8 @@ class Questions:
             return f"What is {self.first_number} + {self.second_number}?"
 
         elif self.questions_type == '3-ADD':
-            self.first_number = random.randint(12, 9999)
-            self.second_number = random.randint(10, self.first_number)
+            self.first_number = random.randint(10, 9999)
+            self.second_number = random.randint(10, 9999)
             self.symbol = '+'
             self.answer = self.first_number + self.second_number
             return f"What is {self.first_number} + {self.second_number}?"
@@ -75,8 +75,8 @@ class Questions:
 
         # Multiplication
         elif self.questions_type == '1-MUL':
-            self.first_number = random.randint(0, 10)
-            self.second_number = random.randint(0, 10)
+            self.first_number = random.randint(0, 9)
+            self.second_number = random.randint(0, 9)
             self.symbol = 'x'
             self.answer = self.first_number * self.second_number
             return f"What is {self.first_number} x {self.second_number}?"

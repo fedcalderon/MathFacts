@@ -102,7 +102,6 @@ class MyApplication(tk.Tk):
 
         # Login screen
         ####################################################################################
-        # TODO: after logging in, make the program switch to the new user
         self.Login_Manager = new_login.Login(self)
         self.login_screen = [self.Login_Manager]
 
@@ -147,6 +146,12 @@ class MyApplication(tk.Tk):
                                                  self.welcome_screen))]
             # Enable the problem selection button
             self.problem_selection_button['state'] = 'normal'
+
+            # Reports screen
+            # Reset the reports screen when switching users
+            self.reports_screen = [reports.ReportsFrame(self),
+                                   tk.Button(self, text="Back", command=lambda:
+                                   self.change_screen(self.welcome_screen))]
         else:
             # Disable the problem selection button
             self.problem_selection_button['state'] = 'disabled'
