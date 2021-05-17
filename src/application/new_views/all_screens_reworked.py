@@ -5,15 +5,14 @@
 import tkinter as tk
 from tkinter import ttk
 
-import src.application.new_views.login as new_login
+from src.application.new_views import login
 import src.application.new_views.problem_selection as ps
-import src.application.new_views.registration as registration
+from src.application.new_views import registration
 import src.application.new_views.math_screen as ms
-import src.application.new_views.user_settings as user_settings
-import src.application.new_views.welcome as welcome
-import src.application.new_views.reports as reports
-import src.application.new_views.dashboard as dashboard
-import src.application.tests.modified_logger as logger
+from src.application.new_views import settings
+from src.application.new_views import welcome
+from src.application.new_views import reports
+from src.application.new_views import dashboard
 from src.application.models import database
 
 
@@ -66,13 +65,6 @@ class MyApplication(tk.Tk):
         # Dashboard Screen
         self.dashboard_screen = [tk.Label(self, text="Dashboard", font=("", 25)), dashboard.Dashboard(self), tk.Button(self, text="Exit", command=lambda: self.change_screen(self.welcome_screen))]
 
-        # Settings screen
-        self.settings_screen = [user_settings.SettingsFrame(self),
-                                tk.Button(self, text="To Topics List", command=lambda: self.change_screen(
-                                    self.problem_selection_screen)),
-                                tk.Button(self, text="Back", command=lambda: self.change_screen(
-                                    self.welcome_screen))]
-
         # Reports screen
         self.reports_screen = [reports.ReportsFrame(self),
                                tk.Button(self, text="Back", command=lambda: self.change_screen(self.welcome_screen))]
@@ -96,13 +88,13 @@ class MyApplication(tk.Tk):
         self.registration_screen = [self.registration_view,
                                     tk.Button(self, text="Go to Login", command=lambda: self.change_screen(
                                         self.login_screen)),
-                                    tk.Button(self, text="Back to Welcome Screen", command=lambda: self.change_screen(
+                                    tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
                                         self.welcome_screen))
                                     ]
 
         # Login screen
         ####################################################################################
-        self.Login_Manager = new_login.Login(self)
+        self.Login_Manager = login.Login(self)
         self.login_screen = [self.Login_Manager]
 
         # Try to find a remembered user in the database. Otherwise, run the program in signed out mode
@@ -113,7 +105,7 @@ class MyApplication(tk.Tk):
             self.student_id = self.student_data['username']
             self.logged_in = True
         ####################################################################################
-        self._update_selection_screen()
+        self._update_user_screens()
 
         # The math screen.
         self.m_s = ms.Math_Screen(self, '1-ADD')
@@ -132,9 +124,9 @@ class MyApplication(tk.Tk):
         self.student_data = student
         self.student_id = student['username']
         self.logged_in = True
-        self._update_selection_screen()
+        self._update_user_screens()
 
-    def _update_selection_screen(self):
+    def _update_user_screens(self):
         if self.logged_in:
             # Problem selection screen
             self.selection_view = ps.SelectionView(self, self, {'child_grade': int(self.student_data['child_grade']),
@@ -152,6 +144,13 @@ class MyApplication(tk.Tk):
             self.reports_screen = [reports.ReportsFrame(self),
                                    tk.Button(self, text="Back", command=lambda:
                                    self.change_screen(self.welcome_screen))]
+
+            # Settings screen
+            self.settings_screen = [settings.SettingsFrame(self),
+                                    tk.Button(self, text="To Topics List", command=lambda: self.change_screen(
+                                        self.problem_selection_screen)),
+                                    tk.Button(self, text="Back to Home", command=lambda: self.change_screen(
+                                        self.welcome_screen))]
         else:
             # Disable the problem selection button
             self.problem_selection_button['state'] = 'disabled'
@@ -169,7 +168,7 @@ class MyApplication(tk.Tk):
         self.student_data = {}
         self.student_id = ''
         self.logged_in = False
-        self._update_selection_screen()
+        self._update_user_screens()
 
 
 if __name__ == '__main__':
