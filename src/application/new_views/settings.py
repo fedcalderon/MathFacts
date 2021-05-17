@@ -3,6 +3,7 @@ from tkinter import ttk
 import json
 from pathlib import Path
 from src.application.new_views import registration as r
+from src.application.models import database
 
 """This frame allows the user to change various user settings such as their name, grade, age, and guardian
 information. They cannot(for now) change their username or password."""
@@ -70,3 +71,18 @@ class SettingsFrame(tk.Frame):
 
         parent.destroy()
         parent.__init__()
+
+
+# Static functions for settings
+def get_num_questions(username):
+    settings, message = database.get_user_settings(username)
+    if message == 'Success':
+        return settings['num_problems']
+    else:
+        return 20
+
+
+def set_num_questions(username, num):
+    settings_dict = {'num_problems': num}
+    message = database.save_user_settings(username, settings_dict)
+    return message

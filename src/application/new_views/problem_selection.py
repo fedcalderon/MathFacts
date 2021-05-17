@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from src.application.new_views import math_screen
 from src.application.new_views import results
-from src.application.models import database
+from src.application.new_views import settings
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
 # 1-ADD: Single digit addition
@@ -47,8 +47,8 @@ class OptionFrame(tk.Frame):
         start_frame = tk.Frame(self.label_frame, height=20)
         start_frame.grid(row=1, column=0)
         self.start_button = ttk.Button(self.label_frame, text='Start', command=lambda: self.on_start(master_screen))
-        self.start_button.place(relx=1, rely=1,
-                                anchor='se')  # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
+        # Source: https://stackoverflow.com/questions/18736465/how-to-center-a-tkinter-widget
+        self.start_button.place(relx=1, rely=1, anchor='se')
 
         # self.m_s = math_screen.Math_Screen(master_screen, self.ID)
 
@@ -64,7 +64,7 @@ class OptionFrame(tk.Frame):
         if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
             tk.Button(master_screen, text="Show Grades",
                       command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
-        #########################################################################################################
+
 
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
@@ -90,11 +90,22 @@ class SelectionView(tk.Frame):
 
         settings_menu.add_command(label='Settings', command=lambda: parent.change_screen(
             parent.settings_screen))
-        settings_menu.add_cascade(label='Number of Questions', menu='Settings')
-        settings_menu.add_cascade(label='20', menu='Number of Questions')
-        settings_menu.add_cascade(label='50', menu='Number of Questions')
-        settings_menu.add_cascade(label='100', menu='Number of Questions')
 
+        num_questions_menu = tk.Menu(settings_menu)
+        settings_menu.add_cascade(label='Number of Questions', menu=num_questions_menu)
+        num_questions = settings.get_num_questions(self.username)
+        # Setting initial value of menu radio buttons:
+        # https://stackoverflow.com/questions/61578186/python-tkinter-how-to-set-initial-selection-for-radiobutton-menu
+        self.num_questions = tk.IntVar()
+        self.num_questions.set(num_questions)
+        num_questions_menu.add_radiobutton(label='10', value=10, variable=self.num_questions,
+                                           command=self.set_num_questions)
+        num_questions_menu.add_radiobutton(label='20', value=20, variable=self.num_questions,
+                                           command=self.set_num_questions)
+        num_questions_menu.add_radiobutton(label='50', value=50, variable=self.num_questions,
+                                           command=self.set_num_questions)
+        num_questions_menu.add_radiobutton(label='100', value=100, variable=self.num_questions,
+                                           command=self.set_num_questions)
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)
@@ -152,3 +163,6 @@ class SelectionView(tk.Frame):
                 # Move to the next row if the row is filled
                 column = 0
                 row += 1
+
+    def set_num_questions(self):
+        settings.set_num_questions(self.username, self.num_questions.get())

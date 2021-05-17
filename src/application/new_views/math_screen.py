@@ -6,6 +6,7 @@ from tkinter import ttk
 from src.application.models.question import Question
 from src.application.new_views import results
 from src.application.models import database
+from src.application.new_views import settings
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -124,7 +125,7 @@ class Math_Screen(tk.Frame):
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
         self.Question_Count = 1
-        self.Total_Questions = 20
+        self.Total_Questions = settings.get_num_questions(self.student_id)
         self.questions_list = []
         self.finished = False
 

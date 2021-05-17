@@ -494,8 +494,8 @@ def save_user_settings(username, settings_dict):
     if _user_exists(cur, username):
         try:
             # SQLite replace statement: https://www.sqlitetutorial.net/sqlite-replace-statement/
-            cur.execute('REPLACE INTO settings VALUES(?, ?)', (
-                username, settings_dict['num_problems']))
+            cur.execute('UPDATE settings SET num_problems=? WHERE username=?', (
+                settings_dict['num_problems'], username))
             message = 'Success'
         except sqlite3.DatabaseError:
             message = str(sys.exc_info()[1])
