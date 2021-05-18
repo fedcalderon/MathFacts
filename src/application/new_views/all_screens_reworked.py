@@ -61,7 +61,7 @@ class MyApplication(tk.Tk):
                                     self.login_button, self.problem_selection_button, self.dashboard_button])
 
         for item in self.welcome_screen:
-            item.grid()
+             item.grid()
 
         # Dashboard Screen
         self.dashboard_screen = [tk.Label(self, text="Dashboard", font=("", 25)), dashboard.Dashboard(self), tk.Button(self, text="Exit", command=lambda: self.change_screen(self.welcome_screen))]
