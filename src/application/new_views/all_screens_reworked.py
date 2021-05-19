@@ -20,7 +20,7 @@ class MyApplication(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("MathFacts")
-        self.geometry("1000x650")
+        self.geometry("1000x700")
         self.resizable(width=True, height=True)
 
         self.welcome_screen = [welcome.IconFrame(self), welcome.DescriptionFrame(self)]
