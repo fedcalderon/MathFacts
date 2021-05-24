@@ -40,6 +40,11 @@ class SettingsFrame(tk.Frame):
         self.Save = ttk.Button(self, text="Save", command=self.save)
         self.Save.grid(sticky=tk.W)
 
+        tk.Button(self, text="To Topics List", command=lambda: parent.change_screen(
+            parent.problem_selection_screen)).grid()
+        tk.Button(self, text="Back to Home", command=lambda: parent.change_screen(
+            parent.welcome_screen)).grid()
+
     def save(self):
         password = self.l.Password.get()
         new_password = self.l.NewPassword.get()

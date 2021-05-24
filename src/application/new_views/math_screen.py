@@ -204,7 +204,7 @@ class Math_Screen(tk.Frame):
         self.UserInsert_entry.focus()
 
         self.results_screen = tk.Button(self, text="Show Grades", command=lambda: parent.change_screen(
-            [results.LinksFrame(parent, self, 'test')]))
+            results.LinksFrame(parent, self, 'test')))
 
     def enable_buttons(self, enable=True):
         if enable:

@@ -58,12 +58,12 @@ class OptionFrame(tk.Frame):
         print(f"Starting {self.name} activity...")
         # TODO: add a log message
         self.start_is_clicked = True
-        master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID)
+        master_screen.math_problems_screen = math_screen.Math_Screen(master_screen, self.ID)
         master_screen.change_screen(master_screen.math_problems_screen)
 
-        if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
-            tk.Button(master_screen, text="Show Grades",
-                      command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
+        # if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
+        #     tk.Button(master_screen, text="Show Grades",
+        #               command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
 
 
 class SelectionView(tk.Frame):
@@ -113,38 +113,40 @@ class SelectionView(tk.Frame):
 
         # Make a list to hold all the options
         self.options = []
+        self.frame = tk.Frame(self)
+        self.frame.grid()
 
         # Use the grade to determine which tests to show
         if self.grade == 1:
-            self.options.append(OptionFrame(self, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Addition', 'Single digit addition.', '1-ADD', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Subtraction', 'Single digit subtraction', '1-SUB', screen_to_destroy, master_screen))
 
         elif self.grade == 2:
-            self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy, master_screen))
 
         elif self.grade == 3:
-            self.options.append(OptionFrame(self, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Addition', 'Double digit addition.', '2-ADD', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Subtraction', 'Double digit subtraction.', '2-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy, master_screen))
 
         elif self.grade == 4:
-            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Division', 'Whole number division', '1-DIV', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Multiplication', '0 to 12 multiplication.', '1-MUL', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Division', 'Whole number division', '1-DIV', screen_to_destroy, master_screen))
 
         elif self.grade == 5:
-            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Division', 'Multi-digit division', '2-DIV', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Division', 'Multi-digit division', '2-DIV', screen_to_destroy, master_screen))
 
         elif self.grade >= 6:
-            self.options.append(OptionFrame(self, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
-            self.options.append(OptionFrame(self, 'Division', 'Multi-digit division', '2-DIV', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Addition', 'Multi-digit addition.', '3-ADD', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
+            self.options.append(OptionFrame(self.frame, 'Division', 'Multi-digit division', '2-DIV', screen_to_destroy, master_screen))
             # TODO: Create a linear equations problem set for math_screen.py
             # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
@@ -163,6 +165,8 @@ class SelectionView(tk.Frame):
                 # Move to the next row if the row is filled
                 column = 0
                 row += 1
+
+        tk.Button(self, text="Back to Home", command=lambda: parent.change_screen(parent.welcome_screen)).grid()
 
     def set_num_questions(self):
         settings.set_num_questions(self.username, self.num_questions.get())

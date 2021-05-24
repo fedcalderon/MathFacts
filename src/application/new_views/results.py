@@ -12,7 +12,23 @@ class LinksFrame(Frame):
         super().__init__(parent, **kwargs)
         self.problems = problems
         self.score = 0
-        Label(self, text='GRADES:', font=("TkDefaultFont", 20)).grid(sticky=W)
+
+        # Configure the scrollbar
+        # Source: https://stackoverflow.com/a/3092341/7432
+        self.canvas = Canvas(self, borderwidth=0)
+        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+        self.frame = Frame(self.canvas)
+        self.scrollbar = Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+
+        self.scrollbar.pack(side="right", fill="y")
+        self.canvas.pack(side="left", fill="both", expand=True)
+        self.canvas.create_window((0, 0), window=self.frame, tags="self.frame")
+
+        self.frame.bind("<Configure>", self.on_frame_configure)
+        self.frame.bind("<Visibility>", self.fix_scroll)
+
+        Label(self.frame, text='GRADES:', font=("TkDefaultFont", 20)).grid()
 
         # List and print all problem set grades.
         if len(self.problems.questions_list) > 0:
@@ -32,7 +48,7 @@ class LinksFrame(Frame):
                                 f"Student Answer: {question.student_answer}. " \
                                 f"Incorrect! " \
                                 f"Correct Answer: {question.correct_answer}"
-                Label(self, text=self.text, wraplength=600, font=("TkDefaultFont", 11)).grid(sticky=W)
+                Label(self.frame, padx=10, text=self.text, wraplength=600, font=("TkDefaultFont", 11)).grid(sticky=W)
 
             # Look for uncompleted questions
             self.total_questions = self.problems.Total_Questions
@@ -42,7 +58,7 @@ class LinksFrame(Frame):
                     self.text = "1 question was not answered."
                 else:
                     self.text = f"{self.incomplete_questions} questions were not answered."
-                Label(self, text=self.text, wraplength=600, font=("TkDefaultFont", 11)).grid(sticky=W)
+                Label(self.frame, padx=10, text=self.text, wraplength=600, font=("TkDefaultFont", 11)).grid(sticky=W)
 
             # Give the score
             self.score = round((self.correct_answers / self.total_questions) * 100, 1)
@@ -53,15 +69,29 @@ class LinksFrame(Frame):
             self.logger.write_to_log(f"Completed task {self.problems.questions.questions_type} on {datetime.now()}. "
                                      f"Score is {self.score:g}")
 
-            Label(self, text=self.score_text, wraplength=600, font=("TkDefaultFont", 11)).grid(sticky=W)
+            Label(self.frame, padx=10, text=self.score_text, wraplength=600, font=("TkDefaultFont", 11)).grid(sticky=W)
             # save_results(self.problems.questions_list, student_id)
 
         else:
-            Label(self, text=f"You did no questions. Grade: 0%",
+            Label(self.frame, padx=10, text=f"You did no questions. Grade: 0%",
                   wraplength=600, font=("TkDefaultFont", 11)).grid(sticky=W)
 
-        Button(self, text="Start a new exercise", command=lambda: parent.change_screen(
+        Button(self.frame, text="Start a new exercise", command=lambda: parent.change_screen(
             parent.problem_selection_screen)).grid()
+
+    def on_frame_configure(self, event):
+        """Reset the scroll region to encompass the inner frame"""
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def fix_scroll(self, event):
+        if self.frame.winfo_height() > self.canvas.winfo_height():
+            self.canvas.yview_scroll(-10, "pages")
+
+    def _on_mousewheel(self, event):
+        # Source: https://stackoverflow.com/a/17457843
+        # Only scroll if the frame is taller than the canvas
+        if self.frame.winfo_height() > self.canvas.winfo_height():
+            self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
 
 # Results screen

@@ -18,7 +18,7 @@ class ReportsGraph:
 
         print(quizzes)
 
-        # quiz_scores is a dictionary with the following form: {quiz_type: {time: score, time:score...}, quiz_type:...}
+        # quiz_scores is a dictionary with the following form: {quiz_type: {time: score, time: score...}, quiz_type:...}
         quiz_scores = {}
         for test_time, quiz in quizzes.items():
             quiz_type = quiz[0].type
@@ -34,6 +34,12 @@ class ReportsGraph:
                 quiz_scores[quiz_type][test_time] = percentage_score
             except KeyError:
                 quiz_scores[quiz_type] = {test_time: percentage_score}
+
+        if len(quiz_scores) == 0:
+            # If there are no quizzes, remove the file
+            if os.path.exists(graph_path):
+                os.remove(graph_path)
+            return
 
         # print(key_list)
         # print(key_score_avg)

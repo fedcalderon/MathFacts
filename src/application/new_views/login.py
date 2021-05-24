@@ -126,6 +126,6 @@ class Login(tk.Frame):
             ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
         else:
-            ok_button = Button(self.login_success_screen, text="No, go back.", height="1", width="15",
+            ok_button = Button(self.login_success_screen, text="Go back", height="1", width="15",
                                command=self.login_success_screen.destroy)
             ok_button.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
