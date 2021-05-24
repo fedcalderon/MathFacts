@@ -116,7 +116,7 @@ class MyApplication(tk.Tk):
         self._update_selection_screen()
 
         # The math screen.
-        self.m_s = ms.Math_Screen(self, '1-ADD')
+        self.m_s = ms.Math_Screen(self, '1-ADD', 20)
         self.math_problems_screen = [self.m_s]
 
     def change_screen(self, new_screen):

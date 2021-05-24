@@ -38,6 +38,9 @@ class SettingsFrame(tk.Frame):
         self.g2.first_name_entry.insert(0, self.users_data['user 0']['guardian_2_first_name'])
         self.g2.last_name_entry.insert(0, self.users_data['user 0']['guardian_2_last_name'])
 
+        self.q = NumberOfQuestions(self)
+        self.q.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+
         self.Save = ttk.Button(self, text="Save and Reload", command= lambda: self.save(parent))
         self.Save.grid(row=1200, column=0, sticky=tk.W)
 
@@ -61,11 +64,25 @@ class SettingsFrame(tk.Frame):
         self.users_data['user 0'] = self.all_information
         print(self.users_data)
 
-        tk.Label(self, text=f"Changes saved. Reload the program to apply the changes.",
-              wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=tk.W)
+        # tk.Label(self, text=f"Changes saved.",
+        #       wraplength=400, font=("TkDefaultFont", 11)).grid(sticky=tk.W)
 
         with open(self.users_data_file, 'w') as jsonfile:
             json.dump(self.users_data, jsonfile)
 
-        parent.destroy()
-        parent.__init__()
+        parent.update()
+
+
+class NumberOfQuestions(tk.LabelFrame):
+    def __init__(self, parent):
+        super().__init__(parent, text="Number Of Questions", pady=15)
+        self.QuestionCount = tk.IntVar()
+        # self.question_count_entry.set(20)
+        self.question_count_label = ttk.Label(self, text="Number of Questions")
+        self.question_count_entry = ttk.Combobox(self, width=10, textvariable=self.QuestionCount)
+
+        self.question_count_entry['values'] = tuple([3, 20, 50, 100])
+        #self.question_count_entry.
+
+        self.question_count_label.grid(row=200, column=100, padx=10, sticky=tk.W)
+        self.question_count_entry.grid(row=300, column=100, padx=10, sticky=tk.W)

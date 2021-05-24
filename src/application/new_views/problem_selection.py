@@ -58,13 +58,16 @@ class OptionFrame(tk.Frame):
         print(f"Starting {self.name} activity...")
         # TODO: add a log message
         self.start_is_clicked = True
-        master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID)
+        master_screen.math_problems_screen[0] = math_screen.Math_Screen(master_screen, self.ID,
+                                                    master_screen.settings_screen[0].q.QuestionCount.get())
+        master_screen.math_problems_screen[0].Total_Questions = master_screen.settings_screen[0].q.QuestionCount.get()
         master_screen.change_screen(master_screen.math_problems_screen)
 
         if master_screen.math_problems_screen[0].Question_Count - 1 == master_screen.math_problems_screen[0].Total_Questions:
             tk.Button(master_screen, text="Show Grades",
                       command=lambda: results.ResultsScreen(self, 'test').mainloop()).grid()
         #########################################################################################################
+
 
 class SelectionView(tk.Frame):
     """The frame where the user selects which type of problems to practice."""
@@ -90,11 +93,6 @@ class SelectionView(tk.Frame):
 
         settings_menu.add_command(label='Settings', command=lambda: parent.change_screen(
             parent.settings_screen))
-        settings_menu.add_cascade(label='Number of Questions', menu='Settings')
-        settings_menu.add_cascade(label='20', menu='Number of Questions')
-        settings_menu.add_cascade(label='50', menu='Number of Questions')
-        settings_menu.add_cascade(label='100', menu='Number of Questions')
-
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)

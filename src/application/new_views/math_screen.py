@@ -115,7 +115,7 @@ class Questions:
 
 # TODO: Prevent same question from appearing multiple times
 class Math_Screen(tk.Frame):
-    def __init__(self, parent, question_type, *args, **kwargs):
+    def __init__(self, parent, question_type, question_count, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         self.parent = parent
@@ -123,14 +123,14 @@ class Math_Screen(tk.Frame):
         self.answer_verification = tk.StringVar()
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
-        self.Question_Count = 1
-        self.Total_Questions = 20
         self.questions_list = []
         self.finished = False
 
         self.Correct_Answers = 0
 
         self.Question_label = tk.StringVar()
+        self.Question_Count = 1
+        self.Total_Questions = question_count
         self.Question_label.set(f"Question # of {self.Total_Questions}")
         self.Time_label = tk.StringVar()
         self.time_left = 0
