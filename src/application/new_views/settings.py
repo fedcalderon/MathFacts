@@ -30,6 +30,9 @@ class SettingsFrame(tk.Frame):
         self.l = LoginInformation(self)
         self.l.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
+        self.q = NumberOfQuestions(self)
+        self.q.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+
         self.reset_fields()
 
         self.field_text = tk.StringVar()
@@ -37,15 +40,19 @@ class SettingsFrame(tk.Frame):
                                font=("TkDefaultFont", 11), wraplength=600)
         self.field.grid(sticky=tk.W)
 
-        self.Save = ttk.Button(self, text="Save", command=self.save)
-        self.Save.grid(sticky=tk.W)
+        self.bottom_frame = tk.Frame(self)
+        self.bottom_frame.grid()
 
-        tk.Button(self, text="To Topics List", command=lambda: parent.change_screen(
-            parent.problem_selection_screen)).grid()
-        tk.Button(self, text="Back to Home", command=lambda: parent.change_screen(
-            parent.welcome_screen)).grid()
+        self.Save = ttk.Button(self.bottom_frame, text="Save", command=self.save)
+        self.Save.grid(sticky=tk.W, row=0, column=0, padx=5)
+
+        ttk.Button(self.bottom_frame, text="To Topics List", command=lambda: parent.change_screen(
+            parent.problem_selection_screen)).grid(row=0, column=1, padx=5)
+        ttk.Button(self.bottom_frame, text="Back to Home", command=lambda: parent.change_screen(
+            parent.welcome_screen)).grid(row=0, column=2, padx=5)
 
     def save(self):
+        new_username = self.l.Username.get().strip()
         password = self.l.Password.get()
         new_password = self.l.NewPassword.get()
         confirm_new_password = self.l.ConfirmPassword.get()
@@ -79,7 +86,7 @@ class SettingsFrame(tk.Frame):
             "guardian_2_first_name": self.g2.FirstName.get().strip(),
             "guardian_2_last_name": self.g2.LastName.get().strip(),
 
-            "username": self.l.Username.get().strip(),
+            "username": new_username,
         }
 
         # Keep track of any changes the user has made
@@ -88,6 +95,11 @@ class SettingsFrame(tk.Frame):
             if value != new_info[key]:
                 no_changes = False
                 break
+
+        old_num_questions = get_num_questions(self.username)
+        new_num_questions = self.q.QuestionCount.get()
+        if old_num_questions != new_num_questions:
+            no_changes = False
 
         if self.l.ChangePassword.get():
             if new_password != confirm_new_password:
@@ -120,6 +132,11 @@ class SettingsFrame(tk.Frame):
         else:
             self.field_text.set(message)
 
+        # Update user settings
+        settings_dict = {'num_problems': new_num_questions}
+        message = database.save_user_settings(new_username, settings_dict)
+        print(message)
+
     def reset_fields(self):
         self.l.Password.set("")
         self.l.NewPassword.set("")
@@ -137,6 +154,8 @@ class SettingsFrame(tk.Frame):
 
         self.g2.FirstName.set(self.user_data['guardian_2_first_name'])
         self.g2.LastName.set(self.user_data['guardian_2_last_name'])
+
+        self.q.QuestionCount.set(get_num_questions(self.username))
 
 
 # LoginInformation frame copied from registration, with changes
@@ -201,6 +220,18 @@ class LoginInformation(tk.LabelFrame):
             return True
 
 
+class NumberOfQuestions(tk.LabelFrame):
+    def __init__(self, parent):
+        super().__init__(parent, text="Number Of Questions", pady=15)
+        self.QuestionCount = tk.IntVar()
+        self.question_count_label = ttk.Label(self, text="Number of Questions")
+        self.question_count_entry = ttk.Combobox(self, width=10, textvariable=self.QuestionCount)
+
+        self.question_count_entry['values'] = tuple([10, 20, 50, 100])
+        self.question_count_label.grid(row=200, column=100, padx=10, sticky=tk.W)
+        self.question_count_entry.grid(row=300, column=100, padx=10, sticky=tk.W)
+
+
 # Static functions for settings
 def get_num_questions(username):
     settings, message = database.get_user_settings(username)
@@ -208,9 +239,3 @@ def get_num_questions(username):
         return settings['num_problems']
     else:
         return 20
-
-
-def set_num_questions(username, num):
-    settings_dict = {'num_problems': num}
-    message = database.save_user_settings(username, settings_dict)
-    return message

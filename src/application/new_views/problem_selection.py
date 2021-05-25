@@ -91,21 +91,22 @@ class SelectionView(tk.Frame):
         settings_menu.add_command(label='Settings', command=lambda: parent.change_screen(
             parent.settings_screen))
 
-        num_questions_menu = tk.Menu(settings_menu)
-        settings_menu.add_cascade(label='Number of Questions', menu=num_questions_menu)
-        num_questions = settings.get_num_questions(self.username)
-        # Setting initial value of menu radio buttons:
-        # https://stackoverflow.com/questions/61578186/python-tkinter-how-to-set-initial-selection-for-radiobutton-menu
-        self.num_questions = tk.IntVar()
-        self.num_questions.set(num_questions)
-        num_questions_menu.add_radiobutton(label='10', value=10, variable=self.num_questions,
-                                           command=self.set_num_questions)
-        num_questions_menu.add_radiobutton(label='20', value=20, variable=self.num_questions,
-                                           command=self.set_num_questions)
-        num_questions_menu.add_radiobutton(label='50', value=50, variable=self.num_questions,
-                                           command=self.set_num_questions)
-        num_questions_menu.add_radiobutton(label='100', value=100, variable=self.num_questions,
-                                           command=self.set_num_questions)
+        # num_questions_menu = tk.Menu(settings_menu)
+        # settings_menu.add_cascade(label='Number of Questions', menu=num_questions_menu)
+        # num_questions = settings.get_num_questions(self.username)
+        # # Setting initial value of menu radio buttons:
+        # # https://stackoverflow.com/questions/61578186/python-tkinter-how-to-set-initial-selection-for-radiobutton-menu
+        # self.num_questions = tk.IntVar()
+        # self.num_questions.set(num_questions)
+        # num_questions_menu.add_radiobutton(label='10', value=10, variable=self.num_questions,
+        #                                    command=self.set_num_questions)
+        # num_questions_menu.add_radiobutton(label='20', value=20, variable=self.num_questions,
+        #                                    command=self.set_num_questions)
+        # num_questions_menu.add_radiobutton(label='50', value=50, variable=self.num_questions,
+        #                                    command=self.set_num_questions)
+        # num_questions_menu.add_radiobutton(label='100', value=100, variable=self.num_questions,
+        #                                    command=self.set_num_questions)
+
 
         reports_menu = tk.Menu(toolbar)
         toolbar.add_cascade(label='Reports', menu=reports_menu)
@@ -168,5 +169,5 @@ class SelectionView(tk.Frame):
 
         tk.Button(self, text="Back to Home", command=lambda: parent.change_screen(parent.welcome_screen)).grid()
 
-    def set_num_questions(self):
-        settings.set_num_questions(self.username, self.num_questions.get())
+    # def set_num_questions(self):
+    #     settings.set_num_questions(self.username, self.num_questions.get())
