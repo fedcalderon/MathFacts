@@ -6,6 +6,7 @@ from tkinter import ttk
 from src.application.models.question import Question
 from src.application.new_views import results
 from src.application.models import database
+from src.application.new_views import settings
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -115,7 +116,7 @@ class Questions:
 
 # TODO: Prevent same question from appearing multiple times
 class Math_Screen(tk.Frame):
-    def __init__(self, parent, question_type, question_count, *args, **kwargs):
+    def __init__(self, parent, question_type, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         self.parent = parent
@@ -123,14 +124,14 @@ class Math_Screen(tk.Frame):
         self.answer_verification = tk.StringVar()
         self.ans_insert = tk.StringVar()
         self.insert_num = tk.StringVar()
+        self.Question_Count = 1
+        self.Total_Questions = settings.get_num_questions(self.student_id)
         self.questions_list = []
         self.finished = False
 
         self.Correct_Answers = 0
 
         self.Question_label = tk.StringVar()
-        self.Question_Count = 1
-        self.Total_Questions = question_count
         self.Question_label.set(f"Question # of {self.Total_Questions}")
         self.Time_label = tk.StringVar()
         self.time_left = 0
@@ -203,7 +204,7 @@ class Math_Screen(tk.Frame):
         self.UserInsert_entry.focus()
 
         self.results_screen = tk.Button(self, text="Show Grades", command=lambda: parent.change_screen(
-            [results.LinksFrame(parent, self, 'test')]))
+            results.LinksFrame(parent, self, 'test')))
 
     def enable_buttons(self, enable=True):
         if enable:
