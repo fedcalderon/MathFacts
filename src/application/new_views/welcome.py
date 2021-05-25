@@ -37,8 +37,39 @@ import tkinter as tk
 from tkinter import ttk
 
 
+class WelcomeFrame(tk.Frame):
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+        IconFrame(self).grid()
+        DescriptionFrame(self).grid()
+
+        # Bridge buttons (buttons that connect the welcome view to other views)
+
+        self.terms_of_use_button = ttk.Button(self, text="Terms Of Use", command=lambda: parent.change_screen(
+            parent.terms_of_use_screen))
+        self.terms_of_use_button.grid()
+
+        self.registration_button = ttk.Button(self, text="Register",
+                                              command=lambda: parent.change_screen(parent.registration_screen))
+        self.registration_button.grid()
+
+        self.login_button = ttk.Button(self, text="Login", command=lambda: parent.change_screen(parent.login_screen))
+        self.login_button.grid()
+
+        self.problem_selection_button = ttk.Button(self, text="Problem Selection", state='disabled',
+                                                   command=lambda: parent.change_screen(parent.problem_selection_screen))
+        self.problem_selection_button.grid()
+
+        self.dashboard_button = ttk.Button(self, text="Go to Dashboard", command=lambda: parent.change_screen(
+            parent.dashboard_screen))
+        self.dashboard_button.grid()
+
+        # self.math_problems_button = ttk.Button(self, text="Sample Math Lesson", command=lambda: self.change_screen(
+        #     self.math_problems_screen))
+
+
 class IconFrame(tk.Frame):
-    """Contains and displays the description of the Math Facts Practice application."""
+    """Contains and displays the icon of the Math Facts Practice application."""
     def __init__(self, parent, **kwargs):
         super().__init__(parent, **kwargs)
         self.image = tk.PhotoImage(file="icon.ico")
@@ -64,3 +95,17 @@ class DescriptionFrame(tk.Frame):
 
         desc_label = ttk.Label(self, text=description, wraplength=400, font=("TkDefaultFont", 11))
         desc_label.pack()
+
+
+class TermsOfUse(tk.Frame):
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+        ttk.Label(self, text="Terms Of Use", font=("TkDefaultFont", 27)).grid()
+
+        self.terms_of_use_description = "No copying this program or using it illegally. " \
+                                        "It is strictly for the use of Math Facts purposes only. \n"
+
+        self.desc_label = ttk.Label(self, text=self.terms_of_use_description, wraplength=600,
+                                    font=("TkDefaultFont", 11)).grid()
+
+        tk.Button(self, text="Back", command=lambda: parent.change_screen(parent.welcome_screen)).grid()

@@ -164,6 +164,9 @@ class RegistrationView(tk.Frame):
                                font=("TkDefaultFont", 11), wraplength=600)
         self.field.grid(row=1400, column=0, sticky=tk.W)
 
+        tk.Button(self, text="Go to Login", command=lambda: parent.change_screen(parent.login_screen)).grid()
+        tk.Button(self, text="Back to Home", command=lambda: parent.change_screen(parent.welcome_screen)).grid()
+
         self.logger = logger.Logger('registration_attempts.log')
 
     def reset_fields(self):
@@ -217,6 +220,8 @@ class RegistrationView(tk.Frame):
             self.logger.write_to_log(f"Registration for user '{all_information['username']}' has failed. "
                                      f"Cause: Passwords do not match. "
                                      f"{self.logger.get_datetime_string()}")
+            self.l.Password.set('')
+            self.l.ConfirmPassword.set('')
             return
 
         for key in all_information:

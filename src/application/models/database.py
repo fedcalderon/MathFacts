@@ -179,8 +179,20 @@ def update_user_data(username, password, new_user_info):
     :returns: message"""
     message = 'User data could not be updated'
 
-    new_username = new_user_info['username']
-    new_password = new_user_info['password']
+    # If the new username or password is blank, assume the user does not want to change it
+    try:
+        new_username = new_user_info['username']
+    except KeyError:
+        new_username = username
+    if new_username is None or new_username == "":
+        new_username = username
+
+    try:
+        new_password = new_user_info['password']
+    except KeyError:
+        new_password = password
+    if new_password is None or new_password == "":
+        new_password = password
 
     # Make sure the new username and password values are valid
     if not is_valid_username(new_username):
@@ -215,7 +227,7 @@ def update_user_data(username, password, new_user_info):
         except sqlite3.DatabaseError:
             message = str(sys.exc_info()[1])
         else:
-            # If the username changed, update the username in all the other tables
+            # If the username changed, update the username in the other tables
             if new_username != username:
                 try:
                     cur.execute('UPDATE results SET username=? WHERE username=?', (new_username, username))
@@ -229,6 +241,16 @@ def update_user_data(username, password, new_user_info):
                 except sqlite3.DatabaseError:
                     e = str(sys.exc_info()[1])
                     # If the table doesn't exist, just keep going
+                    if e != 'no such table: settings':
+                        message = e
+            # If the username or password changed, update the remembered user
+            if new_username != username or new_password != password:
+                try:
+                    sql = 'UPDATE app_vars SET value=? WHERE key=? and value=?'
+                    cur.execute(sql, (new_username, 'remembered_username', username))
+                    cur.execute(sql, (new_password, 'remembered_password', password))
+                except sqlite3.DatabaseError:
+                    e = str(sys.exc_info()[1])
                     if e != 'no such table: settings':
                         message = e
     elif _user_exists(cur, username):
@@ -494,8 +516,8 @@ def save_user_settings(username, settings_dict):
     if _user_exists(cur, username):
         try:
             # SQLite replace statement: https://www.sqlitetutorial.net/sqlite-replace-statement/
-            cur.execute('REPLACE INTO settings VALUES(?, ?)', (
-                username, settings_dict['num_problems']))
+            cur.execute('UPDATE settings SET num_problems=? WHERE username=?', (
+                settings_dict['num_problems'], username))
             message = 'Success'
         except sqlite3.DatabaseError:
             message = str(sys.exc_info()[1])
