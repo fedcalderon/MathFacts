@@ -30,6 +30,9 @@ class SettingsFrame(tk.Frame):
         self.l = LoginInformation(self)
         self.l.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
 
+        self.q = NumberOfQuestions(self)
+        self.q.grid(sticky=(tk.E + tk.W + tk.N + tk.S))
+
         self.reset_fields()
 
         self.field_text = tk.StringVar()
@@ -199,6 +202,18 @@ class LoginInformation(tk.LabelFrame):
                 return True
         else:
             return True
+
+
+class NumberOfQuestions(tk.LabelFrame):
+    def __init__(self, parent):
+        super().__init__(parent, text="Number Of Questions", pady=15)
+        self.QuestionCount = tk.IntVar()
+        self.question_count_label = ttk.Label(self, text="Number of Questions")
+        self.question_count_entry = ttk.Combobox(self, width=10, textvariable=self.QuestionCount)
+
+        self.question_count_entry['values'] = tuple([3, 20, 50, 100])
+        self.question_count_label.grid(row=200, column=100, padx=10, sticky=tk.W)
+        self.question_count_entry.grid(row=300, column=100, padx=10, sticky=tk.W)
 
 
 # Static functions for settings

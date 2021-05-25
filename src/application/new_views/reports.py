@@ -29,7 +29,7 @@ class ReportsFrame(tk.Frame):
             # parent.reports_screen.extend([self.graph, self.graph.image_label])
             # for item in parent.reports_screen:
             #     item.grid()
-
+ 
 
 class GraphFrame(tk.Frame):
     """Contains and displays a graph of the student's quiz grades."""
