@@ -1,9 +1,8 @@
 # Showing all problems worked on by user
 # Milton
 from datetime import datetime
-from tkinter import *
-
 import src.application.models.modified_logger as logger
+from tkinter import *
 
 
 # Frame
