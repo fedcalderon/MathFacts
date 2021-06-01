@@ -7,6 +7,8 @@ from src.application.models.question import Question
 from src.application.new_views import results
 from src.application.models import database
 from src.application.new_views import settings
+import src.application.models.modified_logger as logger
+from datetime import datetime
 
 
 # DIFFERENT TYPES OF PROBLEMS AND IDS:
@@ -114,7 +116,6 @@ class Questions:
             return f"What is {self.first_number} ÷ {self.second_number}?"
 
 
-# TODO: Prevent same question from appearing multiple times
 class Math_Screen(tk.Frame):
     def __init__(self, parent, question_type, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -321,5 +322,9 @@ class Math_Screen(tk.Frame):
 def save_results(question_list, student_id):
     message = database.save_results(student_id, question_list)
     if message != 'Success':
-        # TODO: add a log message
+        logger.Logger('save_math_screen_results.log').write_to_log(
+            f"Failed to save results: {message} at {datetime.now()}")
         raise RuntimeWarning(f"Failed to save results: {message}")
+    else:
+        logger.Logger('save_math_screen_results.log').write_to_log(
+            f"Math screen results saved at {datetime.now()}")

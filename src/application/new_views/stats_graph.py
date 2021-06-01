@@ -1,14 +1,14 @@
 # Stats graph page
 # More things can be added to the file to show their progress on each problem
 import os
-
 import matplotlib.pyplot as plt
 import tkinter as tk
 import matplotlib.ticker as mtick
 import src.application.models.database as db
+import src.application.models.modified_logger as logger
+from datetime import datetime
 
 graph_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'view_images', 'results_graph.png'))
-
 
 class ReportsGraph:
     def configure_results_graph(self, username):

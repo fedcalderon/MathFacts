@@ -15,6 +15,8 @@ from src.application.new_views import reports
 from src.application.new_views import dashboard
 from src.application.models import database
 from src.application.new_views import results
+from datetime import datetime
+import src.application.models.modified_logger as logger
 
 
 class MyApplication(tk.Tk):
@@ -126,6 +128,7 @@ class MyApplication(tk.Tk):
 
     def log_out(self):
         database.forget_remembered_user()
+
         self.change_screen(self.welcome_screen)
         self.student_data = {}
         self.student_id = ''
