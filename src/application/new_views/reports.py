@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from src.application.new_views import stats_graph as stats_graph
 import os
+import src.application.models.modified_logger as logger
+from datetime import datetime
 
 
 class ReportsFrame(tk.Frame):

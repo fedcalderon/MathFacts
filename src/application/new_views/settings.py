@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from src.application.new_views import registration as r
 from src.application.models import database
+import src.application.models.modified_logger as logger
 
 """This frame allows the user to change various user settings such as their name, grade, age, and guardian
 information. They cannot(for now) change their username or password."""
@@ -58,20 +59,25 @@ class SettingsFrame(tk.Frame):
         confirm_new_password = self.l.ConfirmPassword.get()
 
         try:
+            logger.Logger('change_settings_attempts.log').write_to_log(f"Change settings successful")
             child_grade = int(self.c.Grade.get())
             child_age = int(self.c.Age.get())
             if child_grade > 999 or child_grade < 0:
                 self.field_text.set("Child grade out of range")
+                logger.Logger('change_settings_attempts.log').write_to_log(f"Change settings failed - GRADE TOO HIGH")
                 return
             if child_age > 999 or child_age < 0:
                 self.field_text.set("Child age out of range")
+                logger.Logger('change_settings_attempts.log').write_to_log(f"Change settings failed - AGE TOO HIGH")
                 return
         except ValueError:
             self.field_text.set("Invalid grade or age")
+            logger.Logger('change_settings_attempts.log').write_to_log(f"Change settings failed - INVALID INPUT")
             return
 
         if password.strip() == "":
             self.field_text.set("You must enter your password to update user data")
+            logger.Logger('change_settings_attempts.log').write_to_log(f"Change settings failed - PASSWORD VERIFICATION FAILED")
             return
 
         new_info = {
@@ -236,6 +242,9 @@ class NumberOfQuestions(tk.LabelFrame):
 def get_num_questions(username):
     settings, message = database.get_user_settings(username)
     if message == 'Success':
+        logger.Logger('num_questions.log').write_to_log(f"Number of questions is {settings['num_problems']}")
         return settings['num_problems']
+
     else:
+        logger.Logger('num_questions.log').write_to_log(f"Attempt to change number of questions failed")
         return 20

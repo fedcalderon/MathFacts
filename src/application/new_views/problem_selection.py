@@ -5,6 +5,8 @@
 import tkinter as tk
 from tkinter import ttk
 from src.application.new_views import math_screen
+from datetime import datetime
+import src.application.models.modified_logger as logger
 from src.application.new_views import results
 from src.application.new_views import settings
 
@@ -56,7 +58,8 @@ class OptionFrame(tk.Frame):
         """Handle the start button pressed event."""
         # Start the proper math exercise
         print(f"Starting {self.name} activity...")
-        # TODO: add a log message
+        logger.Logger('activities_started.log').write_to_log(
+            f"Starting {self.name} activity -- {datetime.now()}")
         self.start_is_clicked = True
         master_screen.math_problems_screen = math_screen.Math_Screen(master_screen, self.ID)
         master_screen.change_screen(master_screen.math_problems_screen)
@@ -148,8 +151,6 @@ class SelectionView(tk.Frame):
             self.options.append(OptionFrame(self.frame, 'Subtraction', 'Multi-digit subtraction.', '3-SUB', screen_to_destroy, master_screen))
             self.options.append(OptionFrame(self.frame, 'Multiplication', 'Double digit multiplication.', '2-MUL', screen_to_destroy, master_screen))
             self.options.append(OptionFrame(self.frame, 'Division', 'Multi-digit division', '2-DIV', screen_to_destroy, master_screen))
-            # TODO: Create a linear equations problem set for math_screen.py
-            # self.options.append(OptionFrame(self, 'Algebra', 'Simple linear equations.'))
 
         # Place the options in the grid automatically
         max_columns = 2
